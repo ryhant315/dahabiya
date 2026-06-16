@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function hasAccess(sectionId) {
-    if (sectionId === 'affiliates') return isOwner();
+    if (isOwner()) return true;
     const subs = getSubscriptions();
     if (SUBSCRIPTION_PLANS.free.sections.includes(sectionId)) return true;
     for (const sub of subs) {
@@ -67,6 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function getLockedSections() {
+    if (isOwner()) return [];
     const locked = [];
     for (const [key, plan] of Object.entries(SUBSCRIPTION_PLANS)) {
       if (key === 'free') continue;
@@ -82,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (plan) plan.sections.forEach(s => unlocked.add(s));
     }
     const result = [...new Set(locked)].filter(s => !unlocked.has(s));
-    if (!isOwner()) result.push('affiliates');
+    result.push('affiliates');
     return result;
   }
 
