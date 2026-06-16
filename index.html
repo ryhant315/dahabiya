@@ -2276,101 +2276,131 @@
         <div class="section-badge">⚖️ Diet</div>
         <h2 class="section-title">الدايت <span class="gold">والتغذية</span></h2>
         <div class="section-divider"></div>
-        <p class="section-subtitle">حاسبة السعرات الحرارية + نصائح خبير التغذية لنزول وزيادة الوزن</p>
+        <p class="section-subtitle">حاسبة السعرات + جداول أكل فعلية لزيادة الوزن ونزوله - كل وحدة حسب هدفها</p>
       </div>
 
       <div class="features-grid" style="margin-bottom:3rem;">
-        <div class="feature-card">
-          <h3 class="feature-title">🧮 حاسبة السعرات الحرارية</h3>
-          <div style="margin-top:1rem;">
-            <div style="margin-bottom:0.8rem;">
+        <div class="feature-card" style="grid-column:span 2">
+          <h3 class="feature-title">🧮 حاسبة السعرات + هدفك</h3>
+          <div style="margin-top:1rem;display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;">
+            <div>
               <label style="display:block;font-size:0.85rem;color:var(--muted);margin-bottom:0.3rem;">الوزن (كجم)</label>
               <input type="number" id="weight" value="60" style="width:100%;padding:0.5rem;border:2px solid var(--rose-100);border-radius:8px;font-family:inherit;">
             </div>
-            <div style="margin-bottom:0.8rem;">
+            <div>
               <label style="display:block;font-size:0.85rem;color:var(--muted);margin-bottom:0.3rem;">الطول (سم)</label>
               <input type="number" id="height" value="160" style="width:100%;padding:0.5rem;border:2px solid var(--rose-100);border-radius:8px;font-family:inherit;">
             </div>
-            <div style="margin-bottom:0.8rem;">
+            <div>
               <label style="display:block;font-size:0.85rem;color:var(--muted);margin-bottom:0.3rem;">العمر</label>
               <input type="number" id="age" value="25" style="width:100%;padding:0.5rem;border:2px solid var(--rose-100);border-radius:8px;font-family:inherit;">
             </div>
-            <div style="margin-bottom:0.8rem;">
-              <label style="display:block;font-size:0.85rem;color:var(--muted);margin-bottom:0.3rem;">مستوى النشاط</label>
+            <div>
+              <label style="display:block;font-size:0.85rem;color:var(--muted);margin-bottom:0.3rem;">النشاط</label>
               <select id="activity" style="width:100%;padding:0.5rem;border:2px solid var(--rose-100);border-radius:8px;font-family:inherit;">
-                <option value="1.2">خاملة (مكتبي)</option>
-                <option value="1.375">خفيف (مشي خفيف)</option>
-                <option value="1.55">متوسط (رياضة 3-5 مرات)</option>
-                <option value="1.725">نشيطة (رياضة يومي)</option>
+                <option value="1.2">مكتبي (قليل)</option>
+                <option value="1.375">خفيف (مشي)</option>
+                <option value="1.55">متوسط (رياضة)</option>
+                <option value="1.725">كثير (يومي)</option>
               </select>
             </div>
-            <button class="btn btn-primary" id="calcBMR" style="width:100%;">🧮 احسبي سعراتك</button>
+            <div style="grid-column:span 2">
+              <label style="display:block;font-size:0.85rem;color:var(--muted);margin-bottom:0.3rem;">هدفي:</label>
+              <div style="display:flex;gap:0.5rem;">
+                <label style="flex:1;text-align:center;padding:0.5rem;border:2px solid var(--rose-100);border-radius:8px;cursor:pointer;background:var(--card-bg);"><input type="radio" name="dietGoal" value="lose" checked> ⬇️ نزول</label>
+                <label style="flex:1;text-align:center;padding:0.5rem;border:2px solid var(--rose-100);border-radius:8px;cursor:pointer;background:var(--card-bg);"><input type="radio" name="dietGoal" value="maintain"> ✅ تثبيت</label>
+                <label style="flex:1;text-align:center;padding:0.5rem;border:2px solid var(--rose-100);border-radius:8px;cursor:pointer;background:var(--card-bg);"><input type="radio" name="dietGoal" value="gain"> ⬆️ زيادة</label>
+              </div>
+            </div>
+            <button class="btn btn-primary" id="calcBMR" style="width:100%;grid-column:span 2">🧮 احسبي سعراتي ووجباتي</button>
           </div>
           <div id="bmrResult" style="display:none;margin-top:1rem;"></div>
         </div>
 
         <div class="feature-card">
-          <span class="feature-icon">🍽️</span>
-          <h3 class="feature-title">نظام الجوع والشبع</h3>
+          <h3 class="feature-title">🍽️ مقياس الجوع والشبع</h3>
           <ul class="feature-list">
-            <li><strong>مقياس 1-10:</strong></li>
-            <li>1-2: جوع شديد (لا توصلين لهنا)</li>
-            <li>3-4: جوعانة ← <strong>ابدأي تاكلين</strong> ✅</li>
-            <li>5-6: شبعانة ← <strong>وقفي</strong> ✅</li>
-            <li>7-10: تخمة (لا توصلين)</li>
-            <li>القاعدة: كلي على 4 وقفي على 6</li>
+            <li><strong>1-2:</strong> جوع شديد (لا توصلي)</li>
+            <li><strong style="color:var(--success)">3-4: جوعانة ← كلي ✅</strong></li>
+            <li><strong style="color:var(--gold)">5-6: شبعانة ← وقفي ✅</strong></li>
+            <li><strong>7-10:</strong> تخمة (لا توصلي)</li>
+            <li>⚡ القاعدة: كلي على 4 وقفي على 6</li>
           </ul>
         </div>
 
         <div class="feature-card">
-          <span class="feature-icon">⬇️</span>
-          <h3 class="feature-title">نصائح لنزول الوزن</h3>
+          <h3 class="feature-title">⬇️ لنزول الوزن: إيش آكل؟</h3>
           <ul class="feature-list">
-            <li>عجز سعرات بسيط (300-500 سعرة)</li>
-            <li>بروتين عالي يحافظ على العضلات</li>
-            <li>ألياف كثيرة تشبع</li>
-            <li>ماء كثير (8 أكواب يومياً)</li>
-            <li>⚠️ ما في حرمان = ما في انتكاسة</li>
+            <li><strong>عجز 300-500 سعرة</strong> = تخسري 0.5 كجم أسبوعياً</li>
+            <li>🍗 <strong>بروتين</strong>: صدر دجاج - سمك - تونة - بيض - زبادي يوناني</li>
+            <li>🥦 <strong>خضار</strong>: بروكلي - خس - كوسا - سبانخ (كلي كميات)</li>
+            <li>🍚 <strong>كربوهيدرات ذكية</strong>: شوفان - بطاطا حلوة - أرز بني - خبز أسمر</li>
+            <li>🥑 <strong>دهون صحية</strong>: زيت زيتون - أفوكادو - مكسرات (باعتدال)</li>
+            <li><strong>⚠️ تبديل ذكي:</strong> رز أبيض → بروكلي مفروم | خبز أبيض → خبز شوفان | سكر → ستيفيا</li>
           </ul>
         </div>
 
         <div class="feature-card">
-          <span class="feature-icon">⬆️</span>
-          <h3 class="feature-title">نصائح لزيادة الوزن</h3>
+          <h3 class="feature-title">⬆️ لزيادة الوزن: إيش آكل؟</h3>
           <ul class="feature-list">
-            <li>فائض سعرات بسيط (300-500)</li>
-            <li>بروتين كافي لبناء العضلات</li>
-            <li>أكلات عالية السعرات وصحية</li>
-            <li>مكسرات + أفوكادو + تمر</li>
-            <li>وجبات أكثر بأحجام أصغر</li>
+            <li><strong>فائض 300-500 سعرة</strong> = تزيدي 0.5 كجم أسبوعياً</li>
+            <li>🥜 <strong>سعرات مركزة</strong>: 3 تمر + ملعقة زبدة فول سوداني = 200 سعرة</li>
+            <li>🥑 <strong>أفوكادو كامل</strong> = 250 سعرة صحية</li>
+            <li>🥛 <strong>مخفوق بروتين</strong>: حليب + موز + زبدة فول سوداني + شوفان = 400 سعرة</li>
+            <li>🍚 <strong>وجبات متكررة</strong>: 5-6 وجبات صغيرة بدل 3 كبيرة</li>
+            <li><strong>💡 نصيحة:</strong> زيدي ملعقتين زيت زيتون على السلطة = +120 سعرة بدون شعور</li>
           </ul>
         </div>
 
         <div class="feature-card">
-          <span class="feature-icon">🧹</span>
-          <h3 class="feature-title">تنظيف الجسم (Detox)</h3>
-          <ul class="feature-list">
-            <li>جسمك عنده نظام تنظيف ذاتي!</li>
-            <li>الكبد + الكلى + الجلد = فلتر طبيعي</li>
-            <li>ما تحتاجين ديتوكس خاص</li>
-            <li>اشربي ماء + كلي خضار + نامي + تحركي</li>
-          </ul>
+          <h3 class="feature-title">🔥 500 سعرة إضافية: إيش تساوي؟</h3>
+          <p style="font-size:0.85rem;color:var(--muted);margin-bottom:0.8rem;">إذا تحتاجين تزيدي وزن، هذي خيارات سهلة تضيف 500 سعرة لوجبتك:</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+            <div style="background:#fef3c7;padding:0.5rem;border-radius:8px;text-align:center;font-size:0.8rem;">🥤 مخفوق: موز + حليب كامل + 2ملعقة زبدة فول سوداني</div>
+            <div style="background:#fce4ec;padding:0.5rem;border-radius:8px;text-align:center;font-size:0.8rem;">🥪 ساندويتش: خبز أسمر + جبنة شيدر + أفوكادو + بيض</div>
+            <div style="background:#fef3c7;padding:0.5rem;border-radius:8px;text-align:center;font-size:0.8rem;">🥣 شوفان: كوب شوفان + حليب + عسل + مكسرات + تمر</div>
+            <div style="background:#fce4ec;padding:0.5rem;border-radius:8px;text-align:center;font-size:0.8rem;">🍚 وجبة: رز + دجاج + زيت زيتون + خضار مطهية</div>
+          </div>
         </div>
 
         <div class="feature-card">
-          <span class="feature-icon">🧴</span>
-          <h3 class="feature-title">السكراب حسب البشرة</h3>
-          <ul class="feature-list">
-            <li>البشرة العادية: مرة كل أسبوع</li>
-            <li>البشرة الحساسة: مرة كل أسبوعين</li>
-            <li>البشرة الدهنية: مرتين بالأسبوع</li>
-            <li>المنطقة الحساسة: لا سكراب! صابون خفيف</li>
-          </ul>
+          <h3 class="feature-title">🔥 500 سعرة أقل: إيش أستغني عنه؟</h3>
+          <p style="font-size:0.85rem;color:var(--muted);margin-bottom:0.8rem;">إذا تبغين تنزلي وزن، استبدلي هذي:</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+            <div style="background:#dcfce7;padding:0.5rem;border-radius:8px;text-align:center;font-size:0.8rem;">🚫 مشروبات غازية/سكرية → 🟢 ماء مع نعناع/ليمون</div>
+            <div style="background:#dcfce7;padding:0.5rem;border-radius:8px;text-align:center;font-size:0.8rem;">🚫 رز أبيض 2 كوب → 🟢 رز قرنبيط أو بروكلي</div>
+            <div style="background:#dcfce7;padding:0.5rem;border-radius:8px;text-align:center;font-size:0.8rem;">🚫 خبز/معجنات → 🟢 خبز التورتيلا بالقمح الكامل</div>
+            <div style="background:#dcfce7;padding:0.5rem;border-radius:8px;text-align:center;font-size:0.8rem;">🚫 حلويات/شوكولاتة → 🟢 فواكه + زبادي يوناني</div>
+          </div>
+        </div>
+
+        <div class="feature-card" style="grid-column:span 2">
+          <h3 class="feature-title">📋 وجبات عملية حسب هدفك (مثال يوم كامل)</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+            <div style="background:linear-gradient(135deg,#dcfce7,#f0fdf4);padding:1rem;border-radius:12px;">
+              <h4 style="color:var(--success);margin:0 0 0.5rem;font-size:1rem;">⬇️ نزول وزن (1500 سعرة/مثال)</h4>
+              <ul style="margin:0;padding:0;list-style:none;font-size:0.85rem;">
+                <li style="padding:3px 0">🌅 <strong>فطور:</strong> 2 بيض مسلوق + شريحة خبز أسمر + خيار</li>
+                <li style="padding:3px 0">🌤️ <strong>غداء:</strong> صدر دجاج مشوي + خضار سوتيه + رز قرنبيط</li>
+                <li style="padding:3px 0">🌆 <strong>عشاء:</strong> زبادي يوناني + حفنة مكسرات + توت</li>
+                <li style="padding:3px 0">💧 <strong>ماء:</strong> 8 أكواب + شاي أخضر</li>
+              </ul>
+            </div>
+            <div style="background:linear-gradient(135deg,#fef3c7,#fff);padding:1rem;border-radius:12px;">
+              <h4 style="color:#b8860b;margin:0 0 0.5rem;font-size:1rem;">⬆️ زيادة وزن (2200 سعرة/مثال)</h4>
+              <ul style="margin:0;padding:0;list-style:none;font-size:0.85rem;">
+                <li style="padding:3px 0">🌅 <strong>فطور:</strong> شوفان بحليب + موز + عسل + مكسرات</li>
+                <li style="padding:3px 0">🌤️ <strong>سناك:</strong> مخفوق (حليب + زبدة فول سوداني + تمر)</li>
+                <li style="padding:3px 0">🌤️ <strong>غداء:</strong> رز + دجاج + خضار + زيت زيتون + أفوكادو</li>
+                <li style="padding:3px 0">🌆 <strong>عشاء:</strong> ساندويتش جبنة + زبادي + عسل + مكسرات</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Healthy plate visual guide -->
-      <div style="margin-top:3rem;background:linear-gradient(135deg,#f0fdf4,#fff);border-radius:var(--radius-lg);padding:2rem;border:1px solid rgba(34,197,94,0.2);">
+      <!-- الطبق الصحي المثالي -->
+      <div style="margin-top:2rem;background:linear-gradient(135deg,#f0fdf4,#fff);border-radius:var(--radius-lg);padding:2rem;border:1px solid rgba(34,197,94,0.2);">
         <h4 style="font-family:var(--font-serif);color:var(--primary);text-align:center;margin-bottom:0.5rem;">🥗 الطبق الصحي المثالي</h4>
         <p style="text-align:center;color:var(--muted);font-size:0.85rem;margin-bottom:1.5rem;">قاعدة بسيطة: اقسلي طبقتك لنصين</p>
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;text-align:center;">
@@ -2399,7 +2429,7 @@
           <div class="quote-icon">🥗</div>
           <blockquote>
             "ما في أكل ممنوع - في أكل بنسبة معينة. 80% صحي + 20% مرن = النتيجة المثالية"
-            <cite>- د. Rhonda Patrick (أمريكا) - أخصائية تغذية علاجية</cite>
+            <cite>- د. Rhonda Patrick - أخصائية تغذية علاجية</cite>
           </blockquote>
         </div>
       </div>

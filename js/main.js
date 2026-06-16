@@ -948,7 +948,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // =============================================
-  // CALORIE CALCULATOR
+  // CALORIE CALCULATOR + FOOD PLAN
   // =============================================
   const calcBMR = document.getElementById('calcBMR');
   const bmrResult = document.getElementById('bmrResult');
@@ -958,33 +958,76 @@ document.addEventListener('DOMContentLoaded', function() {
       const weight = parseFloat(document.getElementById('weight')?.value) || 60;
       const height = parseFloat(document.getElementById('height')?.value) || 160;
       const age = parseFloat(document.getElementById('age')?.value) || 25;
-      const gender = document.querySelector('input[name="gender"]:checked')?.value || 'female';
       const activity = parseFloat(document.getElementById('activity')?.value) || 1.2;
+      const goalEl = document.querySelector('input[name="dietGoal"]:checked');
+      const goal = goalEl ? goalEl.value : 'maintain';
 
-      let bmr;
-      if (gender === 'female') {
-        bmr = 655 + (9.6 * weight) + (1.8 * height) - (4.7 * age);
+      const bmr = 655 + (9.6 * weight) + (1.8 * height) - (4.7 * age);
+      const tdee = Math.round(bmr * activity);
+      let targetCal, diff, label, color, foods, meals;
+
+      if (goal === 'lose') {
+        targetCal = Math.round(tdee - 400);
+        diff = 400;
+        label = '⬇️ نزول';
+        color = 'var(--success)';
+        foods = '🥦 بروكلي + 🥬 خس + 🍗 صدر دجاج + 🥚 بيض + 🥛 زبادي يوناني';
+        meals = [
+          { time: '🌅 فطور', items: '2 بيض مسلوق + شريحة خبز أسمر + خيار', cal: '~300' },
+          { time: '🌤️ غداء', items: 'صدر دجاج مشوي + خضار سوتيه + رز قرنبيط', cal: '~450' },
+          { time: '🌆 عشاء', items: 'زبادي يوناني + حفنة مكسرات + توت', cal: '~350' },
+          { time: '🥗 سناك', items: 'خضار مقطع + حمص', cal: '~150' },
+        ];
+      } else if (goal === 'gain') {
+        targetCal = Math.round(tdee + 400);
+        diff = 400;
+        label = '⬆️ زيادة';
+        color = '#b8860b';
+        foods = '🥜 مكسرات + 🥑 أفوكادو + 🥛 حليب كامل + 🍚 رز + 🥜 زبدة فول سوداني';
+        meals = [
+          { time: '🌅 فطور', items: 'شوفان بحليب كامل + موز + عسل + مكسرات', cal: '~500' },
+          { time: '🌤️ سناك', items: 'مخفوق: حليب + زبدة فول سوداني + تمر', cal: '~400' },
+          { time: '🌤️ غداء', items: 'رز + دجاج + خضار مطهية + زيت زيتون', cal: '~650' },
+          { time: '🌆 عشاء', items: 'ساندويتش جبنة + أفوكادو + زبادي + عسل', cal: '~550' },
+        ];
       } else {
-        bmr = 66 + (13.7 * weight) + (5 * height) - (6.8 * age);
+        targetCal = tdee;
+        diff = 0;
+        label = '✅ تثبيت';
+        color = 'var(--primary)';
+        foods = '🥗 كل شي متوازن بنسبة 80/20';
+        meals = [
+          { time: '🌅 فطور', items: 'شوفان + حليب لوز + موز', cal: '~350' },
+          { time: '🌤️ غداء', items: 'دجاج مشوي + رز + خضار', cal: '~500' },
+          { time: '🌆 عشاء', items: 'سمك + بطاطا حلوة + سلطة', cal: '~450' },
+        ];
       }
-
-      const tdee = bmr * activity;
-      const maintain = Math.round(tdee);
-      const lose = Math.round(tdee - 500);
-      const gain = Math.round(tdee + 300);
 
       if (bmrResult) {
         bmrResult.style.display = 'block';
         bmrResult.innerHTML = `
+          <div class="result-card" style="background:linear-gradient(135deg,#fdf6f0,#fff);border:1px solid #d4af37;">
+            <h4 style="color:var(--primary);margin-bottom:0.8rem;">🧮 نتيجتك حسب هدفك: ${label}</h4>
+            <div class="result-item"><span class="result-label">⚡ سعراتك اليومية</span><span class="result-value" style="color:${color};font-weight:bold;font-size:1.2rem">${targetCal} سعرة</span></div>
+            <div class="result-item"><span class="result-label">◀ TDEE الأساسي</span><span class="result-value">${tdee} سعرة</span></div>
+            ${diff ? `<div class="result-item"><span class="result-label">${label}</span><span class="result-value">${diff > 0 ? '+' : ''}${diff} سعرة/يوم</span></div>` : ''}
+            <div class="result-item"><span class="result-label">🥩 بروتين</span><span class="result-value">${Math.round(weight * 1.8)}-${Math.round(weight * 2.2)} غرام</span></div>
+            <div class="result-item"><span class="result-label">💧 ماء</span><span class="result-value">${Math.round(weight * 0.033)} لتر</span></div>
+          </div>
           <div class="result-card">
-            <h4>⚖️ نتائج حساب السعرات</h4>
-            <div class="result-item"><span class="result-label">BMR (الاحتياج الأساسي)</span><span class="result-value">${Math.round(bmr)} سعرة</span></div>
-            <div class="result-item"><span class="result-label">TDEE (مع النشاط)</span><span class="result-value">${maintain} سعرة</span></div>
-            <div class="result-item"><span class="result-label">لنزول الوزن</span><span class="result-value">${lose} سعرة/يوم</span></div>
-            <div class="result-item"><span class="result-label">لزيادة الوزن</span><span class="result-value">${gain} سعرة/يوم</span></div>
-            <p style="margin-top:1rem;font-size:0.85rem;color:var(--muted-foreground);">
-              💡 نصيحة خبير التغذية: ننصح باستشارة أخصائي تغذية قبل البدء بأي نظام غذائي
-            </p>
+            <h4 style="margin-bottom:0.5rem;">🍽️ أكلات مناسبة لهدفك</h4>
+            <p style="font-size:0.9rem;color:var(--muted);margin-bottom:0.5rem;">${foods}</p>
+          </div>
+          <div class="result-card">
+            <h4 style="margin-bottom:0.5rem;">📋 وجبات مقترحة لليوم</h4>
+            ${meals.map(m => `
+              <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:0.85rem;">
+                <span>${m.time}</span>
+                <span style="flex:1;padding:0 8px;color:var(--muted)">${m.items}</span>
+                <span style="font-weight:bold;color:var(--primary)">${m.cal}</span>
+              </div>
+            `).join('')}
+            <p style="margin-top:0.5rem;font-size:0.8rem;color:var(--muted);text-align:center;">💡 استشيري أخصائي تغذية قبل البدء بأي نظام</p>
           </div>
         `;
       }
