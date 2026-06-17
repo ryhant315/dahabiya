@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function hasAccess(sectionId) {
     if (isOwner()) return true;
+    if (sectionId === 'affiliates') return true;
     const urlParams = new URLSearchParams(window.location.search);
     const subParam = urlParams.get('sub');
     if (subParam === 'complete') return true;
@@ -88,7 +89,6 @@ document.addEventListener('DOMContentLoaded', function() {
       if (plan) plan.sections.forEach(s => unlocked.add(s));
     }
     const result = [...new Set(locked)].filter(s => !unlocked.has(s));
-    result.push('affiliates');
     return result;
   }
 
@@ -122,10 +122,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   window.showSection = function(id) {
     if (!hasAccess(id)) {
-      if (id === 'affiliates') {
-        alert('🔒 متجر ذهبية مخصص لمالكة الموقع فقط');
-        return;
-      }
       const planName = Object.entries(SUBSCRIPTION_PLANS).find(([k,p]) => p.sections.includes(id) || (p.sections.includes('ALL') && !SUBSCRIPTION_PLANS.free.sections.includes(id)))?.[1]?.name || 'المدفوعة';
       if (confirm(`🔒 هذا القسم مشترك (${planName}).\n\nللتسجيل في خطة الاشتراك المناسبة، اضغطي OK.\nللإلغاء اضغطي Cancel.`)) {
         showSection('pricing');
