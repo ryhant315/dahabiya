@@ -56,6 +56,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function hasAccess(sectionId) {
     if (isOwner()) return true;
+    const urlParams = new URLSearchParams(window.location.search);
+    const subParam = urlParams.get('sub');
+    if (subParam === 'complete') return true;
     const subs = getSubscriptions();
     if (SUBSCRIPTION_PLANS.free.sections.includes(sectionId)) return true;
     for (const sub of subs) {
@@ -68,6 +71,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function getLockedSections() {
     if (isOwner()) return [];
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('sub') === 'complete') return [];
     const locked = [];
     for (const [key, plan] of Object.entries(SUBSCRIPTION_PLANS)) {
       if (key === 'free') continue;
@@ -1218,11 +1223,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
   }
-  const subParam = urlParams.get('sub');
-  if (subParam && SUBSCRIPTION_PLANS[subParam]) {
-    saveSubscriptions([subParam]);
-  }
-
   window.openOwnerPanel = function() {
     const pwd = prompt('🔐 مساحة المالك - أدخل كلمة السر:');
     if (pwd && ownerLogin(pwd)) {

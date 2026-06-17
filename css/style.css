@@ -1871,3 +1871,203 @@ button:focus-visible {
   70% { transform: scale(1.2); }
   100% { transform: scale(1); }
 }
+
+/* === Advertisement Zones === */
+.ad-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(135deg, var(--rose-50), var(--blush));
+  border: 1px dashed var(--gold);
+  border-radius: var(--radius-md);
+  color: var(--muted);
+  font-size: 0.85rem;
+  transition: border-color 0.3s;
+  overflow: hidden;
+}
+.ad-zone:hover { border-color: var(--gold-bright); }
+
+.ad-leaderboard {
+  width: 100%;
+  min-height: 90px;
+  margin: 1.5rem 0;
+  padding: 1rem;
+}
+.ad-leaderboard .ad-label {
+  margin-bottom: 0.5rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted-foreground);
+}
+.ad-leaderboard .ad-content {
+  width: 100%;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ad-sidebar {
+  width: 100%;
+  min-height: 250px;
+  margin: 1rem 0;
+  padding: 0.75rem;
+}
+.ad-sidebar .ad-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted-foreground);
+  margin-bottom: 0.5rem;
+}
+.ad-sidebar .ad-content {
+  width: 100%;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ad-incontent {
+  width: 100%;
+  min-height: 120px;
+  margin: 2rem 0;
+  padding: 1rem;
+}
+.ad-incontent .ad-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted-foreground);
+  margin-bottom: 0.5rem;
+}
+.ad-incontent .ad-content {
+  width: 100%;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ad-footer {
+  width: 100%;
+  min-height: 100px;
+  margin: 1rem 0;
+  padding: 1rem;
+}
+.ad-footer .ad-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted-foreground);
+  margin-bottom: 0.5rem;
+}
+.ad-footer .ad-content {
+  width: 100%;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ad-native {
+  width: 100%;
+  min-height: 100px;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: var(--white);
+  border: 1px solid var(--border);
+}
+.ad-native .ad-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted-foreground);
+  margin-bottom: 0.5rem;
+}
+.ad-native .ad-content {
+  width: 100%;
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ad-shop {
+  width: 100%;
+  min-height: 200px;
+  margin: 1.5rem 0;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, var(--gold-light), var(--blush));
+  border: 1px solid var(--gold);
+  border-radius: var(--radius-lg);
+}
+.ad-shop .ad-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted-foreground);
+  margin-bottom: 0.5rem;
+}
+.ad-shop .ad-content {
+  width: 100%;
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.ad-shop .ad-product {
+  width: 140px;
+  padding: 0.75rem;
+  background: var(--white);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.ad-shop .ad-product:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+.ad-shop .ad-product img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.5rem;
+}
+.ad-shop .ad-product .product-name {
+  font-size: 0.85rem;
+  color: var(--foreground);
+  font-weight: 600;
+}
+.ad-shop .ad-product .product-price {
+  font-size: 0.8rem;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.ad-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.page-section .ad-zone:not(.ad-shop) {
+  background: linear-gradient(135deg, rgba(253, 246, 240, 0.5), rgba(252, 228, 236, 0.3));
+}
+
+@media (max-width: 768px) {
+  .ad-leaderboard { min-height: 70px; }
+  .ad-sidebar { min-height: 200px; }
+  .ad-incontent { min-height: 100px; }
+  .ad-shop .ad-product { width: 120px; }
+  .ad-shop .ad-product img { width: 60px; height: 60px; }
+}

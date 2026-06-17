@@ -109,6 +109,14 @@
     <a href="#" data-section="pricing">🌟 اشتراكي</a>
   </div>
 
+  <!-- ===== LEADERBOARD AD ZONE (بانر رئيسي 728×90) ===== -->
+  <div class="ad-zone ad-leaderboard" id="adLeaderboard">
+    <div class="ad-label">📢 إعلان - مساحة متاحة للشراكة والإعلانات</div>
+    <div class="ad-content">
+      <span style="color:var(--muted-foreground);font-size:0.9rem">📺 <a href="#" onclick="showSection('affiliates');document.querySelector('[data-tab=affAds]').click();return false" style="color:var(--gold);text-decoration:underline">احجزي مساحتك الإعلانية هنا</a></span>
+    </div>
+  </div>
+
   <!-- ============================================= -->
   <!-- SECTION: HOME -->
   <!-- ============================================= -->
@@ -315,6 +323,14 @@
         <h2 class="section-title">خبيرتك في كل <span class="gold">مجالات الجمال</span></h2>
         <div class="section-divider"></div>
         <p class="section-subtitle">اكتشفي عالم متكامل من النصائح العلمية والتوصيات المخصصة</p>
+      </div>
+
+      <!-- ===== IN-CONTENT AD ZONE ===== -->
+      <div class="ad-zone ad-incontent" id="adInContent1">
+        <div class="ad-label">📢 إعلان</div>
+        <div class="ad-content">
+          <span style="color:var(--muted-foreground);font-size:0.9rem">📺 <a href="#" onclick="showSection('affiliates');return false" style="color:var(--gold);text-decoration:underline">مساحة إعلانية - احجزيها الآن</a></span>
+        </div>
       </div>
 
       <div class="categories-grid">
@@ -9254,8 +9270,32 @@
                 </div>
               </div>
             </div>
-            <div style="text-align:center;margin-top:1.5rem;padding:1rem;background:var(--bg);border-radius:12px">
-              <p style="font-weight:bold">🧡 عندما تشترين عبر روابطنا، تدعمين استمرار المحتوى المجاني</p>
+          </div>
+
+          <!-- ===== SHOP AD ZONE ===== -->
+          <div class="ad-zone ad-shop" id="adShop">
+            <div class="ad-label">🛍️ منتجات برعاية شركائنا</div>
+            <div class="ad-content">
+              <div class="ad-product">
+                <div style="width:80px;height:80px;border-radius:var(--radius-sm);margin:0 auto 0.5rem;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;font-size:2rem">👗</div>
+                <div class="product-name">مودانيسا</div>
+                <div class="product-price">خصم 15%</div>
+              </div>
+              <div class="ad-product">
+                <div style="width:80px;height:80px;border-radius:var(--radius-sm);margin:0 auto 0.5rem;background:linear-gradient(135deg,#f093fb,#f5576c);display:flex;align-items:center;justify-content:center;font-size:2rem">👜</div>
+                <div class="product-name">شي إن</div>
+                <div class="product-price">خصم 20%</div>
+              </div>
+              <div class="ad-product">
+                <div style="width:80px;height:80px;border-radius:var(--radius-sm);margin:0 auto 0.5rem;background:linear-gradient(135deg,#4facfe,#00f2fe);display:flex;align-items:center;justify-content:center;font-size:2rem">💄</div>
+                <div class="product-name">iHerb</div>
+                <div class="product-price">كود: DAHABIYA</div>
+              </div>
+              <div class="ad-product">
+                <div style="width:80px;height:80px;border-radius:var(--radius-sm);margin:0 auto 0.5rem;background:linear-gradient(135deg,#43e97b,#38f9d7);display:flex;align-items:center;justify-content:center;font-size:2rem">🌿</div>
+                <div class="product-name">الأعشاب</div>
+                <div class="product-price">خصم 10%</div>
+              </div>
             </div>
           </div>
         </div>
@@ -9362,16 +9402,18 @@
           <!-- AdSense placement -->
           <div class="card mt-2">
             <h4>📢 مساحات إعلانية - Google AdSense</h4>
-            <div class="grid-2">
-              <div style="background:var(--bg);border:2px dashed var(--border);border-radius:12px;padding:2rem;text-align:center">
-                <span style="font-size:2rem">📺</span>
-                <p>بانر 728×90</p>
-                <small style="color:var(--text-muted)">للاستضافة</small>
+            <div class="ad-grid">
+              <div class="ad-zone ad-leaderboard">
+                <div class="ad-label">بانر 728×90 - للاستضافة</div>
+                <div class="ad-content">
+                  <span style="color:var(--muted-foreground);font-size:0.9rem">📺 <a href="#" onclick="document.querySelector('[data-tab=affJoin]').click();return false" style="color:var(--gold)">احجزي مساحتك الإعلانية</a></span>
+                </div>
               </div>
-              <div style="background:var(--bg);border:2px dashed var(--border);border-radius:12px;padding:2rem;text-align:center">
-                <span style="font-size:2rem">📺</span>
-                <p>بانر 300×250</p>
-                <small style="color:var(--text-muted)">للاستضافة</small>
+              <div class="ad-zone ad-sidebar">
+                <div class="ad-label">بانر 300×250 - للاستضافة</div>
+                <div class="ad-content">
+                  <span style="color:var(--muted-foreground);font-size:0.9rem">📺 <a href="#" onclick="document.querySelector('[data-tab=affJoin]').click();return false" style="color:var(--gold)">احجزي مساحتك الإعلانية</a></span>
+                </div>
               </div>
             </div>
           </div>
@@ -9379,6 +9421,14 @@
       </div>
     </div>
   </section>
+
+  <!-- ===== FOOTER AD ZONE ===== -->
+  <div class="ad-zone ad-footer" id="adFooter">
+    <div class="ad-label">📢 إعلان - مساحة متاحة للإعلانات والشراكات</div>
+    <div class="ad-content">
+      <span style="color:var(--muted-foreground);font-size:0.9rem">📺 <a href="#" onclick="showSection('affiliates');document.querySelector('[data-tab=affJoin]').click();return false" style="color:var(--gold);text-decoration:underline">انضمي كشريكة أو أعلني معنا</a></span>
+    </div>
+  </div>
 
   <!-- ============================================= -->
   <!-- FOOTER -->
