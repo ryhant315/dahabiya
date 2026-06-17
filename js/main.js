@@ -1218,6 +1218,10 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
   }
+  const subParam = urlParams.get('sub');
+  if (subParam && SUBSCRIPTION_PLANS[subParam]) {
+    saveSubscriptions([subParam]);
+  }
 
   window.openOwnerPanel = function() {
     const pwd = prompt('🔐 مساحة المالك - أدخل كلمة السر:');
