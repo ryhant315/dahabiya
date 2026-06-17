@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ركن الصبايا - دليل الحياة للبنات من 10 إلى 25</title>
+<meta name="description" content="ركن الصبايا - دليل الحياة للبنات من 10 إلى 25. مرشدتك الشخصية: ثقة، دراسة، علاقات، مهنة، صحة، موضة، وأكثر">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='35' r='18' fill='%23d4af37'/%3E%3Cpath d='M25 45 Q50 35 75 45 L80 75 L50 90 L20 75 Z' fill='%23800020'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="splash" id="splash"><div class="splash-logo">🌸 ركن الصبايا</div></div>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="#" class="nav-logo" onclick="showSection('home')">🌸 ركن الصبايا</a>
+    <button class="mobile-toggle" id="mobileToggle">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#" data-section="home">الرئيسية</a></li>
+      <li><a href="#" data-section="understand">نفسي</a></li>
+      <li><a href="#" data-section="think">تفكير</a></li>
+      <li><a href="#" data-section="talk">تواصل</a></li>
+      <li><a href="#" data-section="hair">شعر</a></li>
+      <li><a href="#" data-section="skin">بشرة</a></li>
+      <li><a href="#" data-section="body">جسم</a></li>
+      <li><a href="#" data-section="nutrition">تغذية</a></li>
+      <li><a href="#" data-section="health">صحة</a></li>
+      <li><a href="#" data-section="studies">دراسة</a></li>
+      <li><a href="#" data-section="mental">نفسية</a></li>
+      <li><a href="#" data-section="toxic">علاقات</a></li>
+      <li><a href="#" data-section="digital">رقمي</a></li>
+      <li><a href="#" data-section="money">مال</a></li>
+      <li><a href="#" data-section="skills">مهارات</a></li>
+      <li><a href="#" data-section="girlskills">بنات</a></li>
+      <li><a href="#" data-section="daily">حياتي</a></li>
+      <li><a href="#" data-section="career">مهنة</a></li>
+      <li><a href="#" data-section="fashion">موضة</a></li>
+      <li><a href="#" data-section="faith">دين</a></li>
+      <li><a href="#" data-section="hobbies">هوايات</a></li>
+      <li><a href="#" data-section="agegoals">أهداف</a></li>
+      <li><a href="#" data-section="unknown">لم يعلمني</a></li>
+      <li><a href="#" data-section="situations">مواقف</a></li>
+      <li><a href="#" data-section="smart">مرشدة ذكية</a></li>
+      <li><a href="#" data-section="mom">أمهات</a></li>
+      <li><a href="#" data-section="counselor">استشارة</a></li>
+      <li><a href="#" data-section="quiz">اختبار</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="mobile-overlay" id="mobileOverlay"></div>
+<div class="mobile-panel" id="mobilePanel">
+  <a href="#" data-section="home">🏠 الرئيسية</a>
+  <a href="#" data-section="understand">🌱 أفهم نفسي</a>
+  <a href="#" data-section="think">🧠 مهارات تفكير</a>
+  <a href="#" data-section="talk">💬 فن الكلام</a>
+  <a href="#" data-section="hair">💇‍♀️ شعر</a>
+  <a href="#" data-section="skin">🧴 بشرة</a>
+  <a href="#" data-section="body">💪 جسم</a>
+  <a href="#" data-section="nutrition">🥗 تغذية</a>
+  <a href="#" data-section="health">👩‍⚕️ توعية صحية</a>
+  <a href="#" data-section="studies">📚 دراسة</a>
+  <a href="#" data-section="mental">🧠 صحة نفسية</a>
+  <a href="#" data-section="toxic">🚩 علاقات مؤذية</a>
+  <a href="#" data-section="digital">🔐 أمان رقمي</a>
+  <a href="#" data-section="money">💰 حياة مالية</a>
+  <a href="#" data-section="skills">🧰 مهارات حياتية</a>
+  <a href="#" data-section="girlskills">🛁 مهارات البنات</a>
+  <a href="#" data-section="daily">🏠 إدارة يومي</a>
+  <a href="#" data-section="career">💼 مهنة</a>
+  <a href="#" data-section="fashion">👗 موضة</a>
+  <a href="#" data-section="faith">🕌 دين</a>
+  <a href="#" data-section="hobbies">🎨 هوايات</a>
+  <a href="#" data-section="agegoals">🎯 أهداف بعمري</a>
+  <a href="#" data-section="unknown">🔍 لم يعلمني أحد</a>
+  <a href="#" data-section="situations">📚 مكتبة مواقف</a>
+  <a href="#" data-section="smart">🤖 مرشدة ذكية</a>
+  <a href="#" data-section="mom">👩‍👧 ركن الأمهات</a>
+  <a href="#" data-section="counselor">💬 استشارة</a>
+  <a href="#" data-section="quiz">🌺 اختبار</a>
+</div>
+
+<!-- HOME -->
+<section id="home" class="page-section active">
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-badge">🌸 أول دليل حياة شامل للبنات 10-25 سنة</div>
+      <h1 class="hero-title">دليل <span class="gold">حياتك</span></h1>
+      <p class="hero-subtitle">مرشدتك الشخصية من الطفولة لبداية حياتك العملية<br>خبيرات من العالم يعلمونك كل شي - خطط مخصصة لكل مرحلة</p>
+      <div class="hero-buttons">
+        <a href="#" class="btn btn-primary" data-section="smart">🤖 ابدئي مع المرشدة الذكية</a>
+        <a href="#" class="btn btn-primary" data-section="understand">🌱 افهمي نفسك</a>
+        <a href="#" class="btn btn-outline" data-section="quiz">🌺 اختبار الصبايا</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <svg viewBox="0 0 300 350" class="hero-svg">
+        <defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fce4ec"/><stop offset="100%" stop-color="#fdf6f0"/></linearGradient></defs>
+        <circle cx="150" cy="150" r="100" fill="url(#g1)" opacity="0.6"/>
+        <path d="M100 220 Q150 180 200 220" stroke="#d4af37" stroke-width="2" fill="none" opacity="0.5"/>
+        <circle cx="150" cy="180" r="60" fill="none" stroke="#d4af37" stroke-width="1.5" opacity="0.4"/>
+        <text x="150" y="320" text-anchor="middle" fill="#800020" font-size="22" font-weight="700" font-family="Tajawal">🌸 ركن الصبايا</text>
+        <text x="150" y="345" text-anchor="middle" fill="#8b6a6a" font-size="13" font-family="Tajawal">10 - 25 سنة</text>
+      </svg>
+    </div>
+  </header>
+
+  <div class="section">
+    <div class="section-header"><div class="section-badge">👩‍⚕️ خبيرات عالميات</div><h2 class="section-title">فريق <span class="gold">الخبيرات</span></h2><div class="divider"></div></div>
+    <div class="experts-grid">
+      <div class="expert-card"><div class="expert-icon">🩺</div><h3>د. أمل الحربي</h3><span>استشارية جلدية</span><p>متخصصة في بشرة المراهقات</p></div>
+      <div class="expert-card"><div class="expert-icon">💇‍♀️</div><h3>لمى القحطاني</h3><span>خبيرة شعر</span><p>عناية الشعر وتطويلة</p></div>
+      <div class="expert-card"><div class="expert-icon">🥗</div><h3>سارة الدوسري</h3><span>أخصائية تغذية</span><p>تغذية المراهقات</p></div>
+      <div class="expert-card"><div class="expert-icon">💬</div><h3>نوف العتيبي</h3><span>مرشدة نفسية</span><p>صحة نفسية للمراهقات</p></div>
+      <div class="expert-card"><div class="expert-icon">🌍</div><h3>د. Barbara Oakley</h3><span>خبيرة تعلم</span><p>Learning How to Learn</p></div>
+      <div class="expert-card"><div class="expert-icon">🌍</div><h3>Caroline Hirons</h3><span>خبيرة بشرة</span><p>خبيرة بشرة عالمية</p></div>
+      <div class="expert-card"><div class="expert-icon">🌍</div><h3>Marie Forleo</h3><span>تطوير ذات</span><p>صاحبة Everything is Figureoutable</p></div>
+      <div class="expert-card"><div class="expert-icon">🌍</div><h3>د. Thema Bryant</h3><span>صحة نفسية</span><p>رئيسة APA سابقاً</p></div>
+      <div class="expert-card"><div class="expert-icon">🌍</div><h3>Cassey Ho</h3><span>مدربة لياقة</span><p>Blogilates</p></div>
+      <div class="expert-card"><div class="expert-icon">🌍</div><h3>Dr. Rhonda Patrick</h3><span>تغذية</span><p>خبيرة تغذية عالمية</p></div>
+    </div>
+  </div>
+
+  <div class="section" style="background:#fdf6f0;">
+    <div class="section-header"><div class="section-badge">🌟 الأقسام</div><h2 class="section-title">وش <span class="gold">تبي تتعلمين اليوم؟</span></h2><div class="divider"></div></div>
+    <div class="quick-grid">
+      <a href="#" class="quick-card" data-section="understand"><span class="quick-icon">🌱</span><span class="quick-title">افهمي نفسك</span><span class="quick-desc">شخصيتك - مواهبك - قوتك</span></a>
+      <a href="#" class="quick-card" data-section="think"><span class="quick-icon">🧠</span><span class="quick-title">مهارات التفكير</span><span class="quick-desc">قرارات - حل مشاكل - تمييز</span></a>
+      <a href="#" class="quick-card" data-section="talk"><span class="quick-icon">💬</span><span class="quick-title">فن الكلام</span><span class="quick-desc">ثقة - اعتذار - حدود</span></a>
+      <a href="#" class="quick-card" data-section="toxic"><span class="quick-icon">🚩</span><span class="quick-title">علاقات مؤذية</span><span class="quick-desc">تلاعب - استغلال - حدود</span></a>
+      <a href="#" class="quick-card" data-section="money"><span class="quick-icon">💰</span><span class="quick-title">حياة مالية</span><span class="quick-desc">مشاريع - ادخار - دخل</span></a>
+      <a href="#" class="quick-card" data-section="health"><span class="quick-icon">👩‍⚕️</span><span class="quick-title">توعية صحية</span><span class="quick-desc">جسمك - تغيرات - نوم</span></a>
+      <a href="#" class="quick-card" data-section="girlskills"><span class="quick-icon">🛁</span><span class="quick-title">مهارات البنات</span><span class="quick-desc">نظافة - طبخ - ترتيب - مكياج</span></a>
+      <a href="#" class="quick-card" data-section="daily"><span class="quick-icon">🏠</span><span class="quick-title">إدارة يومي</span><span class="quick-desc">وقت - أولويات - تنظيم</span></a>
+      <a href="#" class="quick-card" data-section="agegoals"><span class="quick-icon">🎯</span><span class="quick-title">أهداف بعمري</span><span class="quick-desc">10-13 / 14-17 / 18-25</span></a>
+      <a href="#" class="quick-card" data-section="unknown"><span class="quick-icon">🔍</span><span class="quick-title">لم يعلمني أحد</span><span class="quick-desc">مقومات الحياة الحقيقية</span></a>
+      <a href="#" class="quick-card" data-section="situations"><span class="quick-icon">📚</span><span class="quick-title">مكتبة مواقف</span><span class="quick-desc">مواقف وحلول عملية</span></a>
+      <a href="#" class="quick-card" data-section="smart"><span class="quick-icon">🤖</span><span class="quick-title">مرشدة ذكية</span><span class="quick-desc">خطة 30 يوم مخصصة</span></a>
+      <a href="#" class="quick-card" data-section="mom"><span class="quick-icon">👩‍👧</span><span class="quick-title">ركن الأمهات</span><span class="quick-desc">تربية - تفاهم - ثقة</span></a>
+      <a href="#" class="quick-card" data-section="hair"><span class="quick-icon">💇‍♀️</span><span class="quick-title">شعر</span><span class="quick-desc">عناية - تسريحات - ماسكات</span></a>
+      <a href="#" class="quick-card" data-section="skin"><span class="quick-icon">🧴</span><span class="quick-title">بشرة</span><span class="quick-desc">روتين - حبوب - واقي شمس</span></a>
+      <a href="#" class="quick-card" data-section="body"><span class="quick-icon">💪</span><span class="quick-title">جسم</span><span class="quick-desc">رياضة - دورة - نوم</span></a>
+      <a href="#" class="quick-card" data-section="studies"><span class="quick-icon">📚</span><span class="quick-title">دراسة</span><span class="quick-desc">مذاكرة - تخصص - تفوق</span></a>
+      <a href="#" class="quick-card" data-section="mental"><span class="quick-icon">🧠</span><span class="quick-title">صحة نفسية</span><span class="quick-desc">قلق - تنمر - تقدير ذات</span></a>
+      <a href="#" class="quick-card" data-section="career"><span class="quick-icon">💼</span><span class="quick-title">مهنة</span><span class="quick-desc">سيرة ذاتية - عمل حر</span></a>
+      <a href="#" class="quick-card" data-section="counselor"><span class="quick-icon">💬</span><span class="quick-title">اسألي المرشدة</span><span class="quick-desc">إجابة مخصصة لسؤالك</span></a>
+      <a href="#" class="quick-card" data-section="quiz"><span class="quick-icon">🌺</span><span class="quick-title">اختبار الصبايا</span><span class="quick-desc">خطة مخصصة لك</span></a>
+    </div>
+  </div>
+
+  <div class="ticker">
+    <div class="ticker-track">
+      <span>🌸 أنتِ فريدة وكافية - لا تقارنين نفسك</span>
+      <span>💤 نامي 8-10 ساعات - النوم أساس صحتك</span>
+      <span>📚 استثمري في عقلك = استثمار في مستقبلك</span>
+      <span>💬 لا تخافي تسألين - المرشدة موجودة</span>
+      <span>💰 تعلمي إدارة فلوسك من بدري</span>
+      <span>🌸 كل بنت لها رحلة خاصة - عيشي رحلتك</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== UNDERSTAND MYSELF ===== -->
+<section id="understand" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">🌱 Self</div><h2 class="section-title">كيف <span class="gold">أفهم نفسي؟</span></h2><div class="divider"></div><p class="section-subtitle">اكتشفي شخصيتك - مواهبك - نقاط قوتك - مع Marie Forleo ونوف العتيبي</p></div>
+  <div class="intro-box"><p>فهم نفسك هو أول خطوة لبناء حياة سعيدة. Marie Forleo تقول: "كل شي ممكن لما تعرفين مين أنتِ." هذي الأدوات تساعدك تكتشفين نفسك.</p></div>
+
+  <h3 class="sub-title">🎭 <span class="gold">اختبار الشخصية البسيط</span></h3>
+  <div class="mini-grid">
+    <div class="mini-card"><h4>🅰️ اجتماعية</h4><p>تحبين الناس - طاقتك مع المجموعات - تحبين الحفلات واللقاءات. تحتاجين وقت مع الناس عشان تتجددين.</p></div>
+    <div class="mini-card"><h4>🅱️ هادئة</h4><p>تحبين الوحدة الهادئة - طاقتك لوحدك. صداقاتك قليلة لكن عميقة. عادي - مو لازم تكونين اجتماعية.</p></div>
+    <div class="mini-card"><h4>🎯 عملية</h4><p>تفكرين بمنطق - تحبين الأرقام والخطط - ما تأخذين الأمور بشكل شخصي. القيادة تناسبك.</p></div>
+    <div class="mini-card"><h4>💛 عاطفية</h4><p>تحسين بعمق - تهتمين بمشاعر الناس - تحبين الفن والإبداع. عاطفتك قوة مو ضعف.</p></div>
+    <div class="mini-card"><h4>🌟 مغامرة</h4><p>تحبين التجربة - ما تحبين الروتين - شجاعة ومبادرة. العالم يحتاج أمثالك!</p></div>
+    <div class="mini-card"><h4>🛡️ محافظة</h4><p>تحبين الاستقرار - تخططين قبل تسوين - حذرة ومسؤولة. أنتِ عماد أي فريق.</p></div>
+  </div>
+
+  <h3 class="sub-title">🎯 <span class="gold">اكتشفي مواهبك</span></h3>
+  <div class="tips-grid">
+    <div class="tip-card"><div class="tip-icon">❓</div><h3>أسئلة تساعدك</h3><ul><li>وش الشي اللي تسوينه و تنسين الوقت؟</li><li>وش الشي اللي الناس يمدحونك فيه؟</li><li>وش الشي اللي تحبين تتعلمينه؟</li><li>وش المادة المفضلة في المدرسة؟</li><li>لو عندك يوم كامل فارغ - وش تسوين؟</li></ul></div>
+    <div class="tip-card"><div class="tip-icon">💪</div><h3>نقاط قوتك</h3><ul><li>🌿 اكتبي 5 إنجازات في حياتك</li><li>🌿 اسألي أمك: "وش تشوفين أقوى شي فيني؟"</li><li>🌿 اسألي صديقتك المقربة</li><li>🌿 شوفي وش المواقف اللي نجحتي فيها</li><li>🌿 Marie: "قوتك في اختلافك - مو في تشبهك"</li></ul></div>
+    <div class="tip-card"><div class="tip-icon">💛</div><h3>التعامل مع الغيرة</h3><ul><li>🌸 الغيرة شعور إنساني طبيعي - مو عيب</li><li>🌸 اسألي: الغيرة تعلمني شي عن نفسي؟</li><li>🌸 حولي الغيرة لتحفيز: "ودي أوصل للي هي فيه"</li><li>🌸 قارني نفسك بنفسك القديمة مو بالآخرين</li><li>🌸 نوف: "الغيرة تخبرك بشي تمنيتيه - اسمعيها واطلقيها"</li></ul></div>
+  </div>
+
+  <h3 class="sub-title">🛡️ <span class="gold">كيف ما أتأثر بكلام الناس؟</span></h3>
+  <div class="mini-grid">
+    <div class="mini-card"><h4>🪞 عرفي قيمتك</h4><p>قيمتك ما يحددها كلام الناس. أنتِ تعرفين مين أنتِ وش تسوين. كلام الناس مجرد آراء - مو حقائق.</p></div>
+    <div class="mini-card"><h4>🔍 فلتر النقد</h4><p>النقد البناء: خذيه وتعلمي منه. النقد الهدام: ارميه. الفرق؟ البناء يعطيك حل، الهدام يكسّر بس.</p></div>
+    <div class="mini-card"><h4>💪 ثقتك الداخلية</h4><p>لما تكونين واثقة من نفسك - كلام الناس يصير زي المطر ع سقف البيت - تسمعينه بس ما يبللك.</p></div>
+    <div class="mini-card"><h4>👥 اختاري دائرتك</h4><p>الناس اللي حولك يؤثرون فيك. اختاري ناس يرفعونك ويصدقونك ويقولون لك الصدق بحب.</p></div>
+  </div>
+
+  <div class="expert-box"><div class="expert-box-icon">🌱</div><p>"اكتشاف نفسك رحلة عمر. كل يوم تتعرفين على جزء جديد منك. متعة الرحلة إنك ما تعرفين كل شي - تكتشفين بالتدريج."</p><cite>- نوف العتيبي</cite><br><small>"Your superpower is your uniqueness. Don't hide it, amplify it." — Marie Forleo</small></div>
+</div></section>
+
+<!-- ===== THINKING SKILLS ===== -->
+<section id="think" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">🧠 Thinking</div><h2 class="section-title">مهارات <span class="gold">التفكير</span></h2><div class="divider"></div><p class="section-subtitle">أغلب البنات ما يتعلمونها - لكنها تغير حياتك</p></div>
+  <div class="intro-box"><p>مهارات التفكير هي اللي تفرق بين بنت تتخذ قرارات صائبة وبنت تندم على قراراتها. الخبر الجيد: هذي المهارات تتعلم وتتطور بالممارسة.</p></div>
+
+  <div class="tips-grid">
+    <div class="tip-card"><div class="tip-icon">🎯</div><h3>كيف أتخذ قرار صحيح؟</h3><ul><li>١. عرّفي المشكلة بوضوح - وش بالضبط اللي محتارة فيه؟</li><li>٢. اجمعي معلومات: اسألي - ابحثي - قارني</li><li>٣. اكتبي الإيجابيات + السلبيات لكل خيار</li><li>٤. تخيلي نفسك بعد سنة - هل هالخيار يجعلك سعيدة؟</li><li>٥. استخيري - بعدها قرري بثقة</li><li>💡 نصيحة: "ما في قرار مثالي - في أفضل قرار بالوقت الحالي"</li></ul></div>
+    <div class="tip-card"><div class="tip-icon">🔍</div><h3>كيف أميز الحقيقة من الكذب؟</h3><ul><li>👀 شوفي إذا الكلام متناقض مع نفسه</li><li>🔎 ابحثي عن مصدر المعلومة - من قال كذا؟</li><li>🤔 فكري: هل اللي يقوله يفيده؟ ممكن يكذب عشان مصلحته؟</li><li>🧪 "Trust but verify" - ثقي بس تأكدي</li><li>📱 السوشال ميديا: كثير معلومات غلط - تأكدي قبل ما تصدقين</li></ul></div>
+    <div class="tip-card"><div class="tip-icon">💪</div><h3>كيف أرفض ضغط الصديقات؟</h3><ul><li>🚫 "لا" كلمة كاملة - مو محتاجة تبرير طويل</li><li>🗣️ "لا شكراً، ما أبي" - بسيطة ومباشرة</li><li>👯 إذا أصدقاءك يضغطون عليك تسوين شي ما تبينه - فكرّي في صداقتكم</li><li>💪 الصديقة الحقيقية تحترم رفضك</li><li>🌟 تذكري: رضاء الناس غاية لا تدرك - رضا نفسك وربك هو المهم</li></ul></div>
+    <div class="tip-card"><div class="tip-icon">🧩</div><h3>كيف أحل المشاكل خطوة بخطوة؟</h3><ul><li>١. عرّفي المشكلة بالضبط (اكتبيها)</li><li>٢. فكري بكل الحلول الممكنة - حتى اللي تضحك!</li><li>٣. اختاري أفضل ٣ حلول</li><li>٤. طبّقي أفضل حل</li><li>٥. قيّمي: اشتغل؟ لا؟ جربي حل ثاني</li><li>🌟 النموذج ده اسمه IDEAL - جربيه كل مرة تمرين بمشكلة</li></ul></div>
+    <div class="tip-card"><div class="tip-icon">⏳</div><h3>كيف أفكر قبل ما أتصرف؟</h3><ul><li>⏸️ STOP: توقفي - نفس عميق</li><li>🤔 THINK: فكري - وش راح يصير لو سويت كذا؟</li><li>👀 CHOOSE: اختاري التصرف اللي يريح ضميرك</li><li>💡 قاعدة الـ ١٠-١٠-١٠: كيف راح تحسين بعد ١٠ دقايق - ١٠ شهور - ١٠ سنين؟</li></ul></div>
+  </div>
+
+  <div class="expert-box"><div class="expert-box-icon">🧠</div><p>"التفكير مهارة مثلها مثل أي مهارة - تتحسن بالممارسة. كل قرار تتخذينه هو تدريب لعقلك على اتخاذ قرارات أفضل."</p><cite>- فريق ركن الصبايا</cite></div>
+</div></section>
+
+<!-- ===== TALK ===== -->
+<section id="talk" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">💬 Communication</div><h2 class="section-title">فن <span class="gold">الكلام والتواصل</span></h2><div class="divider"></div><p class="section-subtitle">كيف تتكلمين بثقة - ترفضين بأدب - تعتذرين بصدق - تكسبين احترام الناس</p></div>
+  <div class="intro-box"><p>الكلام الجيد يفتح لك أبواب كثيرة. الكلام السيء يغلقها. الفرق بسيط - لكن تأثيره عميق. هذي المهارات تغير طريقة تعامل الناس معك.</p></div>
+
+  <div class="mini-grid">
+    <div class="mini-card"><h4>🎤 كيف أتكلم بثقة</h4><p>شوفي عيون اللي تتكلمين معه. صوتك واضح - مو مرتفع ولا منخفض. لا تترددين. كأنك واثقة - والثقة تجي.</p></div>
+    <div class="mini-card"><h4>🤝 كيف أعتذر</h4><p>"أنا آسفة على [الموقف]. غلطتي كانت [كذا]. راح أنتبه بعدين." الاعتذار الصادق يصلح العلاقات ويعزز احترام الناس لك.</p></div>
+    <div class="mini-card"><h4>🚫 كيف أرفض بأدب</h4><p>"شكراً لدعوتك، بس ما أقدر" - "لا شكراً، مو مناسب لي" - "أقدر لك حرصك، لكن قراري لا." واضحة ومحترمة.</p></div>
+    <div class="mini-card"><h4>🛡️ كيف أتعامل مع السخرية</h4><p>تجاهلي - الساخر يبغى رد فعل. أو قولي بهدوء: "هذا الكلام مو لطيف." أو اضحكي ببرود: "هه، طيب." لا تنفعلين.</p></div>
+    <div class="mini-card"><h4>💎 كيف أكسب احترام الناس</h4><p>احترمي نفسك أولاً - قولي الصدق - التزمي بكلمتك - لا تنافقين. الناس تحترم اللي يحترم نفسه.</p></div>
+    <div class="mini-card"><h4>👂 فن الاستماع</h4><p>أهم جزء في التواصل: اسمعي أكثر ما تتكلمين. اسألي - تفاعلي - لا تقاطعين. الناس تحب اللي تسمعهم.</p></div>
+  </div>
+
+  <div class="expert-box"><div class="expert-box-icon">💬</div><p>"الكلمة الطيبة صدقة - والكلمة الحلوة تفتح قلوب. اختاري كلماتك بعناية - وما تندمين على سكوت أبداً."</p><cite>- فريق ركن الصبايا</cite></div>
+</div></section>
+
+<!-- ===== TOXIC RELATIONS ===== -->
+<section id="toxic" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">🚩 Red Flags</div><h2 class="section-title">اكتشاف <span class="gold">العلاقات المؤذية</span></h2><div class="divider"></div><p class="section-subtitle">علامات الخطر - التلاعب - الاستغلال - كيف تحمين نفسك</p></div>
+  <div class="intro-box"><p>بعض العلاقات تضر أكثر ما تنفع. تعلمي كيف تكتشفين العلامات الحمراء قبل ما تتورطين. هذي المهارة راح تحميك من ألم كبير في المستقبل.</p></div>
+
+  <h3 class="sub-title">🚩 <span class="gold">علامات الصديقة السامة</span></h3>
+  <div class="dual-routine">
+    <div class="dual-card"><h4>✅ صديقة صحية</h4><ul><li>💛 تفرح لنجاحك</li><li>🤝 توقف معك بالضيقات</li><li>🗣️ تحفظ سرك</li><li>🙏 تنصحك بحب</li><li>🎉 تشاركك أفراحك</li><li>💪 تشجعك تتطورين</li></ul></div>
+    <div class="dual-card" style="border-right:4px solid var(--burg)"><h4>🚩 صديقة سامة</h4><ul><li>😒 تنتقدك دايم وتحبطك</li><li>🗣️ تتكلم عنك من وراك</li><li>🎯 تنافسك بغيرة</li><li>💰 تستغلك مادياً</li><li>😤 تطفش إذا ما سويت اللي تبيه</li><li>🚫 تمنعك من صديقات أو hobbies</li></ul></div>
+  </div>
+
+  <h3 class="sub-title">⚠️ <span class="gold">التلاعب النفسي - اعرفيه قبل ما يضرك</span></h3>
+  <div class="tips-grid">
+    <div class="tip-card bad"><div class="tip-icon">🎭</div><h3>Gaslighting</h3><ul><li>يجعلك تشكين في نفسك وذاكرتك</li><li>"أنا ما قلت كذا - أنتِ تتخيلين"</li><li>"أنتِ حساسة زيادة - أنا أمزح بس"</li><li>الحل: ثقي بذاكرتك - سجلي المحادثات</li></ul></div>
+    <div class="tip-card bad"><div class="tip-icon">⛓️</div><h3>Guilt Tripping</h3><ul><li>يخليك تحسين بالذنب عشان تسوين اللي يبيه</li><li>"بعد كل شي سويته لك - هذي المعاملة؟"</li><li>"لو تحبينني - بتسوين كذا"</li><li>الحل: الذنب الحقيقي غير الذنب المصطنع</li></ul></div>
+    <div class="tip-card bad"><div class="tip-icon">🔇</div><h3>Silent Treatment</h3><ul><li>يقطع الكلام عشان يعاقبك</li><li>يتجاهلك يومين عشان غلط صغير</li><li>يخليك تركضين وراه وتعتذرين</li><li>الحل: لا تجريين وراه - خليه يتكلم إذا بيي</li></ul></div>
+    <div class="tip-card bad"><div class="tip-icon">🔄</div><h3>Love Bombing</h3><ul><li>زيادة حب وهدايا فجأة - علامة خطر</li><li>"أنتِ أروع بنت بالعالم" من أول لقاء</li><li>بعدين يتحول لانتقاد وتحكم</li><li>الحل: العلاقة الصحية تبدأ بهدوء - مو انفجار</li></ul></div>
+  </div>
+
+  <h3 class="sub-title">🛡️ <span class="gold">كيف تضعين حدوداً صحية</span></h3>
+  <div class="water-tips">
+    <div class="water-card"><span>🎯</span> حدد راحتك: "هذا يريحني - هذا ما يريحني" - عرفي حدودك</div>
+    <div class="water-card"><span>🗣️</span> قولي حدودك بوضوح: "أنا ما أحب اللي تسوينه - أرجوك لا تكررينه"</div>
+    <div class="water-card"><span>💪</span> لا تتراجعين - لما تضعين حد - التزمي به. الناس تختبر حدودك</div>
+    <div class="water-card"><span>🚫</span> مو لازم تفسرين - "لا" كلمة كاملة. مو محتاجة تشرحين ليه</div>
+    <div class="water-card"><span>💛</span> الحدود الصح تزيد الاحترام - الناس تحترم اللي تحترم نفسها</div>
+  </div>
+
+  <div class="expert-box"><div class="expert-box-icon">🚩</div><p>"العلاقة الصحية ترفعك - العلاقة المؤذية تنهشك. إذا حسيت في داخلك إن شي غلط - غالباً هو غلط. ثقي بحدسك."</p><cite>- فريق ركن الصبايا</cite></div>
+</div></section>
+
+<!-- ===== MONEY ===== -->
+<section id="money" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">💰 Finance</div><h2 class="section-title">الحياة <span class="gold">المالية</span></h2><div class="divider"></div><p class="section-subtitle">إدارة الفلوس - مشاريع صغيرة - ادخار - استثمار للمبتدئات</p></div>
+  <div class="intro-box"><p>إدارة الفلوس مهارة حياتية ما يعلمونها في المدرسة - لكنها أساس استقلالك. صغر سنك مو معناته ما تقدرين تبدأين تبني مستقبلك المالي الآن.</p></div>
+
+  <h3 class="sub-title">💰 <span class="gold">أساسيات المال</span></h3>
+  <div class="mini-grid">
+    <div class="mini-card"><h4>📊 قاعدة 50/30/20</h4><p>50% احتياجات (أكل - مواصلات - مستلزمات) - 30% رغبات (تسوق - ترفيه) - 20% ادخار. حتى لو مبلغ صغير - العادة أهم.</p></div>
+    <div class="mini-card"><h4>🎯 الحاجة vs الرغبة</h4><p>قبل تشترين: "هل أنا محتاجة هذا الشي؟ ولا بس ودي فيه؟" انتظري 24 ساعة قبل أي شراء كبير - راح تكتشفين كثير مشتريات اندفاعية.</p></div>
+    <div class="mini-card"><h4>🏦 الادخار</h4><p>حصالة - حساب توفير - تطبيق ادخار. المبلغ الثابت كل شهر ولو 10 ريال. سنة كاملة = 3650! الفلوس تتراكم.</p></div>
+    <div class="mini-card"><h4>📱 تطبيقات مفيدة</h4><p>استخدمي تطبيقات تتبع المصروفات. راح تتفاجئين كم تصرفين على أشياء ما تحتاجينها. الوعي أول خطوة للتغيير.</p></div>
+  </div>
+
+  <h3 class="sub-title">💡 <span class="gold">أفكار مشاريع صغيرة للبنات</span></h3>
+  <div class="mini-grid">
+    <div class="mini-card"><h4>🧵 أشغال يدوية</h4><p>إكسسوارات - كروشيه - تطريز - هدايا. ابدأي من البيت وبيعي لصديقاتك وأهلك.</p></div>
+    <div class="mini-card"><h4>🍰 طبخ وحلويات</h4><p>حلويات - كيك - سندويشات للمدرسة. إذا طبخك زين - ناس كثير يبون يشترون!</p></div>
+    <div class="mini-card"><h4>📚 تدريس</h4><p>إذا متفوقة في مادة - درسي بنات أصغر. مفيد مادياً ويثبت معلوماتك.</p></div>
+    <div class="mini-card"><h4>🖌️ تصميم</h4><p>تصميم شعارات - بوسترات - سوشال ميديا. منصات العمل الحر تنتظرك.</p></div>
+    <div class="mini-card"><h4>📸 تصوير</h4><p>تصوير منتجات - مناسبات - طعام. جوالك يكفي للبداية.</p></div>
+    <div class="mini-card"><h4>✍️ كتابة</h4><p>ترجمة - تدقيق - كتابة مقالات. اللغات تدر فلوس.</p></div>
+  </div>
+
+  <div class="expert-box"><div class="expert-box-icon">💰</div><p>"الاستقلال المالي يبدأ بخطوة صغيرة. لا تستخفّي بالريال الواحد - الريال مع الريال يكوّن مبلغ. والأهم: العادات المالية الجيدة تبدأ من اليوم."</p><cite>- فريق ركن الصبايا</cite></div>
+</div></section>
+
+<!-- ===== HEALTH ===== -->
+<section id="health" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">👩‍⚕️ Health</div><h2 class="section-title">التوعية <span class="gold">الصحية</span></h2><div class="divider"></div><p class="section-subtitle">افهمي جسمك - التغيرات الطبيعية - متى تطلبين المساعدة</p></div>
+  <div class="intro-box"><p>جسمك يمر بتغيرات كبيرة في هالعمر. فهم هالتغيرات يخليك تطمنين وتعرفين وش طبيعي وش يحتاج مختص. العناية بصحتك = أجمل استثمار في نفسك.</p></div>
+
+  <div class="tips-grid">
+    <div class="tip-card"><div class="tip-icon">🩸</div><h3>التغيرات الجسدية الطبيعية</h3><ul><li>🌱 نمو الثدي: يبدأ من 8-13 سنة - كل بنت غير</li><li>🌱 الدورة الشهرية: من 9-16 سنة - تختلف من بنت لثانية</li><li>🌱 زيادة الطول: طفرة النمو بين 10-14 سنة</li><li>🌱 تغير الوزن: طبيعي جداً في سن المراهقة - لا تقلقين</li><li>🌱 شعر الجسم: يبدأ بالظهور - حلاقة أو إزالة اختيار شخصي</li></ul></div>
+    <div class="tip-card"><div class="tip-icon">😴</div><h3>النوم</h3><ul><li>💤 8-10 ساعات ضرورية لنمو جسمك وعقلك</li><li>📱 أطفئي الجوال قبل النوم بساعة</li><li>🌙 روتين نوم ثابت: نفس الوقت كل يوم</li><li>🛏️ غرفة مظلمة وباردة = نوم أعمق</li><li>🚫 لا كافيين بعد العصر</li></ul></div>
+    <div class="tip-card"><div class="tip-icon">🏃</div><h3>النشاط البدني</h3><ul><li>🚶 30 دقيقة حركة يومياً - مشي - رياضة - رقص</li><li>💪 يقوي العظام والعضلات</li><li>🧠 يحسن المزاج والتركيز</li><li>😴 يساعد على النوم العميق</li><li>👯 اقترحي على صديقة تتمرنون مع بعض</li></ul></div>
+    <div class="tip-card"><div class="tip-icon">🩺</div><h3>متى تزورين الطبيبة؟</h3><ul><li>🩸 إذا الدورة منتظمة ومؤلمة جداً</li><li>🧴 حبوب شديدة ما تستجيب للعلاج المنزلي</li><li>😰 قلق أو اكتئاب مستمر</li><li>⚡ تعب شديد بدون سبب</li><li>🌈 أي شي يقلقك - لا تستحيين - اسألي المختصة</li></ul></div>
+  </div>
+
+  <div class="expert-box"><div class="expert-box-icon">👩‍⚕️</div><p>"جسمك أمانة - اعرفيه - افهميه - اعتني فيه. وما تستحيين تسألين عن أي شي. الصحة الجيدة تبدأ بالوعي."</p><cite>- فريق ركن الصبايا</cite></div>
+</div></section>
+
+<!-- ===== DAILY LIFE ===== -->
+<section id="daily" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">🏠 Daily</div><h2 class="section-title">إدارة <span class="gold">الحياة اليومية</span></h2><div class="divider"></div><p class="section-subtitle">تنظيم الوقت - ملفات - أولويات - مسؤوليات</p></div>
+  <div class="intro-box"><p>الحياة اليومية المنظمة = عقل مرتب + وقت أطول + إنجاز أكبر. هذي المهارات البسيطة تغير يومك بالكامل.</p></div>
+
+  <div class="mini-grid">
+    <div class="mini-card"><h4>📅 التخطيط الأسبوعي</h4><p>يوم الجمعة: خطّطي لأسبوعك. اكتبي: دوام - مذاكرة - رياضة - خروج - راحة. خطة مكتوبة تزيد إنجازك 50%.</p></div>
+    <div class="mini-card"><h4>🎯 قاعدة 3-3-3</h4><p>3 مهام كبيرة - 3 مهام متوسطة - 3 مهام صغيرة. أنجزي الكبيرة أولاً وعقلك نشيط. الصغيرة تسوينها بين المهام.</p></div>
+    <div class="mini-card"><h4>📁 تنظيم الملفات</h4><p>فولدرات: دراسة - شخصي - مشاريع. كل شي بمكانه - تلقينه بسرعة. نظّمي جهازك مرة بالأسبوع.</p></div>
+    <div class="mini-card"><h4>🧹 5 دقايق يومياً</h4><p>رتّبي غرفتك 5 دقايق قبل النوم. تفرق كثير في نظافتك وراحتك النفسية. ولا تنسين ترتبين سريرك أول ما تقومين.</p></div>
+    <div class="mini-card"><h4>📱 قللي السوشال ميديا</h4><p>متوسط وقت السوشال ميديا للبنات 3-4 ساعات يومياً. خففيها لساعة - راح تلقين وقت كثير لإنجاز اللي تبينه.</p></div>
+    <div class="mini-card"><h4>🌟 الأولويات</h4><p>المهم والعاجل: اسويه أولاً. المهم مو عاجل: خطط له. العاجل مو مهم: فوضي أو اختصري. لا مهم ولا عاجل: استغني عنه.</p></div>
+  </div>
+
+  <div class="expert-box"><div class="expert-box-icon">🏠</div><p>"النظام مو عبودية - النظام حرية. لما تنظمين وقتك ومكانك - راح تلقين وقت للشي اللي تحبينه."</p><cite>- فريق ركن الصبايا</cite></div>
+</div></section>
+
+<!-- ===== HAIR, SKIN, BODY, NUTRITION, STUDIES, MENTAL, CAREER, FAITH, HOBBIES, FASHION, DIGITAL, SKILLS (compact) ===== -->
+<section id="hair" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">💇‍♀️</div><h2 class="section-title">العناية <span class="gold">بالشعر</span></h2><div class="divider"></div></div>
+  <div class="intro-box"><p>لمى القحطاني + Caroline Hirons يشرحون لك العناية بالشعر حسب نوعه.</p></div>
+  <div class="mini-grid">
+    <div class="mini-card"><h4>🟢 عادي</h4><p>غسل مرتين بالأسبوع - شامبو لطيف - بلسم خفيف</p></div>
+    <div class="mini-card"><h4>🟡 دهني</h4><p>شامبو خفيف ٣ مرات - بلسم عالأطراف فقط</p></div>
+    <div class="mini-card"><h4>🔴 جاف</h4><p>شامبو مرطب - ماسك زيت جوز الهند أسبوعياً - قص الأطراف</p></div>
+    <div class="mini-card"><h4>🟣 كيرلي</h4><p>كريم مرطب - زبدة شيا - مشط واسع - لا تفركين بالفوطة</p></div>
+  </div>
+  <div class="expert-box"><div class="expert-box-icon">💇‍♀️</div><p>"الإعتدال هو سر الشعر الجميل - لا تهملينه ولا تكثرين عليه."<cite>- لمى القحطاني</cite></p></div>
+</div></section>
+
+<section id="skin" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">🧴</div><h2 class="section-title">العناية <span class="gold">بالبشرة</span></h2><div class="divider"></div></div>
+  <div class="intro-box"><p>د. أمل الحربي + Caroline Hirons + د. Sandra Lee: 3 خطوات لبشرة جميلة.</p></div>
+  <div class="skin-routine">
+    <div class="routine-steps">
+      <div class="routine-step"><span class="step-num">١</span><span class="step-icon">🧼</span><strong>غسول</strong><p>مرتين يومياً - حسب نوع بشرتك</p></div>
+      <div class="routine-step"><span class="step-num">٢</span><span class="step-icon">💧</span><strong>مرطب</strong><p>كل البشرة تحتاج ترطيب</p></div>
+      <div class="routine-step"><span class="step-num">٣</span><span class="step-icon">☀️</span><strong>واقي شمس SPF 50</strong><p>يومياً من عمر ١٠ سنوات</p></div>
+    </div>
+  </div>
+  <div class="expert-box"><div class="expert-box-icon">🩺</div><p>"3 منتجات صح = بشرة جميلة. لا تحتاجين أكثر."<cite>- د. أمل الحربي</cite><br><small>"Keep it simple, keep it consistent." — Caroline Hirons</small></p></div>
+</div></section>
+
+<section id="body" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">💪</div><h2 class="section-title">صحة <span class="gold">جسمك</span></h2><div class="divider"></div></div>
+  <div class="intro-box"><p>فاطمة الزهراني + Cassey Ho: دليل رياضي وصحي متكامل.</p></div>
+  <div class="mini-grid">
+    <div class="mini-card"><h4>🚶 مشي</h4><p>30 د يومياً - يقوي العظام ويحسن المزاج</p></div>
+    <div class="mini-card"><h4>🧘 يوجا/بيليتس</h4><p>15 د مع Cassey Ho - ممتع وفعال</p></div>
+    <div class="mini-card"><h4>🏊 سباحة</h4><p>أفضل رياضة كاملة</p></div>
+    <div class="mini-card"><h4>🎵 رقص</h4><p>10 د على أغنيتك المفضلة</p></div>
+  </div>
+  <div class="expert-box"><div class="expert-box-icon">💪</div><p>"10 دقائق يومياً أحسن من ساعتين مرة بالأسبوع."<cite>- Cassey Ho</cite></p></div>
+</div></section>
+
+<section id="nutrition" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">🥗</div><h2 class="section-title">تغذية <span class="gold">الصبايا</span></h2><div class="divider"></div></div>
+  <div class="intro-box"><p>سارة الدوسري + د. Rhonda Patrick: أكل صحي = جسم وبشرة جميلة.</p></div>
+  <div class="meal-plans">
+    <div class="meal-card"><h4>🌅 فطور</h4><p>بيض + خبز أسمر + جبنة + فاكهة + حليب</p></div>
+    <div class="meal-card"><h4>🥪 غداء</h4><p>دجاج/لحم + رز/خبز + سلطة + خضار</p></div>
+    <div class="meal-card"><h4>🌙 عشاء</h4><p>خفيف: شوربة + سلطة أو بيض مسلوق</p></div>
+  </div>
+  <div class="expert-box"><div class="expert-box-icon">🥗</div><p>"التوازن هو السر - ما في أكل ممنوع."<cite>- سارة الدوسري</cite></p></div>
+</div></section>
+
+<section id="studies" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">📚</div><h2 class="section-title">الدراسة <span class="gold">والتفوق</span></h2><div class="divider"></div></div>
+  <div class="intro-box"><p>مع د. Barbara Oakley (Learning How to Learn) - أضخم دورة تعلم في العالم.</p></div>
+  <div class="dual-routine">
+    <div class="dual-card"><h4>🧠 طرق مذاكرة فعالة</h4><ul><li>🎯 بومودورو: 25 د تركيز + 5 د راحة</li><li>📝 Active Recall: اختبر نفسك - مو مجرد قراءة</li><li>🗺️ خرائط ذهنية</li><li>🎤 درّسي لخيالك</li></ul></div>
+    <div class="dual-card"><h4>⏰ تنظيم وقت</h4><ul><li>📅 جدول أسبوعي مكتوب</li><li>🌟 المواد الصعبة أول اليوم</li><li>📱 أطفئي المشتتات</li><li>🌅 الصباح الباكر = إنتاجية أعلى</li></ul></div>
+  </div>
+  <div class="expert-box"><div class="expert-box-icon">📚</div><p>"The best way to learn is to test yourself."<cite>- Dr. Barbara Oakley</cite></p></div>
+</div></section>
+
+<section id="mental" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">🧠</div><h2 class="section-title">الصحة <span class="gold">النفسية</span></h2><div class="divider"></div></div>
+  <div class="intro-box"><p>نوف العتيبي + د. Thema Bryant: صحتك النفسية أهم من صحتك الجسدية.</p></div>
+  <div class="mini-grid">
+    <div class="mini-card"><h4>😰 القلق</h4><p>نفس عميق 4-4-4 - اكتبي مخاوفك - تكلمي مع شخص تثقين فيه. القلق طبيعي - بس لا يدمرك.</p></div>
+    <div class="mini-card"><h4>🎯 التنمر</h4><p>مو غلطتك - تكلمي فوراً - لا تردين بالمثل - احفظي الأدلة. التنمر يقول عن المتنمر مو عنك.</p></div>
+    <div class="mini-card"><h4>💪 تقدير الذات</h4><p>قيمتك مو بشكلك أو درجاتك. قيمتك بأخلاقك ومبادئك. أوقفي مقارنة نفسك بالآخرين.</p></div>
+    <div class="mini-card"><h4>💕 كوني صديقة نفسك</h4><p>لا تقولين لنفسك كلام ما تقولينه لصديقتك. اللطف مع النفس يغير حياتك.</p></div>
+  </div>
+  <div class="expert-box"><div class="expert-box-icon">🧠</div><p>"Your mental health is a priority. Take care of it."<cite>- Dr. Thema Bryant</cite></p></div>
+</div></section>
+
+<section id="digital" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">🔐</div><h2 class="section-title">الأمان <span class="gold">الرقمي</span></h2><div class="divider"></div></div>
+  <div class="intro-box"><p>دليل حماية نفسك على الإنترنت - مهم جداً لكل بنت. شاركيه مع صديقاتك.</p></div>
+  <div class="period-guide">
+    <div class="period-card"><span>🔑</span><div><strong>كلمة سر قوية:</strong> حروف كبيرة + صغيرة + أرقام + رموز. كل حساب له كلمة مختلفة.</div></div>
+    <div class="period-card"><span>🔒</span><div><strong>المصادقة الثنائية:</strong> فعّليها على كل حساباتك - حتى لو سرقوا كلمة السر ما يدخلون.</div></div>
+    <div class="period-card"><span>🚫</span><div><strong>احذري الاحتيال:</strong> "فزتي بجائزة" - "أختي تعرفك" - "حسابك مخترق" - لا تردين ولا تضغطين.</div></div>
+    <div class="period-card"><span>📸</span><div><strong>خصوصية الصور:</strong> لا تشاركين صورك الخاصة مع أي أحد. أبداً. مهما تثقين فيه.</div></div>
+    <div class="period-card"><span>🚔</span><div><strong>الابتزاز:</strong> قولي لأمك فوراً. احفظي الأدلة. ابلغي الجهات المختصة. أنتِ مو غلطانة.</div></div>
+  </div>
+  <div class="expert-box"><div class="expert-box-icon">🔐</div><p>"خصوصيتك غالية - احميها. وأي شي يضايقك - تكلمي. الصمت ما يحمي."</p></div>
+</div></section>
+
+<section id="skills" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">🧰</div><h2 class="section-title">المهارات <span class="gold">الحياتية</span></h2><div class="divider"></div></div>
+  <div class="intro-box"><p>أشياء ما يعلمونها بالمدرسة - لكنها ضرورية لحياتك كل يوم.</p></div>
+  <div class="mini-grid">
+    <div class="mini-card"><h4>🍳 أطباق أساسية</h4><p>بيض - رز - سلطة - شوربة - ساندويتش. 5 أطباق تخلينك تعتمدين على نفسك.</p></div>
+    <div class="mini-card"><h4>🧹 تنظيم الغرفة</h4><p>رتّبي سريرك أول ما تقومين - 5 دق كل يوم. النظافة تنظم عقلك.</p></div>
+    <div class="mini-card"><h4>💰 ميزانية</h4><p>50% احتياجات - 30% رغبات - 20% ادخار. حتى لو مصروفك بسيط.</p></div>
+    <div class="mini-card"><h4>📋 تسوق ذكي</h4><p>قائمة قبل التسوق - انتظري 24 ساعة قبل الشراء الكبير - لا تشترين جوعانة!</p></div>
+  </div>
+</div></section>
+
+<!-- ===== GIRL SKILLS ===== -->
+<section id="girlskills" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">🛁 Girls</div><h2 class="section-title">مهارات <span class="gold">البنات</span></h2><div class="divider"></div><p class="section-subtitle">نظافة - طبخ - ترتيب - مكياج - اكتشاف مواهب - كل شي البنت تحتاجه</p></div>
+  <div class="intro-box"><p>هذي المهارات الأساسية اللي كل بنت تحتاج تعرفها - من النظافة للطبخ للمكياج للترتيب. مو ضروري تعرفينها مرة وحدة - خذيها خطوة خطوة.</p></div>
+
+  <h3 class="sub-title">🧼 <span class="gold">النظافة الشخصية</span></h3>
+  <div class="dual-routine">
+    <div class="dual-card"><h4>🚿 الاستحمام والعناية بالجسم</h4><ul><li>🛁 استحمي يومياً أو كل يومين حسب نشاطك</li><li>👂 نظفي أذنيك وأظافرك بانتظام</li><li>🧴 استخدمي مرطب جسم بعد كل استحمام</li><li>🦷 فرشي أسنانك صباحاً ومساءً + خيط الأسنان</li><li>👩‍🦰 اغسلي شعرك بانتظام ومشطيه يومياً</li><li>🧼 اغسلي يديك قبل وبعد الأكل</li><li>👗 غيّري ملابسك يومياً واستخدمي منديل عند العطس</li></ul></div>
+    <div class="dual-card"><h4>🎯 اكتشاف المهارات والمواهب</h4><ul><li>👀 راقبي وش تحبين تسوين في وقت فراغك</li><li>🎨 جربي أنشطة مختلفة: رسم - موسيقى - رياضة كتابة</li><li>💭 اسألي نفسك: وش أحلم أكون؟ وليه؟</li><li>🎭 الرسم والتلوين يظهر الموهبة الفنية</li><li>📚 القراءة والكتابة تظهر الموهبة الأدبية</li><li>🧩 الألعاب التركيبية تظهر التفكير المنطقي</li><li>🌟 لا تخلين أحد يحدد مهاراتك - أنتِ تكتشفينها بنفسك</li></ul></div>
+  </div>
+
+  <h3 class="sub-title">🍳 <span class="gold">تعلم الطبخ</span></h3>
+  <div class="tips-grid">
+    <div class="tip-card"><div class="tip-icon">🥬</div><h3>البداية</h3><ul><li>🥕 ابدئي بغسل الخضروات وتقطيعها</li><li>🥣 تعلّمي خلط المكونات البسيطة</li><li>🎨 زيّني الأطباق - خليها ممتعة</li><li>🥗 حضّري السلطة والسندويشات</li><li>🍹 ابدئي بعمل العصائر الطبيعية</li></ul></div>
+    <div class="tip-card"><div class="tip-icon">🍝</div><h3>المرحلة المتوسطة</h3><ul><li>🍳 تعلّمي الطبخات الأساسية: بيض - رز - معكرونة</li><li>🔥 استخدمي الفرن تحت إشراف أولاً</li><li>📱 جربي وصفات جديدة كل أسبوع</li><li>🧂 تعلّمي أساسيات التتبيل والتوابل</li><li>👩‍👩‍👧 اطبخي مع أمك أو أختك - تتعلمين أسرع</li></ul></div>
+    <div class="tip-card"><div class="tip-icon">🌟</div><h3>نصائح مهمة</h3><ul><li>😊 خلي الطبخ تجربة ممتعة - مو واجب</li><li>🧼 نظافة المطبخ أولاً - اغسلي يديك وأدواتك</li><li>📝 جرّبي وصفات جديدة - حتى لو فشلت - فشل مرّة = تعلم</li><li>👩‍🍳 دعي أهلك يذوقون طبخك - حتى لو بسيط - ثقتك بتنمو</li><li>🎉 احتفلي بكل وجبة تطبخينها - أنتِ تتقنين مهارة حياتية!</li></ul></div>
+  </div>
+
+  <h3 class="sub-title">💄 <span class="gold">تعلم المكياج</span></h3>
+  <div class="mini-grid">
+    <div class="mini-card"><h4>🧴 قبل المكياج - العناية</h4><p>البشرة النظيفة هي الأساس. كريم واقي شمس + مرطب + غسول = بشرة جميلة. المكياج على بشرة غير نظيفة يضر بشرتك.</p></div>
+    <div class="mini-card"><h4>💋 البداية الخفيفة</h4><p>بلسم شفاه ملون - القليل من الماسكرا - كريم خفيف للوجه. ألوان طبيعية وهادئة. المكياج مو تمويه - هو إبراز لجمالك.</p></div>
+    <div class="mini-card"><h4>🚿 تنظيف المكياج</h4><p>أهم خطوة! قبل النوم - نظفي وجهك كويس. المكياج ينام معك = حبوب وتصبغات. مزيل مكياج + غسول + مرطب.</p></div>
+    <div class="mini-card"><h4>💡 نصائح جمالية</h4><p>الجمال الطبيعي هو الأجمل. المكياج مو ضرورة - هو اختيار. اختاري منتجات آمنة. المكياج الحقيقي: ثقتك وابتسامتك.</p></div>
+  </div>
+
+  <h3 class="sub-title">🏠 <span class="gold">ترتيب البيت وتنظيمه</span></h3>
+  <div class="tips-grid">
+    <div class="tip-card"><div class="tip-icon">🧸</div><h3>غرفتك</h3><ul><li>🛏️ رتّبي سريرك أول ما تقومين</li><li>🧸 رتّبي ألعابك وأغراضك في أماكنها</li><li>👗 ضعي ملابسك في الخزانة - مو ع الكرسي!</li><li>📚 نظّمي كتبك وأدواتك المدرسية</li><li>🧹 5 دقائق ترتيب يومي = غرفة مرتبة دايم</li></ul></div>
+    <div class="tip-card"><div class="tip-icon">🏡</div><h3>مساعدة في البيت</h3><ul><li>🌿 ساعدي في تنظيف الصالون وغرفة الجلوس</li><li>🧺 ساعدي في طي الغسيل وتنظيفه</li><li>🍳 ساعدي في تنظيف المطبخ - غسل المواعين - مسح الأسطح</li><li>🧹 كنس وتمسيح الأرضيات - يفرق كثير</li><li>🌟 الترتيب مسؤولية الجميع - مو بس أختك أو أمك</li></ul></div>
+    <div class="tip-card"><div class="tip-icon">💛</div><h3>نصائح ذهبية</h3><ul><li>📋 كل غرفة ترتبينها = راحة نفسية</li><li>⏰ 10 دقائق ترتيب يومي تغير شكل البيت كله</li><li>🎵 شغّلي أغنية وأنتِ ترتبين - يصير ألذ</li><li>🌿 الترتيب مو كماليات - النظام يريح العقل</li><li>👩‍👧 ساعدي إخوانك الصغار يرتبون - تعليمهم مسؤوليتك</li></ul></div>
+  </div>
+
+  <div class="expert-box"><div class="expert-box-icon">🛁</div><p>"هذي المهارات هي أساس استقلالك. كل مهارة تتعلمينها اليوم - راح تخدمك طول حياتك. خذيها ببساطة ومتعة - مو ضغط."</p><cite>- فريق ركن الصبايا</cite></div>
+</div></section>
+
+<section id="career" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">💼</div><h2 class="section-title">المهنة <span class="gold">والعمل</span></h2><div class="divider"></div></div>
+  <div class="intro-box"><p>اكتشفي ميولك المهنية واستعدي للمستقبل. من وظيفة تقليدية لعمل حرو مشروعك الخاص.</p></div>
+  <div class="study-methods">
+    <div class="study-card"><span>🩺</span><h4>صحي</h4><p>طب - صيدلة - تمريض. يحتاج درجات عالية وكثير دراسة.</p></div>
+    <div class="study-card"><span>💻</span><h4>تقني</h4><p>برمجة - ذكاء اصطناعي - أمن سيبراني. طلب عالي جداً.</p></div>
+    <div class="study-card"><span>🎨</span><h4>إبداعي</h4><p>تصميم - تصوير - موضة - عمارة. إبداع + مهنة.</p></div>
+    <div class="study-card"><span>📝</span><h4>إنساني</h4><p>إعلام - قانون - تدريس - علم نفس.</p></div>
+    <div class="study-card"><span>💰</span><h4>تجاري</h4><p>محاسبة - إدارة أعمال - تسويق - ريادة.</p></div>
+    <div class="study-card"><span>🧪</span><h4>علمي</h4><p>كيمياء - فيزياء - أحياء - أبحاث.</p></div>
+  </div>
+</div></section>
+
+<section id="fashion" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">👗</div><h2 class="section-title">موضة <span class="gold">الصبايا</span></h2><div class="divider"></div></div>
+  <div class="intro-box"><p>الموضة الحقيقية إنك تلبسين اللي يخليك تحسين بالثقة والراحة.</p></div>
+  <div class="mini-grid">
+    <div class="mini-card"><h4>🧥 مدرسة</h4><p>بنطلون أسود + قميص أبيض + بليزر - كلاسيك وأنيق</p></div>
+    <div class="mini-card"><h4>🌸 كاجوال</h4><p>جينز + تيشيرت + كارديغان + حذاء رياضي</p></div>
+    <div class="mini-card"><h4>👗 أنثوي</h4><p>تنورة طويلة + بلوزة + حزام رفيع</p></div>
+    <div class="mini-card"><h4>🎒 عملي</h4><p>أوفرول + تيشيرت - قطعة وحدة وأنتِ رايقة</p></div>
+  </div>
+</div></section>
+
+<section id="faith" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">🕌</div><h2 class="section-title">الدين <span class="gold">والقيم</span></h2><div class="divider"></div></div>
+  <div class="intro-box"><p>الدين والقيم الإسلامية هما البوصلة اللي توجه حياتك.</p></div>
+  <div class="mini-grid">
+    <div class="mini-card"><h4>🕌 الصلاة</h4><p>حافظي على صلواتك - حتى لو مرة. الله يحب المداومة. خطوة خطوة.</p></div>
+    <div class="mini-card"><h4>📖 القرآن</h4><p>اقرأي ولو صفحة يومياً. يريح القلب ويقوي النفس.</p></div>
+    <div class="mini-card"><h4>🤲 الدعاء</h4><p>الله قريب ويحب الدعاء. اسأليه كل شي - حتى أصغر أمنياتك.</p></div>
+    <div class="mini-card"><h4>💎 الأخلاق</h4><p>الصدق - الأمانة - الحياء - احترام النفس. هذه تاجك.</p></div>
+  </div>
+</div></section>
+
+<section id="hobbies" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">🎨</div><h2 class="section-title">هوايات <span class="gold">وإبداع</span></h2><div class="divider"></div></div>
+  <div class="mini-grid">
+    <div class="mini-card"><h4>✍️ كتابة</h4><p>خواطر - قصص - مذكرات. عبّري عن نفسك.</p></div>
+    <div class="mini-card"><h4>🎨 رسم</h4><p>ألوان - رصاص - ديجيتال. يهدي الأعصاب.</p></div>
+    <div class="mini-card"><h4>📸 تصوير</h4><p>صوري الجمال اللي حولك. جوالك يكفي.</p></div>
+    <div class="mini-card"><h4>🍰 طبخ</h4><p>جربي وصفات جديدة. ممتع ومفيد.</p></div>
+  </div>
+</div></section>
+
+<!-- ===== AGE GOALS ===== -->
+<section id="agegoals" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">🎯 Goals</div><h2 class="section-title">أهداف <span class="gold">حسب العمر</span></h2><div class="divider"></div><p class="section-subtitle">كل مرحلة عمرية لها أولوياتها - ركزي على اللي يناسب عمرك</p></div>
+  <div class="intro-box"><p>كل مرحلة عمرية لها تحدياتها وفرصها. هذي الأهداف تساعدك تركزين على اللي يناسب مرحلتك.</p></div>
+
+  <div class="age-stages">
+    <div class="age-card">
+      <div class="age-header" style="background:linear-gradient(135deg,#f8bbd0,#fce4ec);">
+        <span class="age-icon">🌷</span><h3>10 - 13 سنة</h3><span class="age-tag">الطفولة المتأخرة</span>
+      </div>
+      <div class="age-body"><ul>
+        <li>📚 بناء عادات دراسية قوية</li>
+        <li>💪 الثقة بالنفس وتقبل التغيرات</li>
+        <li>👯 اختيار صديقات جيدات</li>
+        <li>🧼 العناية الشخصية والنظافة</li>
+        <li>🌱 بناء عادات صحية: نوم - أكل - رياضة</li>
+        <li>🎨 اكتشاف الهوايات والمواهب</li>
+        <li>🕌 بناء علاقة مع الله</li>
+        <li>📱 الأمان على الإنترنت - الأساسيات</li>
+      </ul></div>
+    </div>
+    <div class="age-card">
+      <div class="age-header" style="background:linear-gradient(135deg,#f8a0b8,#f8bbd0);">
+        <span class="age-icon">🌺</span><h3>14 - 17 سنة</h3><span class="age-tag">بناء الهوية</span>
+      </div>
+      <div class="age-body"><ul>
+        <li>🧬 فهم التغيرات الجسدية والنفسية</li>
+        <li>💄 روتين عناية مناسب لبشرتك وشعرك</li>
+        <li>📚 التفوق الدراسي واستكشاف التخصصات</li>
+        <li>💪 بناء شخصية قوية ومستقلة</li>
+        <li>🚩 اكتشاف العلاقات الصحية والسامة</li>
+        <li>🔐 الأمان الرقمي المتقدم</li>
+        <li>💰 أساسيات إدارة المال</li>
+        <li>🎯 التخطيط للمستقبل والمهنة</li>
+      </ul></div>
+    </div>
+    <div class="age-card">
+      <div class="age-header" style="background:linear-gradient(135deg,#d4af37,#f5e6c8);">
+        <span class="age-icon">💫</span><h3>18 - 25 سنة</h3><span class="age-tag">الاستقلالية</span>
+      </div>
+      <div class="age-body"><ul>
+        <li>🎯 اختيار التخصص الجامعي أو المسار المهني</li>
+        <li>💰 الاستقلال المالي - عمل - مشاريع</li>
+        <li>🗣️ مهارات التواصل المتقدمة والتوظيف</li>
+        <li>💼 كتابة سيرة ذاتية - مقابلات - عمل حر</li>
+        <li>🏠 إدارة الحياة اليومية والمسؤوليات</li>
+        <li>🌿 الصحة النفسية وإدارة الضغوط</li>
+        <li>🤝 العلاقات الناضجة والحدود الصحية</li>
+        <li>🌟 بناء الهوية المستقلة والقيم الشخصية</li>
+      </ul></div>
+    </div>
+  </div>
+  <div class="expert-box"><div class="expert-box-icon">🎯</div><p>"كل مرحلة عمرية لها جمالها وتحدياتها. ركزي على النمو في مرحلتك - والمستقبل راح يكون أجمل."</p><cite>- فريق ركن الصبايا</cite></div>
+</div></section>
+
+<!-- ===== UNKNOWN ===== -->
+<section id="unknown" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">🔍 Unknown</div><h2 class="section-title">أشياء <span class="gold">لم يعلمني أحد</span></h2><div class="divider"></div></div>
+  <div class="intro-box"><p>حقائق الحياة اللي ما يدرسونها في المدرسة - بس ضروري تعرفينها. مقالات قصيرة كل مرة.</p></div>
+
+  <div class="emergency-grid">
+    <div class="emergency-item"><h4>💎 كيف أعرف أني أستحق الاحترام؟</h4><p>لأنك إنسانة - هذا يكفي. الاحترام مو شي تكسبينه - هو حق لك من مجرد إنك بنت آدم. أنتِ تستحقين احترام نفسك أولاً - واحترام الناس يجي بعدها. اللي لا يحترمك - ما يستحق وجوده في حياتك.</p></div>
+    <div class="emergency-item"><h4>😊 ليس كل من يبتسم لك صديقاً</h4><p>الابتسامة ممكن تكون صادقة - وممكن تكون قناع. الصديق الحقيقي تعرفينه في الضيقات مو في الفرح. بعض الناس يبتسمون لك وهم يتمنون زوالك. لا تندفعين - خذي وقتك عشان تعرفين من حولك.</p></div>
+    <div class="emergency-item"><h4>📉 كيف أتعامل مع الفشل؟</h4><p>الفشل مو نهاية العالم - الفشل درس. Thomas Edison فشل 1000 مرة قبل يخترع المصباح. قال: "أنا ما فشلت - أنا اكتشفت 1000 طريقة ما تشتغل." اسألي: وش تعلمت من هالموقف؟ وبعدين جربي مرة ثانية.</p></div>
+    <div class="emergency-item"><h4>🔍 لماذا أقارن نفسي بالآخرين؟</h4><p>لأن المجتمع يعلمنا من صغرنا إن النجاح "سباق". لكن الحياة مو سباق - كل بنت في رحلتها الخاصة. اللي تشوفينه في حياة الآخرين هو بس "هايلايتس" - ما تشوفين الصعوبات. قارني نفسك بنسختك القديمة - مو بالأخرى.</p></div>
+    <div class="emergency-item"><h4>💪 كيف أبني شخصيتي؟</h4><p>الشخصية تبني بالقيم: الصدق - المسؤولية - الكرم - الشجاعة. وتبنى بالتجارب: كل تجربة جديدة تضيف لك طبقة. وتبنى بالقرارات: كل قرار تتخذينه يشكلك. اسألي نفسك كل يوم: "مين أبي أكون؟" واتخذي خطوة تجاهها.</p></div>
+    <div class="emergency-item"><h4>🌸 كيف أكون قوية دون أن أكون قاسية؟</h4><p>القوة الحقيقية تكونين حازمة ورحيمة في نفس الوقت. تقدرين تقولين لا بحزم واحترام. تقدرين توقفين عند حقك دون تجريح. القوة مو في الصوت العالي - القوة في الثبات على المبادئ مع بقاء القلب طيب.</p></div>
+  </div>
+</div></section>
+
+<!-- ===== SITUATIONS ===== -->
+<section id="situations" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">📚 Library</div><h2 class="section-title">مكتبة <span class="gold">المواقف</span></h2><div class="divider"></div><p class="section-subtitle">اختاري الموقف اللي تمرين فيه - نقدم لك تحليل وحلول عملية</p></div>
+  <div class="intro-box"><p>كل بنت تمر بمواقف صعبة. اختبري موقف من تحت - راح نعطيك فهم للمشكلة، الأخطاء الشائعة، وخطوات عملية.</p></div>
+
+  <div class="situation-select">
+    <h4>📂 اختاري الموقف اللي يمر فيك:</h4>
+    <select id="situationSelect" onchange="showSituation(this.value)">
+      <option value="">اختاري...</option>
+      <option value="1">صديقتي تجاهلتني فجأة</option>
+      <option value="2">رسبت في اختبار درست له كثير</option>
+      <option value="3">أتعرض للتنمر في المدرسة</option>
+      <option value="4">أشعر بالوحدة وما عندي صديقات</option>
+      <option value="5">أخطأت وأشعر بالندم الشديد</option>
+      <option value="6">لا أعرف ماذا أريد في حياتي</option>
+      <option value="7">أهلي يقارنوني دايم بغيري</option>
+      <option value="8">أخاف من المستقبل وما أعرف وش أسوي</option>
+    </select>
+  </div>
+
+  <div id="situationResult" class="counselor-result" style="display:none;"></div>
+
+  <div class="expert-box"><div class="expert-box-icon">📚</div><p>"كل موقف تمرين فيه - حتى الصعب - يعلمك شي. المشكلة مو في الموقف - المشكلة في كيف تتعاملين معه."</p><cite>- فريق ركن الصبايا</cite></div>
+</div></section>
+
+<!-- ===== SMART COUNSELOR ===== -->
+<section id="smart" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">🤖 Smart</div><h2 class="section-title">المرشدة <span class="gold">الذكية</span></h2><div class="divider"></div><p class="section-subtitle">أجيبي على الأسئلة - نصنع لك خطة 30 يوم مخصصة</p></div>
+  <div class="intro-box"><p>هذي أقوى ميزة في الموقع. جاوبي على الأسئلة وراح نصنع لك خطة تطوير شخصية لمدة 30 يوم - بمهام يومية وأهداف أسبوعية تناسب عمرك واحتياجاتك.</p></div>
+
+  <form id="smartForm" class="quiz-container">
+    <div class="quiz-q"><h4>١. كم عمرك؟</h4><label><input type="radio" name="smartAge" value="10-13"> 10-13 سنة</label><label><input type="radio" name="smartAge" value="14-17"> 14-17 سنة</label><label><input type="radio" name="smartAge" value="18-25"> 18-25 سنة</label></div>
+    <div class="quiz-q"><h4>٢. وش أكبر تحد تواجهينه حالياً؟</h4><label><input type="radio" name="smartProblem" value="confidence"> قلة ثقة بنفسي</label><label><input type="radio" name="smartProblem" value="study"> دراستي متعثرة</label><label><input type="radio" name="smartProblem" value="friends"> مشاكل مع الصديقات</label><label><input type="radio" name="smartProblem" value="anxiety"> قلق وتوتر</label><label><input type="radio" name="smartProblem" value="future"> حائرة في مستقبلي</label><label><input type="radio" name="smartProblem" value="family"> مشاكل عائلية</label><label><input type="radio" name="smartProblem" value="body"> راضية عن جسمي</label></div>
+    <div class="quiz-q"><h4>٣. وش أكثر شي تبين تحققينه هالسنة؟</h4><label><input type="radio" name="smartGoal" value="grades"> تحسين درجاتي</label><label><input type="radio" name="smartGoal" value="confidence"> أكون واثقة أكثر</label><label><input type="radio" name="smartGoal" value="friends"> ألقى صديقات حقيقيات</label><label><input type="radio" name="smartGoal" value="skill"> أتعلم مهارة جديدة</label><label><input type="radio" name="smartGoal" value="health"> أعتني بصحتي</label><label><input type="radio" name="smartGoal" value="faith"> أقرب من ربي</label></div>
+    <div class="text-center"><button type="submit" class="btn btn-primary btn-lg">🤖 احصلي على خطتك</button></div>
+  </form>
+  <div id="smartResult" class="counselor-result" style="display:none;"></div>
+</div></section>
+
+<!-- ===== MOM ===== -->
+<section id="mom" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">👩‍👧 Mom</div><h2 class="section-title">ركن <span class="gold">الأمهات</span></h2><div class="divider"></div><p class="section-subtitle">للأمهات: دليل تربية البنات في كل مرحلة عمرية</p></div>
+  <div class="intro-box"><p>هذا القسم مخصص للأمهات. في ناس كثير تقول: "ليش ما في أحد علمنا؟" - هنا نقدم نصائح عملية للأمهات عشان يفهموا بناتهم ويدعموهم في كل مرحلة.</p></div>
+
+  <div class="tips-grid">
+    <div class="tip-card"><div class="tip-icon">🌷</div><h3>10-13 سنة - ماذا تحتاج ابنتي؟</h3><ul><li>🗣️ تحدثي معها عن التغيرات الجسدية قبل ما تمر فيها</li><li>👂 اسمعيها بدون مقاطعة - حتى لو كلامها بسيط</li><li>💛 شجعيها على الصداقات الصحية</li><li>📚 ساعديها تبني عادات دراسية ممتعة</li><li>📱 علميها أمان الإنترنت بلطف مو تخويف</li></ul></div>
+    <div class="tip-card"><div class="tip-icon">🌺</div><h3>14-17 سنة - بناء الثقة</h3><ul><li>🤝 عامليها كشخص كبير - استشيريها في قرارات البيت</li><li>🧴 ادعمي روتين العناية ببشرتها (استشيري طبيبة)</li><li>💬 لا تنتقدي مظهرها - ركزي على صحتها وإنجازاتها</li><li>🔍 راقبي علامات العلاقات السامة والتنمر</li><li>💰 علميها أساسيات المال والادخار</li></ul></div>
+    <div class="tip-card"><div class="tip-icon">💫</div><h3>18-25 سنة - الاستقلالية</h3><ul><li>🎯 ادعمي اختياراتها المهنية - حتى لو مختلفة عن اللي تبينه</li><li>💰 ساعديها في الاستقلال المالي التدريجي</li><li>🤲 ثقي فيها - ثقتك = ثقتها بنفسها</li><li>💛 كوني صديقتها الأولى - البنت تحتاج أمها حتى في الكبر</li><li>🗣️ احترمي خصوصيتها - لكن خليها تعرف إنك موجودة</li></ul></div>
+  </div>
+
+  <h3 class="sub-title">💡 <span class="gold">أخطاء شائعة في التربية</span></h3>
+  <div class="mistakes-list">
+    <div class="mistake"><span class="m-icon">🚫</span><div><strong>المقارنة الدائمة:</strong> "شوفي فلانة" - المقارنة تقتل الثقة. كل بنت فريدة.</div></div>
+    <div class="mistake"><span class="m-icon">🚫</span><div><strong>عدم الاستماع:</strong> البنت تحتاج تسمعها. مو بس تسمع - تستمع.</div></div>
+    <div class="mistake"><span class="m-icon">🚫</span><div><strong>النقد المستمر:</strong> انتقدي السلوك مو الشخصية. "هذا التصرف مو حلو" مو "أنتِ سيئة".</div></div>
+    <div class="mistake"><span class="m-icon">🚫</span><div><strong>قلة الثقة:</strong> إذا ما وثقتِ فيها - كيف تتعلم تثق بنفسها؟</div></div>
+  </div>
+
+  <div class="expert-box"><div class="expert-box-icon">👩‍👧</div><p>"أجمل هدية تقدمينها لبنتك: وقتك - إصغائك - ثقتك. البنت اللي تحس بحب أمها ودعمها - تقدر تواجه العالم."</p><cite>- فريق ركن الصبايا</cite></div>
+</div></section>
+
+<!-- ===== COUNSELOR ===== -->
+<section id="counselor" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">💬</div><h2 class="section-title">اسألي <span class="gold">المرشدة</span></h2><div class="divider"></div></div>
+  <div class="intro-box"><p>اكتبي سؤالك - نوف العتيبي تجاوبك بنصيحة مخصصة. كل الأسئلة مجهولة - لا تخافين.</p></div>
+  <div class="counselor-form">
+    <div class="counselor-q"><h4>👤 عمرك</h4><select id="counselorAge"><option value="">اختاري...</option><option value="10-13">10-13</option><option value="14-17">14-17</option><option value="18-25">18-25</option></select></div>
+    <div class="counselor-q"><h4>📂 نوع المشكلة</h4><select id="counselorTopic"><option value="">اختاري...</option><option value="study">دراسة</option><option value="friends">صداقات</option><option value="family">أهل</option><option value="confidence">ثقة بالنفس</option><option value="mental">قلق/خوف</option><option value="bullying">تنمر</option><option value="digital">أمان رقمي</option><option value="career">مستقبل/مهنة</option><option value="other">شي ثاني</option></select></div>
+    <div class="counselor-q"><h4>💬 اكتبي سؤالك</h4><textarea id="counselorQuestion" rows="4" placeholder="اكتبي هنا.. بكل صراحة"></textarea></div>
+    <button class="btn btn-primary btn-lg" onclick="askCounselor()" style="width:100%">💬 اسألي المرشدة</button>
+  </div>
+  <div id="counselorResult" class="counselor-result" style="display:none;"></div>
+  <div class="counselor-samples">
+    <h3 class="sub-title">🌿 <span class="gold">أسئلة شائعة</span></h3>
+    <div class="mini-grid">
+      <div class="mini-card" style="cursor:pointer" onclick="fillCounselor('14-17','confidence','كيف أزيد ثقتي بنفسي؟')"><h4>💪 كيف أزيد ثقتي بنفسي؟</h4><p>اضغطي</p></div>
+      <div class="mini-card" style="cursor:pointer" onclick="fillCounselor('14-17','friends','كيف أتعامل مع صديقة تستغلني؟')"><h4>👯 صديقة تستغلني</h4><p>اضغطي</p></div>
+      <div class="mini-card" style="cursor:pointer" onclick="fillCounselor('18-25','career','كيف أختار تخصصي الجامعي؟')"><h4>📚 اختيار تخصص</h4><p>اضغطي</p></div>
+      <div class="mini-card" style="cursor:pointer" onclick="fillCounselor('10-13','family','أهلي ما يفهموني - وش أسوي؟')"><h4>💛 أهلي ما يفهموني</h4><p>اضغطي</p></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ===== QUIZ ===== -->
+<section id="quiz" class="page-section"><div class="section">
+  <div class="section-header"><div class="section-badge">🌺</div><h2 class="section-title">اختبار <span class="gold">الصبايا</span></h2><div class="divider"></div></div>
+  <form id="teenQuizForm" class="quiz-container">
+    <div class="quiz-q"><h4>١. كم عمرك؟</h4><label><input type="radio" name="teenAge" value="10-13"> 10-13</label><label><input type="radio" name="teenAge" value="14-17"> 14-17</label><label><input type="radio" name="teenAge" value="18-25"> 18-25</label></div>
+    <div class="quiz-q"><h4>٢. نوع بشرتك؟</h4><label><input type="radio" name="teenSkin" value="oily"> دهنية</label><label><input type="radio" name="teenSkin" value="dry"> جافة</label><label><input type="radio" name="teenSkin" value="combo"> مختلطة</label><label><input type="radio" name="teenSkin" value="normal"> عادية</label></div>
+    <div class="quiz-q"><h4>٣. مشكلة شعرك؟</h4><label><input type="radio" name="teenHair" value="dry"> جفاف</label><label><input type="radio" name="teenHair" value="oily"> دهون</label><label><input type="radio" name="teenHair" value="loss"> تساقط</label><label><input type="radio" name="teenHair" value="none"> ولا شي</label></div>
+    <div class="quiz-q"><h4>٤. أهم مجال تبين تطورينه؟</h4><label><input type="radio" name="teenGoal" value="self"> فهم نفسي</label><label><input type="radio" name="teenGoal" value="think"> مهارات تفكير</label><label><input type="radio" name="teenGoal" value="talk"> فن التواصل</label><label><input type="radio" name="teenGoal" value="hair"> شعري</label><label><input type="radio" name="teenGoal" value="skin"> بشرتي</label><label><input type="radio" name="teenGoal" value="health"> صحتي</label><label><input type="radio" name="teenGoal" value="money"> حياتي المالية</label><label><input type="radio" name="teenGoal" value="study"> دراستي</label></div>
+    <button type="submit" class="btn btn-primary btn-lg" style="width:100%">🌸 احصلي على نصائحك</button>
+  </form>
+  <div id="quizResult" class="counselor-result" style="display:none;"></div>
+</div></section>
+
+<footer class="footer">
+  <div class="footer-content">
+    <div><h4>🌸 ركن الصبايا</h4><p>دليل الحياة للبنات من 10 إلى 25 سنة - مرشدتك الشخصية 24 ساعة</p></div>
+    <div><h4>الأقسام الأساسية</h4><a href="#" data-section="understand">🌱 فهم نفسي</a><a href="#" data-section="think">🧠 تفكير</a><a href="#" data-section="talk">💬 تواصل</a><a href="#" data-section="toxic">🚩 علاقات مؤذية</a><a href="#" data-section="money">💰 حياة مالية</a><a href="#" data-section="health">👩‍⚕️ توعية صحية</a><a href="#" data-section="smart">🤖 مرشدة ذكية</a><a href="#" data-section="situations">📚 مواقف</a><a href="#" data-section="mom">👩‍👧 للأمهات</a><a href="#" data-section="counselor">💬 استشارة</a></div>
+    <div><h4>فريق الخبيرات</h4><p>د. أمل الحربي - جلدية</p><p>نوف العتيبي - إرشاد نفسي</p><p>د. Barbara Oakley - تعلم</p><p>Caroline Hirons - بشرة</p><p>Marie Forleo - تطوير ذات</p><p>د. Thema Bryant - صحة نفسية</p><p>Cassey Ho - لياقة</p></div>
+  </div>
+  <div class="footer-bottom">© 2026 ركن الصبايا - جميع الحقوق محفوظة</div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
