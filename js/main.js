@@ -1630,9 +1630,48 @@ document.addEventListener('DOMContentLoaded', function() {
     const pwd = prompt('🔐 مساحة المالك - أدخل كلمة السر:');
     if (pwd && ownerLogin(pwd)) {
       alert('✅ مرحباً بك في لوحة تحكم ذهبية');
+      loadOwnerPanelData();
       showSection('affiliates');
     } else {
       alert('❌ كلمة سر خاطئة');
+    }
+  };
+
+  window.loadOwnerPanelData = function() {
+    // Load Gemini key
+    const savedKey = localStorage.getItem('gemini_api_key') || '';
+    const keyInput = document.getElementById('geminiKeyInput');
+    if (keyInput) keyInput.value = savedKey;
+    // Load subscription requests
+    const requests = JSON.parse(localStorage.getItem('dahabiya_requests') || '[]');
+    const list = document.getElementById('requestsList');
+    const count = document.getElementById('requestsCount');
+    if (count) count.textContent = requests.length;
+    if (!list) return;
+    if (requests.length === 0) {
+      list.innerHTML = '<p style="text-align:center;opacity:0.5;padding:2rem">لا توجد طلبات بعد</p>';
+      return;
+    }
+    list.innerHTML = requests.sort((a,b) => b.id - a.id).map(r => {
+      const statusColor = r.status === 'مقبول' ? '#4caf50' : r.status === 'مرفوض' ? '#f44336' : '#ff9800';
+      return `<div style="background:rgba(255,255,255,0.06);border-radius:8px;padding:0.8rem;margin-bottom:0.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem">
+        <div>
+          <strong style="color:#fff">${r.name}</strong>
+          <span style="display:block;font-size:0.8rem;opacity:0.6">${r.plan} | ${r.phone} | ${r.date}</span>
+        </div>
+        <span style="background:${statusColor};color:#fff;padding:2px 10px;border-radius:50px;font-size:0.75rem">${r.status}</span>
+      </div>`;
+    }).join('');
+  };
+
+  window.saveGeminiKey = function() {
+    const key = document.getElementById('geminiKeyInput').value.trim();
+    if (key) {
+      localStorage.setItem('gemini_api_key', key);
+      alert('✅ تم حفظ مفتاح Gemini API بنجاح!\nالشات الذكي صار يرد على أي سؤال 🧠');
+    } else {
+      localStorage.removeItem('gemini_api_key');
+      alert('✅ تم إزالة المفتاح. الشات راح يجاوب من قاعدة المعرفة فقط.');
     }
   };
 
@@ -1927,11 +1966,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const loadingDiv = document.createElement('div');
     loadingDiv.className = 'ai-message ai-message-bot';
-    loadingDiv.innerHTML = '<div class="ai-message-content"><span style="opacity:0.6">🔍 جاري البحث عن السعرات...</span></div>';
+    loadingDiv.innerHTML = '<div class="ai-message-content"><span style="opacity:0.6">🧠 جاري التفكير...</span></div>';
     messages.appendChild(loadingDiv);
     messages.scrollTop = messages.scrollHeight;
 
-    let reply = generateAIResponse(msg);
+    let reply = localAIResponse(msg);
+
+    if (!reply) {
+      try { reply = await askGemini(msg); } catch(e) { reply = null; }
+    }
+
+    if (!reply) {
+      reply = '<p>🤔 ما عندي جواب جاهز لهالسؤال. لكن جربي تسألين عن:<br>🔍 تحليل مكونات منتج<br>🧴 العناية بالبشرة<br>💇‍♀️ العناية بالشعر<br>💄 المكياج<br>🍽️ التغذية والسعرات<br>💅 الأظافر<br>🌿 بدائل طبيعية<br>⚠️ مواد ضارة</p>';
+    }
 
     loadingDiv.remove();
     const botDiv = document.createElement('div');
@@ -1941,19 +1988,19 @@ document.addEventListener('DOMContentLoaded', function() {
     messages.scrollTop = messages.scrollHeight;
   };
 
-  function generateAIResponse(msg) {
+  function localAIResponse(msg) {
     const q = msg.toLowerCase();
     const ctx = getAIContext();
 
-    if (q.includes('السلام') || q.includes('مرحبا') || q.includes('hi') || q.includes('hello')) {
+    if (q.includes('السلام') || q.includes('مرحبا') || q.includes('hi') || q.includes('hello') || q.includes('أهلين')) {
       if (ctx !== 'عام') {
-        return `<p>وعليكم السلام 💗 أهلاً بكِ في <strong>قسم ${ctx}</strong>! 🌸</p><p style="margin-top:0.5rem">تقدرين تسأليني عن أي شي متعلق بهالقسم:<br>🔍 تحليل منتجات<br>⚠️ مواد ضارة<br>🌿 بدائل طبيعية<br>❌ تصحيح أخطاء</p><p>أو اسأليني سؤالك العام 🧴</p>`;
+        return `<p>وعليكم السلام 💗 أهلاً بكِ في <strong>قسم ${ctx}</strong>! 🌸</p><p style="margin-top:0.5rem">تقدرين تسأليني عن أي شي متعلق بهالقسم. أو اسأليني سؤالك العام 🧴</p>`;
       }
-      return '<p>وعليكم السلام 💗 أهلاً بكِ في مُستشارتك الآمنة! 🌸</p><p style="margin-top:0.5rem">تقدرين تسأليني عن:<br>🔍 تحليل مكونات منتج<br>⚠️ مواد ضارة<br>🌿 بدائل طبيعية<br>❌ أخطاء خلطات</p><p>تحطي اسم المنتج أو المكونات 🧴</p>';
+      return '<p>وعليكم السلام 💗 أهلاً بكِ في مُستشارتك الآمنة! 🌸</p><p style="margin-top:0.5rem">تقدرين تسأليني عن:<br>🔍 تحليل مكونات منتج<br>⚠️ مواد ضارة<br>🌿 بدائل طبيعية<br>❌ أخطاء خلطات</p>';
     }
     if (q.includes('شكرا') || q.includes('thank')) { return 'العفو 💗 دائماً هنا لمساعدتك! 🌸'; }
     if (q.includes('منت') || q.includes('مين') || q.includes('انت')) {
-      return '<p>أنا <strong>مُستشارتك الآمنة</strong> 🧴💗</p><p>خبيرة في تحليل مكونات المكياج والعطور والخلطات، وأيضاً:<br>🍽️ أحسب سعرات الأكل<br>🔬 أشرح أضرار الدلكة المغربية<br>🌿 بدائل طبيعية آمنة</p>';
+      return '<p>أنا <strong>مُستشارتك الآمنة</strong> 🧴💗</p><p>خبيرة في تحليل المكونات، التجميل، العطور، التغذية، والصحة الجمالية. اسأليني عن أي شيء!</p>';
     }
 
     let results = null;
@@ -1963,7 +2010,6 @@ document.addEventListener('DOMContentLoaded', function() {
         results = window.analyzeIngredients(cleanName);
       }
     }
-    // Check ingredient names in message
     for (const [key] of Object.entries(HAZARDOUS_INGREDIENTS)) {
       if (q.includes(key)) {
         const single = {};
@@ -1989,52 +2035,85 @@ document.addEventListener('DOMContentLoaded', function() {
       return reply;
     }
 
-    // === SECTION-AWARE CONTEXTS ===
-    if (ctx === 'توعية البشرة والدلكة المغربية' || q.includes('دلكة') || q.includes('الدلكة') || q.includes('مغربية') || q.includes('صابون بلدي') || q.includes('ليفة') || q.includes('جلد ميت')) {
-      return '<p>🔬 <strong>الدلكة المغربية</strong> خطيرة على البشرة!</p><p>🚫 الصابون البلدي قلوي (pH 9-10) يدمر حاجز البشرة الحمضي (pH 4.5-5.5)</p><p>🚫 الليفة الخشنة تسبب جروح مجهرية</p><p>🚫 الفرك العنيف يزيل الطبقة الحامية للبشرة مو بس "الجلد الميت"</p><p>✅ البديل: تقشير كيميائي لطيف مرة بالأسبوع + ليفة سيليكون ناعمة</p><p>💡 البشرة تنظف نفسها بنفسها كل 28 يوم!</p>';
-    }
-    if (ctx === 'التغذية والدايت' || q.includes('رجيم') || q.includes('دايت') || q.includes('وزن') || q.includes('تنحيف') || q.includes('تسمين')) {
-      return '<p>🥗 <strong>التغذية الصحية:</strong></p><p>✅ قلّي السكر والمقليات<br>✅ زيدي الخضار والبروتين<br>✅ اشربي 8 أكواب ماء يومياً<br>✅ نامي 8 ساعات</p><p>💡 <strong>حساب السعرات:</strong> استخدمي <strong>خبيرة السعرات 🥗</strong> في قسم التغذية — هي المختصة بهالشي!</p>';
-    }
-    if (ctx === 'المكياج' || q.includes('مكياج') || q.includes('روج') || q.includes('احمر') || q.includes('بودرة') || q.includes('كونسيلر') || q.includes('فاونديشن') || q.includes('ايشادو')) {
-      return '<p>💄 <strong>المكياج:</strong></p><p>✅ <strong>نوع بشرتك</strong> يحدد نوع المكياج المناسب:</p><p>🔹 للبشرة الدهنية: فاونديشن مات<br>🔹 للبشرة الجافة: فاونديشن سائل بترطيب<br>🔹 للبشرة الحساسة: مكياج معدني خالٍ من العطور</p><p>⚠️ احذري من المكياج التاريخ (منتهي الصلاحية):<br>🕐 الماسكارا: 3 أشهر<br>🕐 كريم الأساس: 6-12 شهر<br>🕐 أحمر الشفاه: 12-18 شهر</p><p>💡 تذكري: <strong>النوم بالمكياج</strong> يسبب شيخوخة مبكرة!</p><p>⚠️ <strong>حساب السعرات</strong> مو من اختصاصي — روحي لقسم <strong>التغذية والدايت</strong> 🥗 فيه خبيرة مخصصة للسعرات!</p>';
-    }
-    if (ctx === 'الشعر' || q.includes('شعر') || q.includes('تساقط') || q.includes('قشرة') || q.includes('زيوت') || q.includes('شامبو') || q.includes('بلسم')) {
-      return '<p>💇‍♀️ <strong>العناية بالشعر:</strong></p><p>✅ <strong>شعرك يحدد روتينه:</strong></p><p>🔹 شعر جاف: زيت جوز الهند + بلسم عميق<br>🔹 شعر دهني: شامبو خفيف + غسيل 2-3 مرات بالأسبوع<br>🔹 شعر تالف: بروتين + ترطيب + قص الأطراف</p><p>⚠️ <strong>أخطاء شائعة:</strong><br>🚫 غسل الشعر يومياً يزيل الزيوت الطبيعية<br>🚫 فرك الشعر بالمنشفة يسبب تقصف<br>✅ استخدمي منشفة ميكرويفابر وربتي بلطف</p>';
-    }
-    if (ctx === 'الأظافر' || q.includes('اظافر') || q.includes('أظافر') || q.includes('منكير') || q.includes('جل') || q.includes('اكريليك')) {
-      return '<p>💅 <strong>العناية بالأظافر:</strong></p><p>✅ قص الأظافر باتجاه واحد<br>✅ ترطيب الجليدة يومياً (لا تقصيها!)<br>✅ خذي بريك من الجل كل 3 شهور</p><p>⚠️ <strong>علامات الخطر:</strong><br>• البقع البيضاء: صدمة أو نقص زنك (مو نقص كالسيوم!)<br>• الأظافر الصفراء: استخدام مناكير بدون طبقة أساسية<br>• تشقق الأظافر: جفاف أو نقص حديد</p>';
+    // === Expanded Knowledge Base ===
+    const KB = {
+      'دلكة|الدلكة|مغربية|صابون بلدي|جلد ميت|فرك': '<p>🔬 <strong>الدلكة المغربية</strong> خطيرة على البشرة!</p><p>🚫 الصابون البلدي قلوي (pH 9-10) يدمر حاجز البشرة الحمضي (pH 4.5-5.5)</p><p>🚫 الليفة الخشنة تسبب جروح مجهرية</p><p>🚫 الفرك العنيف يزيل الطبقة الحامية</p><p>✅ البديل: تقشير كيميائي لطيف مرة بالأسبوع + ليفة سيليكون ناعمة</p>',
+      'رجيم|دايت|وزن|تنحيف|تسمين|سعرات|Diet': '<p>🥗 <strong>نصائح التغذية الصحية:</strong></p><p>✅ قلّي السكر والمقليات<br>✅ زيدي الخضار والبروتين<br>✅ اشربي 8 أكواب ماء يومياً<br>✅ نامي 8 ساعات</p><p>💡 <strong>حساب السعرات:</strong> استخدمي <strong>خبيرة السعرات 🥗</strong> في قسم التغذية</p>',
+      'مكياج|روج|احمر|بودرة|كونسيلر|فاونديشن|ايشادو|بلاش|ميك اب|Makeup': '<p>💄 <strong>نصائح المكياج:</strong></p><p>🔹 للبشرة الدهنية: فاونديشن مات<br>🔹 للبشرة الجافة: فاونديشن سائل بترطيب<br>🔹 للبشرة الحساسة: مكياج معدني خالٍ من العطور</p><p>⚠️ صلاحية المكياج:<br>🕐 الماسكارا: 3 أشهر<br>🕐 كريم الأساس: 6-12 شهر<br>🕐 أحمر الشفاه: 12-18 شهر</p>',
+      'شعر|تساقط|قشرة|زيوت|شامبو|بلسم|Hair': '<p>💇‍♀️ <strong>العناية بالشعر:</strong></p><p>🔹 شعر جاف: زيت جوز الهند + بلسم عميق<br>🔹 شعر دهني: شامبو خفيف + غسيل 2-3 مرات بالأسبوع<br>🔹 شعر تالف: بروتين + ترطيب + قص الأطراف</p><p>⚠️ غسل الشعر يومياً يزيل الزيوت الطبيعية<br>⚠️ فرك الشعر بالمنشفة يسبب تقصف</p>',
+      'اظافر|أظافر|منكير|جل nail|Nail|اكريليك': '<p>💅 <strong>العناية بالأظافر:</strong></p><p>✅ قص الأظافر باتجاه واحد<br>✅ ترطيب الجليدة يومياً (لا تقصيها!)<br>✅ خذي بريك من الجل كل 3 شهور</p><p>⚠️ البقع البيضاء: صدمة أو نقص زنك<br>⚠️ الأظافر الصفراء: استخدام مناكير بدون طبقة أساسية</p>',
+      'بارابين|paraben': '<p>🔴 <strong>البارابين</strong>: مواد حافظة. ⚠️ ربطتها دراسات باضطراب الهرمونات. ✅ البديل: Paraben-Free.</p>',
+      'فثالات|phthalate': '<p>🔴 <strong>الفثالات</strong>: مواد تثبت الرائحة. ⚠️ تسبب اضطراب هرموني. ✅ اختاري Phthalate-Free.</p>',
+      'ريتينول|retinol': '<p>⚠️ <strong>الريتينول</strong>: مشتق من فيتامين A. ✅ آمن ليلياً مع ترطيب. 🚫 ممنوع للحامل. 💡 لا تخلطيه مع أحماض.</p>',
+      'كحول|alcohol': '<p>⚠️ <strong>الكحول</strong>: بعض أنواعه تجفف. ✅ ابحثي عن Cetyl/Stearyl Alcohol (دهنية مفيدة). 🚫 تجنبي Alcohol Denat للبشرة الجافة.</p>',
+      'طبيعي|بديل|بدائل|طبيعية': '<p>🌿 <strong>بدائل طبيعية آمنة:</strong></p><p>🧴 للترطيب: زيت جوجوبا، زيت أرغان، زبدة شيا</p><p>🧼 للتنظيف: زيت جوز الهند، عسل، شوفان</p><p>🎨 للمكياج: بودرة أرز، زبدة كاكاو</p>',
+      'خلطة|ليمون|بيكربونات': '<p>⚠️ <strong>تحذير!</strong></p><p>🚫 الليمون + الشمس = حروق وتصبغات<br>🚫 بيكربونات الصوديوم = تخرب حماية البشرة<br>🚫 معجون الأسنان = يحرق البشرة</p><p>✅ البديل: عسل، زبادي، شوفان، ألوفيرا</p>',
+      'سلامة|آمن|ضار|خطير|مضر': '<p>🧴 <strong>دليل الأمان السريع:</strong></p><p>✅ آمن: مكونات طبيعية، خالية من البارابين والفثالات<br>⚠️ حذر: يحتوي كحول أو عطور صناعية<br>⛔ ضار: بارابين، فثالات، فورمالدهيد</p>',
+      'بشرة دهنية|لمعة|زيت|مسام|حب شباب|حبوب': '<p>🧴 <strong>للبشرة الدهنية:</strong></p><p>✅ غسول ب Salicylic Acid أو Niacinamide<br>✅ مرطب خفيف (جيل أو لوشن بدون زيت)<br>✅ واقي شمس خفيف<br>⚠️ لا تستخدمي زيت جوز الهند على الوجه</p>',
+      'بشرة جافة|تقشر|جفاف|مشدودة': '<p>🧴 <strong>للبشرة الجافة:</strong></p><p>✅ غسول كريمي بدون كبريتات<br>✅ مرطب غني (سيراميد، حمض الهيالورونيك)<br>✅ سيروم بفيتامين C أو B5<br>⚠️ تجنبي المنتجات التي تحتوي كحول</p>',
+      'بشرة حساسة|احمرار|حكة|تهيج|حساسية': '<p>🧴 <strong>للبشرة الحساسة:</strong></p><p>✅ منتجات خالية من العطور والكحول<br>✅ سيروم ب Centella Asiatica أو Panthenol<br>✅ مرطب بسيط بدون مكونات معقدة<br>⚠️ اختبر أي منتج على معصمك قبل الاستخدام</p>',
+      'واقي شمس|شمس|حماية|SPF|سันسكرين': '<p>☀️ <strong>واقي الشمس أساسي!</strong></p><p>✅ SPF 30+ يومياً (حتى في البيت)<br>✅ جددي كل ساعتين إذا برا البيت<br>✅ الكمية: نصف ملعقة صغيرة للوجه<br>✅ اختاري واقي شمس واسع الطيف (Broad Spectrum)</p>',
+      'ترطيب|مرطب|مطري|لوشن|كريم|Moisturizer': '<p>💧 <strong>الترطيب الصح:</strong></p><p>✅ البشرة الدهنية: مرطب خفيف (جيل)<br>✅ البشرة الجافة: مرطب كثيف (سيراميد)<br>✅ البشرة العادية: مرطب متوسط<br>⚠️ المرطب يوضع على بشرة رطبة بعد الغسيل مباشرة</p>',
+      'فيتامين|Vitamin|vitamin|فيتامينات': '<p>💊 <strong>فيتامينات الجمال:</strong></p><p>✨ فيتامين C: تفتيح ونضارة<br>✨ فيتامين B5: ترطيب عميق<br>✨ فيتامين E: مضاد أكسدة<br>✨ فيتامين A (ريتينول): مضاد تجاعيد<br>✅ خذيها من مصدر طبيعي أو استشيري طبيب</p>',
+      'لون بشرة|تصبغات|كلف|بقع|اسمرار': '<p>🎯 <strong>لتوحيد لون البشرة:</strong></p><p>✅ سيروم فيتامين C صباحاً<br>✅ Niacinamide مساءً<br>✅ واقي شمس يومياً (ضروري!)<br>✅ تقشير كيميائي لطيف مرة بالأسبوع<br>⚠️ لا تستخدمي كريمات تفتيح غير مرخصة</p>',
+      'عطر|برفان|parfum|بخور|دهن عود': '<p>🌹 <strong>نصائح العطور:</strong></p><p>✅ الرشة على نقاط النبض: المعصم، الرقبة، خلف الأذن<br>✅ لا تدعكي العطر — يغير رائحته<br>✅ العطر الزهري: للنهار والربيع<br>✅ العطر الخشبي: للمساء والشتاء<br>✅ احفظي العطر في مكان بارد ومظلم</p>',
+      'رياضة|تمارين|تمرين|Sport|Gym|Fitness': '<p>🏃‍♀️ <strong>الرياضة والجمال:</strong></p><p>✅ الرياضة تنعش البشرة وتنقيها<br>✅ اغسلي وجهك بعد التمرين (العرق يسد المسام)<br>✅ اشربي ماء قبل وبعد وبين<br>✅ لا تلبسي مكياج أثناء الرياضة</p>',
+      'نوم|أرق|سهر|أحلام|Sleep': '<p>😴 <strong>النوم الجمالي:</strong></p><p>✅ 7-8 ساعات نوم يومياً<br>✅ النوم يقلل هرمون التوتر ويجدد البشرة<br>✅ نامي على ظهرك عشان تتجنبي تجاعيد النوم<br>✅ وسادة حرير أو قطن ناعم تحمي شعرك وبشرتك</p>',
+      'ماء|شرب|شربي|عطش|Hydration|Water': '<p>💧 <strong>الماء وجمالك:</strong></p><p>✅ 8 أكواب ماء يومياً (حوالي 2 لتر)<br>✅ الماء ينقي البشرة ويقلل الانتفاخ<br>✅ زيدي الكمية في الأيام الحارة أو الرياضة<br>✅ الخيار والبطيخ والخس فيه ماء طبيعي</p>',
+      'حامل|حمل|أم|مرضع|Pregnancy': '<p>🤰 <strong>العناية في الحمل والرضاعة:</strong></p><p>⚠️ ممنوع: ريتينول، هيدروكينون، حمض الساليسيليك بتركيز عالي<br>✅ آمن: فيتامين C، حمض الهيالورونيك، نيازيناميد<br>✅ استشيري طبيبتك قبل أي منتج جديد</p>',
+      'مراهقة|عمر|سن|صغيره|بنت|مراهقات|Teen': '<p>🌸 <strong>نصائح للمراهقات:</strong></p><p>✅ روتين بسيط: غسول + مرطب + واقي شمس<br>✅ لا تستخدمي منتجات كبار — بشرتك صغيرة وتحتاج لطافة<br>✅ نظفي وجهك صباح ومساء<br>✅ لا تعصري الحبوب — تسبب ندبات<br>✅ رطبي شفايفك ببلسم مرطب</p>',
+      'شعر كيرلي|كيرلي|Curly|curly|مجعد|تجعيدات': '<p>🌀 <strong>العناية بالشعر الكيرلي والمموج:</strong></p><p>✅ لا تمشطيه وهو ناشف — مشطي وأنتِ في الحمام والبلسم<br>✅ استخدمي كريم تسريح أو جيل خفيف<br>✅ مشط واسع الأسنان — مشط صغير يقطع الشعر<br>✅ زيت جوز الهند أو زبدة الشيا للترطيب</p>',
+      'شعر مصبوغ|صبغ|صبغة|لون شعر|Hair Color': '<p>🎨 <strong>العناية بالشعر المصبوغ:</strong></p><p>✅ استخدمي شامبو وبلسم للشعر المصبوغ<br>✅ قللي غسيل الشعر — يحافظ على اللون<br>✅ زيت الأرغان يغذي ويحمي اللون<br>✅ بروتين مرة بالأسبوع لتعويض التلف</p>',
+      'قشرة الرأس|قشرة|حكة رأس|Dandruff': '<p>❄️ <strong>القشرة:</strong></p><p>✅ شامبو ضد القشرة يحتوي Zinc Pyrithione أو Ketoconazole<br>✅ لا تحكّي رأسك بقوة<br>✅ قللي من الزيوت على فروة الرأس<br>✅ إذا القشرة مستمرة — زوري طبيب جلدية</p>',
+      'شعر وجه|شوارب|وجه شعر|حلاقة|إزالة|شعر زائد': '<p>🪒 <strong>إزالة شعر الوجه:</strong></p><p>✅ الخيط: أنظف وأفضل للبشرة<br>✅ الشفرة المخصصة للوجه: لطيفة وآمنة<br>✅ كريم إزالة الشعر: اختاري النوع المخصص للوجه<br>⚠️ لا تستخدمي موس الحلاقة العادي — يسبب خشونة</p>',
+      'جلدية|طبيب جلدية|دكتور جلدية|استشارة طبية': '<p>👩‍⚕️ <strong>استشارة طبية:</strong></p><p>⚠️ أنا مساعد معلومات وليس طبيبة. إذا عندك:<br>• حساسية شديدة<br>• طفح جلدي<br>• حب شباب ملتهب<br>• بقع غريبة<br>👉 الأفضل تزوري طبيبة جلدية 💜</p>',
+    };
+
+    for (const [keys, response] of Object.entries(KB)) {
+      if (keys.split('|').some(k => q.includes(k.trim().toLowerCase()))) {
+        return response;
+      }
     }
 
-    // Default ingredient responses
-    if (q.includes('بارابين') || q.includes('paraben')) {
-      return '<p>🔴 <strong>البارابين</strong>: مواد حافظة تستخدم في مستحضرات التجميل.</p><p>⚠️ الدراسات ربطتها باضطراب الهرمونات وزيادة خطر سرطان الثدي.</p><p>✅ البديل: ابحثي عن منتجات مكتوب عليها "Paraben-Free".</p>';
+    if (q.includes('مدرسة') || q.includes('جامعة') || q.includes('دوام') || q.includes('عمل')) {
+      return '<p><strong>مكياج يومي/دوام 🌸</strong></p><p>📍 BB Cream أو تينتد مويسشرايزر<br>📍 كونسيلر خفيف للهالات<br>📍 ماسكرا فقط (لا آيلاينر)<br>📍 بلاش كريمي خفيف<br>📍 مرطب شفاه ملون</p>';
     }
-    if (q.includes('فثالات') || q.includes('phthalate')) {
-      return '<p>🔴 <strong>الفثالات</strong>: مواد تثبت الرائحة في العطور ومستحضرات التجميل.</p><p>⚠️ تسبب اضطراب هرموني ومشاكل في الإنجاب.</p><p>✅ اختاري عطور طبيعية أو مكتوب عليها "Phthalate-Free".</p>';
-    }
-    if (q.includes('ريتينول') || q.includes('retinol')) {
-      return '<p>⚠️ <strong>الريتينول</strong>: مشتق من فيتامين A، فعال لمكافحة التجاعيد.</p><p>✅ آمن للاستخدام الليلي مع ترطيب.</p><p>🚫 <strong>ممنوع للحامل والمرضع</strong>.</p><p>💡 لا تخلطيه مع الأحماض أو فيتامين C بنفس الوقت.</p>';
-    }
-    if (q.includes('كحول') || q.includes('alcohol')) {
-      return '<p>⚠️ <strong>الكحول</strong>: بعض أنواعه تجفف البشرة وتهيجها.</p><p>✅ ابحثي عن Cetyl Alcohol أو Stearyl Alcohol - هذي كحولات دهنية مفيدة للبشرة.</p><p>🚫 تجنبي Alcohol Denat أو SD Alcohol إذا بشرتك جافة أو حساسة.</p>';
-    }
-    if (q.includes('طبيعي') || q.includes('بديل') || q.includes('بدائل')) {
-      return '<p>🌿 <strong>بدائل طبيعية آمنة:</strong></p><p>🧴 للترطيب: زيت جوجوبا، زيت أرغان، زبدة شيا</p><p>🧼 للتنظيف: زيت جوز الهند، عسل، شوفان</p><p>🎨 للمكياج: بودرة أرز، زبدة كاكاو</p><p>💡 تذكري: <strong>طبيعي</strong> لا يعني دايمًا <strong>آمن</strong> - اختبريه على بشرة صغيرة أولاً</p>';
-    }
-    if (q.includes('خلطة') || q.includes('ليمون') || q.includes('بيكربونات')) {
-      return '<p>⚠️ <strong>تحذير خطير!</strong></p><p>🚫 <strong>الليمون + الشمس:</strong> يسبب حروق ضوئية وتصبغات</p><p>🚫 <strong>بيكربونات الصوديوم:</strong> تخرب طبقة الحماية</p><p>🚫 <strong>معجون الأسنان:</strong> يحرق البشرة</p><p>✅ الأفضل: استخدمي مكونات آمنة مثل العسل، الزبادي، الشوفان، الألوفيرا</p>';
-    }
-    if (q.includes('سلامة') || q.includes('آمن') || q.includes('ضار') || q.includes('خطير')) {
-      return '<p>🧴 <strong>دليل الأمان السريع:</strong></p><p>✅ <strong>آمن:</strong> مكونات طبيعية واضحة، خالية من العطور والبارابين</p><p>⚠️ <strong>حذر:</strong> يحتوي كحول أو عطور صناعية - مناسب للبشرة العادية</p><p>⛔ <strong>ضار:</strong> يحتوي بارابين، فثالات، فورمالدهيد - الأفضل تتجنبينه</p><p>💡 <strong>نصيحة:</strong> اختبر أي منتج على معصمك قبل استخدامه</p>';
-    }
-    return `<p>🤔 ما فهمت سؤالك بالضبط. القسم الحالي: <strong>${ctx}</strong></p><p>جربي:<br>🔍 تحليل مكونات: اكتبي اسم المنتج<br>⚠️ استفسار عن مادة: مثل "بارابين"<br>🌿 بدائل طبيعية<br>❌ خلطات وأخطاء</p><p><span class="quick-reply" onclick="quickAIQ(this)">🔍 حللي مكونات</span> <span class="quick-reply" onclick="quickAIQ(this)">⚠️ وش هي المواد الضارة؟</span></p>`;
+
+    return null;
   }
 
   window.quickAIQ = function(el) {
     document.getElementById('aiChatInput').value = el.textContent.trim();
     sendAIMessage();
   };
+
+  // ===== Gemini AI Integration (اختياري — لا يتطلب مفتاح للاستخدام الأساسي) =====
+  const GEMINI_API_KEY = localStorage.getItem('gemini_api_key') || '';
+
+  async function askGemini(prompt) {
+    const key = localStorage.getItem('gemini_api_key');
+    if (!key) return null;
+    try {
+      const ctx = getAIContext();
+      const systemPrompt = `أنت مستشارة تجميل وجمال محترفة لنساء عربيات. اسمك "مُستشارتك الآمنة 💗". القسم الحالي: ${ctx}. 
+      ردي بالعامية العربية (مصرية/خليجية). طول الرد لا يتجاوز 5 جمل. كوني لطيفة ومشجعة.
+      المواضيع: العناية بالبشرة، المكياج، الشعر، العطور، التغذية، اللياقة، الصحة الجمالية.`;
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`;
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{ text: systemPrompt + '\n\nسؤال المستخدمة: ' + prompt }]
+          }],
+          generationConfig: { maxOutputTokens: 200, temperature: 0.7 }
+        })
+      });
+      if (!res.ok) return null;
+      const data = await res.json();
+      return data?.candidates?.[0]?.content?.parts?.[0]?.text || null;
+    } catch(e) { return null; }
+  }
 
   // =============================================
   // CALORIE EXPERT CHAT (خاصة في قسم الدايت - منفصلة)

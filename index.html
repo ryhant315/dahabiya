@@ -7118,44 +7118,32 @@
   <div id="checkoutOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;align-items:center;justify-content:center;backdrop-filter:blur(4px)" onclick="if(event.target===this)this.style.display='none'">
     <div style="background:var(--card-bg);border-radius:24px;padding:2rem;max-width:480px;width:90%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3)">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
-        <h3 style="margin:0">💳 إتمام الدفع</h3>
+        <h3 style="margin:0">🌸 طلب اشتراك</h3>
         <button style="background:none;border:none;font-size:1.5rem;cursor:pointer" onclick="document.getElementById('checkoutOverlay').style.display='none'">✕</button>
       </div>
       <div style="background:linear-gradient(135deg,var(--primary),#a82840);color:white;padding:1rem;border-radius:12px;margin-bottom:1.5rem;text-align:center">
-        <p style="margin:0;font-size:1.2rem;font-weight:bold" id="checkoutPlan">🌸 العناية - 8$</p>
+        <p style="margin:0;font-size:1.2rem;font-weight:bold" id="checkoutPlan">🌸 العناية</p>
         <p style="margin:4px 0 0;font-size:0.85rem;opacity:0.85" id="checkoutPlanLocal"></p>
       </div>
       <form id="checkoutForm">
         <input type="hidden" id="checkoutPlanKey" value="">
         <div class="form-group">
-          <label>الاسم على البطاقة <span style="color:red">*</span></label>
-          <input type="text" id="checkoutName" class="form-control" placeholder="الاسم الكامل" required>
+          <label>الاسم كامل <span style="color:red">*</span></label>
+          <input type="text" id="checkoutName" class="form-control" placeholder="الاسم الثلاثي" required>
         </div>
         <div class="form-group">
-          <label>رقم البطاقة <span style="color:red">*</span></label>
-          <input type="text" id="checkoutCard" class="form-control" placeholder="XXXX XXXX XXXX XXXX" maxlength="19" required inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').replace(/(.{4})/g,'$1 ').trim()">
-        </div>
-        <div style="display:flex;gap:1rem">
-          <div class="form-group" style="flex:1">
-            <label>تاريخ الانتهاء</label>
-            <input type="text" id="checkoutExpiry" class="form-control" placeholder="MM/YY" maxlength="5" required oninput="this.value=this.value.replace(/[^0-9]/g,'').replace(/(.{2})/g,'$1/').trim()">
-          </div>
-          <div class="form-group" style="flex:1">
-            <label>CVV</label>
-            <input type="text" id="checkoutCVV" class="form-control" placeholder="XXX" maxlength="3" required inputmode="numeric">
-          </div>
+          <label>رقم الواتساب <span style="color:red">*</span></label>
+          <input type="text" id="checkoutPhone" class="form-control" placeholder="+218 91 234 5678" required>
         </div>
         <div class="form-group">
-          <label>البريد الإلكتروني <span style="color:red">*</span></label>
-          <input type="email" id="checkoutEmail" class="form-control" placeholder="example@email.com" required>
+          <label>البريد الإلكتروني</label>
+          <input type="email" id="checkoutEmail" class="form-control" placeholder="example@email.com">
         </div>
-        <div style="display:flex;gap:8px;justify-content:center;margin-bottom:1rem">
-          <span style="font-size:2rem">💳</span>
-          <span style="font-size:2rem">🏦</span>
-          <span style="font-size:2rem">📱</span>
+        <div style="background:#FFF5F7;border-radius:12px;padding:1rem;margin-bottom:1rem;text-align:center;border:1px dashed #FFB6C1">
+          <p style="margin:0;font-size:0.85rem;color:#7A5A5A">💜 <strong>التفعيل يدوي</strong> — بعد إرسال طلبك، راح نتواصل معك عالواتساب خلال 24 ساعة لتأكيد الاشتراك</p>
         </div>
-        <button type="submit" class="btn btn-primary" style="width:100%;padding:14px;font-size:1.05rem">🔒 دفع آمن - تأكيد الاشتراك</button>
-        <p style="text-align:center;margin-top:0.8rem;font-size:0.8rem;color:var(--text-muted)">🔒 مشفرة عبر SSL - معلوماتك آمنة 100%</p>
+        <button type="submit" class="btn btn-primary" style="width:100%;padding:14px;font-size:1.05rem">🌸 إرسال طلب الاشتراك</button>
+        <p style="text-align:center;margin-top:0.8rem;font-size:0.8rem;color:var(--text-muted)">📱 التواصل عبر واتساب: +218 91 234 5678</p>
       </form>
     </div>
   </div>
@@ -7167,23 +7155,34 @@
     const yearly = { care:{usd:80,lyd:350,sar:300}, style:{usd:80,lyd:350,sar:300}, health:{usd:60,lyd:250,sar:220}, diet:{usd:120,lyd:550,sar:450}, complete:{usd:180,lyd:800,sar:650} };
     const p = period === 'yearly' ? yearly[planKey] : monthly[planKey];
     const periodText = period === 'yearly' ? 'سنوياً' : 'شهرياً';
-    const savedKey = period === 'yearly' ? planKey + '_annual' : planKey;
-    document.getElementById('checkoutPlan').textContent = (plans[planKey] || 'الباقة') + ' - ' + p.usd + '$ ' + periodText;
+    const planName = (plans[planKey] || 'الباقة') + ' - ' + p.usd + '$ ' + periodText;
+    document.getElementById('checkoutPlan').textContent = planName;
     document.getElementById('checkoutPlanLocal').textContent = p.lyd + ' ل.د / ' + p.sar + ' ر.س';
-    document.getElementById('checkoutPlanKey').value = savedKey;
+    document.getElementById('checkoutPlanKey').value = planKey + '_' + (period || 'monthly');
     document.getElementById('checkoutOverlay').style.display = 'flex';
   }
 
   document.getElementById('checkoutForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const planKey = document.getElementById('checkoutPlanKey').value;
-    if (!planKey) return;
-    const baseKey = planKey.replace('_annual', '');
-    const subs = JSON.parse(localStorage.getItem('dahabiya_subs') || '[]');
-    if (!subs.includes(baseKey)) subs.push(baseKey);
-    localStorage.setItem('dahabiya_subs', JSON.stringify(subs));
-    alert('✅ تمت عملية الدفع بنجاح! 🎉\nأهلاً بك في ذهبية - الباقة مفعلة الآن');
+    const name = document.getElementById('checkoutName').value.trim();
+    const phone = document.getElementById('checkoutPhone').value.trim();
+    const email = document.getElementById('checkoutEmail').value.trim();
+    if (!planKey || !name || !phone) return;
+    const requests = JSON.parse(localStorage.getItem('dahabiya_requests') || '[]');
+    requests.push({
+      id: Date.now(),
+      plan: planKey,
+      name: name,
+      phone: phone,
+      email: email,
+      date: new Date().toLocaleString('ar-SA'),
+      status: 'قيد الانتظار'
+    });
+    localStorage.setItem('dahabiya_requests', JSON.stringify(requests));
+    alert('✅ تم إرسال طلب اشتراكك بنجاح! 🎉\nسنواتصل بك على واتساب قريباً لتأكيد الاشتراك 💜');
     document.getElementById('checkoutOverlay').style.display = 'none';
+    document.getElementById('checkoutForm').reset();
     showSection('home');
   });
   </script>
@@ -9784,10 +9783,29 @@
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
         <div>
           <h3 style="margin:0;color:#e2b735">👑 لوحة تحكم المالك</h3>
-          <p style="margin:4px 0 0;font-size:0.85rem;opacity:0.8">إدارة متجر ذهبية - روابط الشراكة - الأكواد - الإحصائيات</p>
+          <p style="margin:4px 0 0;font-size:0.85rem;opacity:0.8">إدارة طلبات الاشتراك + إعدادات الشات الذكي</p>
         </div>
         <button class="btn btn-secondary" style="background:rgba(255,255,255,0.1);color:white;border:1px solid rgba(255,255,255,0.2);padding:8px 20px;border-radius:50px;font-size:0.85rem" onclick="ownerLogout()">🚪 تسجيل خروج</button>
       </div>
+
+      <!-- Gemini API Key Setting -->
+      <div style="background:rgba(255,255,255,0.06);border-radius:12px;padding:1rem;margin-top:1rem">
+        <p style="margin:0 0 0.5rem;font-size:0.9rem;color:#e2b735">🧠 مفتاح Gemini API (للشات الذكي)</p>
+        <div style="display:flex;gap:0.5rem">
+          <input type="password" id="geminiKeyInput" style="flex:1;padding:8px 12px;border-radius:8px;border:none;font-size:0.85rem;direction:ltr" placeholder="أدخل مفتاح Gemini API..." value="">
+          <button style="background:#e2b735;color:#1a1a2e;border:none;padding:8px 16px;border-radius:8px;font-weight:700;cursor:pointer" onclick="saveGeminiKey()">💾 حفظ</button>
+        </div>
+        <p style="margin:4px 0 0;font-size:0.75rem;opacity:0.5">🔥 بدون مفتاح، الشات يجاوب من قاعدة المعرفة فقط. مع المفتاح، يرد على أي سؤال ذكاء!</p>
+      </div>
+
+      <!-- Subscription Requests -->
+      <div style="margin-top:1rem">
+        <p style="margin:0 0 0.5rem;font-size:0.9rem;color:#e2b735">📋 طلبات الاشتراك <span id="requestsCount" style="background:#e2b735;color:#1a1a2e;padding:2px 8px;border-radius:50px;font-size:0.75rem">0</span></p>
+        <div id="requestsList" style="max-height:300px;overflow-y:auto">
+          <p style="text-align:center;opacity:0.5;padding:2rem">لا توجد طلبات بعد</p>
+        </div>
+      </div>
+
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-top:1rem">
         <div style="background:rgba(255,255,255,0.08);padding:1rem;border-radius:12px;text-align:center">
           <span style="font-size:1.5rem">🔗</span>
