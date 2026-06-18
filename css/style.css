@@ -2200,3 +2200,76 @@ button:focus-visible {
   .ai-assistant-bubble { width:50px; height:50px; font-size:1.2rem; bottom:1rem; right:1rem; }
   .ai-chat-panel { max-height:80vh; }
 }
+
+/* === Auth Modal === */
+.auth-overlay {
+  position: fixed; inset:0; background:rgba(0,0,0,0.5);
+  display:none; z-index:9999; backdrop-filter:blur(4px);
+}
+.auth-overlay.open { display:block; }
+.auth-modal {
+  position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+  background:white; border-radius:20px; padding:2.5rem 2rem;
+  width:90%; max-width:420px; display:none; z-index:10000;
+  box-shadow:0 20px 60px rgba(0,0,0,0.2);
+}
+.auth-modal.open { display:block; animation:fadeSlideUp 0.4s ease; }
+.auth-close {
+  position:absolute; top:1rem; left:1rem; background:none; border:none;
+  font-size:1.5rem; cursor:pointer; color:var(--muted);
+}
+.auth-tabs { display:flex; gap:0; margin-bottom:1.5rem; border-radius:12px; overflow:hidden; border:2px solid var(--rose-100); }
+.auth-tab {
+  flex:1; padding:0.7rem; border:none; background:white; cursor:pointer;
+  font-family:inherit; font-size:0.9rem; font-weight:600; color:var(--muted);
+  transition:all 0.3s;
+}
+.auth-tab.active { background:var(--primary); color:var(--gold); }
+.auth-form { display:none; }
+.auth-form.active { display:block; }
+.auth-logo { font-size:3rem; text-align:center; margin-bottom:0.5rem; }
+.auth-form h3 { text-align:center; color:var(--primary-dark); margin-bottom:1.2rem; }
+.auth-field { margin-bottom:1rem; }
+.auth-field label { display:block; font-size:0.85rem; font-weight:600; color:var(--primary-dark); margin-bottom:0.3rem; }
+.auth-field input {
+  width:100%; padding:0.7rem 1rem; border:2px solid var(--border);
+  border-radius:12px; font-family:inherit; font-size:0.9rem;
+  transition:border-color 0.3s; box-sizing:border-box;
+}
+.auth-field input:focus { outline:none; border-color:var(--gold); }
+.auth-error { color:#E74C3C; font-size:0.82rem; margin-top:0.5rem; text-align:center; display:none; }
+.auth-success { color:#27AE60; font-size:0.82rem; margin-top:0.5rem; text-align:center; }
+
+.auth-btn {
+  background:linear-gradient(135deg,var(--primary),#a82840);
+  color:var(--gold); border:none; width:40px; height:40px;
+  border-radius:50%; cursor:pointer; font-size:1.1rem;
+  transition:all 0.3s; display:flex; align-items:center; justify-content:center;
+  border:2px solid rgba(212,175,55,0.2);
+}
+.auth-btn:hover { transform:scale(1.1); box-shadow:0 4px 15px rgba(212,175,55,0.3); }
+.auth-btn.logged-in { background:linear-gradient(135deg,#27AE60,#2ECC71); }
+
+/* === Awareness Section (توعية البشرة) === */
+.awareness-card {
+  background:white; border-radius:16px; padding:1.8rem; margin-bottom:1.5rem;
+  box-shadow:0 4px 20px rgba(74,14,31,0.04); border:1px solid var(--rose-100);
+  transition:all 0.3s;
+}
+.awareness-card:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(74,14,31,0.08); }
+.awareness-card.danger {
+  border-color:#ffd0d0; background:linear-gradient(135deg,#FFF5F5,#FFF0F0);
+  border-right:4px solid #E74C3C;
+}
+.awareness-card .awareness-icon { font-size:2.5rem; margin-bottom:0.5rem; }
+.awareness-card h3 { color:var(--primary-dark); margin-bottom:0.8rem; font-size:1.15rem; }
+.awareness-card p { color:var(--muted); line-height:1.8; font-size:0.95rem; }
+.awareness-card ul, .awareness-card ol { color:var(--muted); line-height:2; font-size:0.92rem; padding-right:1.2rem; }
+.awareness-card li { margin-bottom:0.3rem; }
+.highlight-text {
+  background:linear-gradient(135deg,#FFF0F0,#FFFAFA); padding:1rem 1.2rem;
+  border-radius:12px; margin:1rem 0; font-weight:600; color:var(--primary);
+  border-right:4px solid #E74C3C; line-height:1.8;
+}
+.tips-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; margin-top:1rem; }
+.tip-item { background:var(--rose-50); padding:0.8rem 1rem; border-radius:10px; font-size:0.88rem; color:var(--muted); line-height:1.6; }

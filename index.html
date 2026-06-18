@@ -33,6 +33,7 @@
       </a>
 
       <div class="nav-controls">
+        <button class="auth-btn" id="authBtn" onclick="openAuthModal()" title="تسجيل الدخول">👤</button>
         <button class="lang-toggle" id="langToggle">EN</button>
         <button class="mobile-toggle" id="mobileToggle">☰</button>
       </div>
@@ -58,6 +59,7 @@
         <li><a href="#" data-section="nightRoutine">🌙 الروتين الليلي</a></li>
         <li><a href="#" data-section="sportsBeauty">🏃 الرياضة</a></li>
         <li><a href="#" data-section="safeConsultant">🧴 مستشارتك الآمنة</a></li>
+        <li><a href="#" data-section="skinAwareness">🔬 وعي البشرة</a></li>
         <li><a href="#" data-section="teenZone">🌸 ركن الصبايا</a></li>
         <li><a href="#" data-section="pricing" class="nav-cta">🌟 اشتراكي</a></li>
       </ul>
@@ -107,6 +109,7 @@
     <a href="#" data-section="financeTips">💰 الثقافة المالية</a>
     <a href="#" data-section="bedding">الملابس الداخلية</a>
     <a href="#" data-section="safeConsultant">🧴 مستشارتك الآمنة</a>
+    <a href="#" data-section="skinAwareness">🔬 وعي البشرة</a>
     <a href="#" data-section="teenZone">🌸 ركن الصبايا</a>
     <a href="#" data-section="pricing">🌟 اشتراكي</a>
   </div>
@@ -10184,6 +10187,150 @@
   <!-- ============================================= -->
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <script src="js/main.js"></script>
+
+  <!-- ============================================= -->
+  <!-- AUTH MODALS (تسجيل الدخول / إنشاء حساب) -->
+  <!-- ============================================= -->
+  <div class="auth-overlay" id="authOverlay" onclick="closeAuthModal()"></div>
+  <div class="auth-modal" id="authModal">
+    <button class="auth-close" onclick="closeAuthModal()">✕</button>
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchAuthTab('login')">تسجيل الدخول</button>
+      <button class="auth-tab" onclick="switchAuthTab('register')">إنشاء حساب</button>
+    </div>
+
+    <!-- LOGIN -->
+    <div class="auth-form active" id="authLogin">
+      <div class="auth-logo">🔐</div>
+      <h3>مرحباً بعودتك 🌸</h3>
+      <div class="auth-field">
+        <label>📧 البريد الإلكتروني</label>
+        <input type="email" id="loginEmail" placeholder="بريدك الإلكتروني">
+      </div>
+      <div class="auth-field">
+        <label>🔑 كلمة المرور</label>
+        <input type="password" id="loginPassword" placeholder="كلمة المرور">
+      </div>
+      <button class="btn btn-primary" onclick="loginUser()" style="width:100%;margin-top:0.5rem">تسجيل الدخول</button>
+      <div class="auth-error" id="loginError"></div>
+    </div>
+
+    <!-- REGISTER -->
+    <div class="auth-form" id="authRegister">
+      <div class="auth-logo">✨</div>
+      <h3>انضمي لذهبية 💗</h3>
+      <div class="auth-field">
+        <label>👤 اسم المستخدم</label>
+        <input type="text" id="regName" placeholder="اسمك">
+      </div>
+      <div class="auth-field">
+        <label>📧 البريد الإلكتروني</label>
+        <input type="email" id="regEmail" placeholder="بريدك الإلكتروني">
+      </div>
+      <div class="auth-field">
+        <label>🔑 كلمة المرور (6 أحرف أو أكثر)</label>
+        <input type="password" id="regPassword" placeholder="كلمة المرور">
+      </div>
+      <div class="auth-field">
+        <label>🎂 العمر (اختياري)</label>
+        <input type="number" id="regAge" placeholder="عمرك" min="10" max="100">
+      </div>
+      <button class="btn btn-primary" onclick="registerUser()" style="width:100%;margin-top:0.5rem">إنشاء حساب</button>
+      <div class="auth-error" id="regError"></div>
+    </div>
+  </div>
+
+  <!-- ============================================= -->
+  <!-- EDUCATIONAL SECTION: توعية البشرة (مخفي، يظهر كسكشن) -->
+  <!-- ============================================= -->
+  <section id="skinAwareness" class="page-section">
+    <div class="section" style="max-width:900px;margin:2rem auto">
+      <div class="section-header">
+        <div class="section-badge">🔬 وعي علمي</div>
+        <h2 class="section-title">مخاطر <span class="gold">الدلكة المغربية</span></h2>
+        <div class="section-divider"></div>
+        <p style="font-size:1rem;color:var(--muted);max-width:650px;margin:1rem auto;line-height:1.8">
+          الحقيقة الكاملة عن الدلكة المغربية والخلطات التقليدية — ليه <strong style="color:var(--primary)">تدمّر حاجز البشرة</strong> وشلون نحمي أنفسنا
+        </p>
+      </div>
+
+      <div class="awareness-card">
+        <div class="awareness-icon">🧽</div>
+        <h3>وش هي الدلكة المغربية؟</h3>
+        <p>الدلكة المغربية التقليدية تستخدم <strong>صابون بلدي (قلوي) + ليفة خشنة + فرك عنيف</strong> لإزالة "الجلد الميت". المشكلة الكبيرة: <strong>ما فيه شي اسمه جلد ميت</strong> بالمعنى اللي احنا فاهمينه.</p>
+      </div>
+
+      <div class="awareness-card danger">
+        <div class="awareness-icon">⚠️</div>
+        <h3>الخطر: إزالة الطبقة الحامية للبشرة</h3>
+        <p>الطبقة اللي نسميها "جلد ميت" هي في الحقيقة <strong>الطبقة القرنية (Stratum Corneum)</strong> — الطبقة الخارجية الحامية للبشرة. وظيفتها:</p>
+        <ul>
+          <li>🛡️ تحمي البشرة من البكتيريا والفطريات</li>
+          <li>💧 تمنع فقدان الماء من البشرة (الجفاف)</li>
+          <li>🧴 تنظم امتصاص المنتجات</li>
+          <li>☀️ تحمي من الأشعة فوق البنفسجية</li>
+        </ul>
+        <p class="highlight-text">الدلكة الشديدة تزيل <strong>كل</strong> هالطبقة — مو بس الخلايا الميتة! والنتيجة: <strong>بشرة مكشوفة بدون حماية</strong>.</p>
+      </div>
+
+      <div class="awareness-card">
+        <div class="awareness-icon">🔄</div>
+        <h3>البشرة تنظف نفسها بنفسها</h3>
+        <p>قناة <strong>الدكتور محمد فائد</strong> وغيره من أطباء الجلدية أكدوا: <strong>البشرة عضو يتجدد وينظف نفسه بنفسه</strong>. الخلايا الميتة تتساقط طبيعياً كل 28 يوم. احنا ما نحتاج "نشيلها" بالقوة!</p>
+        <p>اللي يصير من الدلكة:</p>
+        <ol>
+          <li>🧪 <strong>الصابون البلدي</strong> قلوي جداً (pH 9-10) يخرم حاجز البشرة الحمضي (pH 4.5-5.5)</li>
+          <li>🪣 <strong>الليفة الخشنة</strong> تسبب جروح مجهرية في البشرة</li>
+          <li>💪 <strong>الفرك العنيف</strong> يزيل الخلايا الحية مع الميتة</li>
+        </ol>
+      </div>
+
+      <div class="awareness-card danger">
+        <div class="awareness-icon">😱</div>
+        <h3>النتائج كارثية على المدى البعيد</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem">
+          <div style="background:#FFF0F0;padding:1rem;border-radius:12px;border:1px solid #ffd0d0">
+            <strong style="color:#E74C3C">🔴 مباشرة بعد الدلكة:</strong>
+            <ul style="margin:0.5rem 0 0;padding-right:1.2rem;font-size:0.85rem">
+              <li>احمرار والتهاب</li>
+              <li>جفاف شديد</li>
+              <li>حرقان وحساسية</li>
+              <li>تشقق الجلد</li>
+            </ul>
+          </div>
+          <div style="background:#FFF8F0;padding:1rem;border-radius:12px;border:1px solid #ffe0b0">
+            <strong style="color:#E67E22">🟠 بعد أسابيع/شهور:</strong>
+            <ul style="margin:0.5rem 0 0;padding-right:1.2rem;font-size:0.85rem">
+              <li>بشرة حساسة دايم</li>
+              <li>حبوب ودمامل</li>
+              <li>كلف وتصبغات</li>
+              <li>خطوط دقيقة وتجاعيد</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="awareness-card">
+        <div class="awareness-icon">🧴</div>
+        <h3>البديل الصحي والعلمي</h3>
+        <p>إذا تبين بشرة صحية بدون مخاطر:</p>
+        <div class="tips-grid">
+          <div class="tip-item">✅ <strong>تقشير كيميائي لطيف</strong> — أحماض خفيفة (Lactic, Mandelic) مرة بالأسبوع</div>
+          <div class="tip-item">✅ <strong>ليفة ناعمة</strong> — استخدمي ليفة سيليكون ناعمة بدون فرك عنيف</div>
+          <div class="tip-item">✅ <strong>غسول متوازن</strong> — pH متوازن (5.5) مو صابون بلدي</div>
+          <div class="tip-item">✅ <strong>ترطيب يومي</strong> — سيراميد، نياسيناميد، جلسرين</div>
+          <div class="tip-item">✅ <strong>واقي شمس يومي</strong> — البشرة بدون طبقة حماية تحتاج حماية إضافية</div>
+          <div class="tip-item">✅ <strong>استشيري طبيب</strong> — إذا في مشكلة حقيقية، ما تعالجيها بخلطات عشوائية</div>
+        </div>
+      </div>
+
+      <div class="awareness-card" style="background:linear-gradient(135deg,#fef9f0,#fff5f5)">
+        <div class="awareness-icon">💗</div>
+        <h3>كلمة أخيرة من القلب</h3>
+        <p style="font-size:1.05rem;line-height:2">كثير من البنات للأسف يسمعون لترندات التيك توك والخلطات اللي تألفها ناس ما عندهم خلفية طبية. <strong>البشرة عضو معقد</strong> وما يحتاج تدخل قوي. احنا نبي نكون <strong>سبب توعية</strong> لكل بنت تفهم جسمها وتحمي بشرتها.<br><br>🚫 <strong>لا للدلكة العنيفة</strong><br>✅ <strong>نعم للعناية العلمية اللطيفة</strong></p>
+      </div>
+    </div>
+  </section>
 
   <!-- ===== AI ASSISTANT - FLOATING CHAT ===== -->
   <div class="ai-assistant-bubble" id="aiBubble" onclick="toggleAIChat()">

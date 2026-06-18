@@ -1,5 +1,240 @@
 /* ===== ذهبية - Golden Ratio Beauty - Main JavaScript ===== */
 
+// =============================================
+// AUTH SYSTEM (localStorage)
+// =============================================
+function hashPass(p) {
+  let h = 0; for (let i=0; i<p.length; i++) { h = ((h<<5)-h)+p.charCodeAt(i); h|=0; }
+  return 'h'+Math.abs(h).toString(36);
+}
+
+function getUsers() {
+  try { return JSON.parse(localStorage.getItem('dz_users')||'{}'); } catch { return {}; }
+}
+function saveUsers(u) { localStorage.setItem('dz_users', JSON.stringify(u)); }
+
+function getCurrentUser() {
+  try { return JSON.parse(localStorage.getItem('dz_current')||'null'); } catch { return null; }
+}
+function setCurrentUser(u) {
+  if (u) localStorage.setItem('dz_current', JSON.stringify(u));
+  else localStorage.removeItem('dz_current');
+}
+
+function openAuthModal() {
+  const u = getCurrentUser();
+  if (u) { showUserProfile(u); return; }
+  document.getElementById('authOverlay').classList.add('open');
+  document.getElementById('authModal').classList.add('open');
+}
+function closeAuthModal() {
+  document.getElementById('authOverlay').classList.remove('open');
+  document.getElementById('authModal').classList.remove('open');
+}
+function switchAuthTab(tab) {
+  document.querySelectorAll('.auth-tab').forEach(t => t.classList.toggle('active', t.textContent.includes(tab==='login'?'دخول':'حساب')));
+  document.getElementById('authLogin').classList.toggle('active', tab==='login');
+  document.getElementById('authRegister').classList.toggle('active', tab==='register');
+}
+
+function registerUser() {
+  const name = document.getElementById('regName').value.trim();
+  const email = document.getElementById('regEmail').value.trim().toLowerCase();
+  const pass = document.getElementById('regPassword').value;
+  const age = document.getElementById('regAge').value;
+  const err = document.getElementById('regError');
+  if (!name||!email||!pass) { err.textContent='❌ يرجى تعبئة جميع الحقول'; err.style.display='block'; return; }
+  if (pass.length<6) { err.textContent='❌ كلمة المرور 6 أحرف أو أكثر'; err.style.display='block'; return; }
+  if (!email.includes('@')) { err.textContent='❌ البريد الإلكتروني غير صحيح'; err.style.display='block'; return; }
+  const users = getUsers();
+  if (users[email]) { err.textContent='❌ هذا البريد مسجل مسبقاً'; err.style.display='block'; return; }
+  users[email] = { name, email, pass:hashPass(pass), age:age||'', created:Date.now(), subs:[], quizzes:{} };
+  saveUsers(users);
+  const u = { name, email, age:age||'' };
+  setCurrentUser(u);
+  err.style.display='none';
+  closeAuthModal();
+  updateAuthUI();
+  document.getElementById('loginEmail').value = email;
+  showToast('✨ مرحباً ' + name + '! تم إنشاء حسابك');
+}
+
+function loginUser() {
+  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+  const pass = document.getElementById('loginPassword').value;
+  const err = document.getElementById('loginError');
+  if (!email||!pass) { err.textContent='❌ أدخلي البريد وكلمة المرور'; err.style.display='block'; return; }
+  const users = getUsers();
+  const user = users[email];
+  if (!user||user.pass!==hashPass(pass)) { err.textContent='❌ البريد أو كلمة المرور غير صحيحة'; err.style.display='block'; return; }
+  const u = { name:user.name, email:user.email, age:user.age||'' };
+  setCurrentUser(u);
+  err.style.display='none';
+  closeAuthModal();
+  updateAuthUI();
+  showToast('👋 مرحباً بعودتك ' + user.name + '!');
+}
+
+function logoutUser() {
+  setCurrentUser(null);
+  updateAuthUI();
+  showToast('👋 تم تسجيل الخروج');
+}
+
+function updateAuthUI() {
+  const btn = document.getElementById('authBtn');
+  const u = getCurrentUser();
+  if (btn) {
+    btn.textContent = u ? '👤' : '👤';
+    btn.title = u ? u.name : 'تسجيل الدخول';
+    btn.classList.toggle('logged-in', !!u);
+  }
+}
+
+function showUserProfile(u) {
+  const users = getUsers();
+  const full = users[u.email];
+  const quizzes = full?.quizzes||{};
+  const subs = full?.subs||[];
+  const qCount = Object.keys(quizzes).length;
+  const html = `
+    <div style="position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)" onclick="if(event.target===this)this.remove()">
+      <div style="background:white;border-radius:20px;padding:2rem;width:90%;max-width:400px;max-height:80vh;overflow-y:auto;animation:fadeSlideUp 0.3s ease">
+        <button style="position:absolute;top:1rem;left:1rem;background:none;border:none;font-size:1.5rem;cursor:pointer" onclick="this.closest('div[style]').remove()">✕</button>
+        <div style="text-align:center;margin-bottom:1rem">
+          <div style="font-size:3rem;margin-bottom:0.3rem">👤</div>
+          <h3 style="color:var(--primary-dark);margin:0">${u.name}</h3>
+          <p style="color:var(--muted);font-size:0.85rem;margin:0.3rem 0">${u.email}</p>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;margin:1rem 0">
+          <div style="background:var(--rose-50);border-radius:12px;padding:0.8rem;text-align:center">
+            <div style="font-size:1.5rem">📊</div>
+            <div style="font-size:0.75rem;color:var(--muted)">اختبارات</div>
+            <div style="font-weight:700;color:var(--primary)">${qCount}</div>
+          </div>
+          <div style="background:var(--rose-50);border-radius:12px;padding:0.8rem;text-align:center">
+            <div style="font-size:1.5rem">⭐</div>
+            <div style="font-size:0.75rem;color:var(--muted)">اشتراكات</div>
+            <div style="font-weight:700;color:var(--primary)">${subs.length}</div>
+          </div>
+          <div style="background:var(--rose-50);border-radius:12px;padding:0.8rem;text-align:center">
+            <div style="font-size:1.5rem">🏆</div>
+            <div style="font-size:0.75rem;color:var(--muted)">النقاط</div>
+            <div style="font-weight:700;color:var(--gold)">${qCount*10}</div>
+          </div>
+        </div>
+        ${subs.length>0 ? `<div style="margin:0.5rem 0;padding:0.5rem 0;border-top:1px solid var(--border)">
+          <strong style="font-size:0.85rem">🌟 الاشتراكات:</strong>
+          ${subs.map(s => `<div style="font-size:0.82rem;color:var(--muted);margin:0.3rem 0">✅ ${s.name} - ${s.status||'نشط'}</div>`).join('')}
+        </div>` : ''}
+        <button class="btn btn-secondary" onclick="logoutUser();this.closest('div[style]').remove()" style="width:100%;margin-top:1rem">🚪 تسجيل الخروج</button>
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+
+function showToast(msg, type) {
+  const t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:80px;right:20px;background:linear-gradient(135deg,var(--primary),#a82840);color:var(--gold);padding:0.8rem 1.5rem;border-radius:14px;font-family:inherit;font-size:0.9rem;z-index:10001;box-shadow:0 8px 30px rgba(0,0,0,0.2);animation:fadeSlideUp 0.3s ease;max-width:300px';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => { t.style.opacity='0'; t.style.transition='opacity 0.5s'; setTimeout(()=>t.remove(),500); }, 3000);
+}
+
+// =============================================
+// SECTION-AWARE AI CONTEXT
+// =============================================
+function getAIContext() {
+  const active = document.querySelector('.page-section.active');
+  if (!active) return 'عام';
+  const id = active.id||'';
+  const contexts = {
+    skinCare: 'العناية بالبشرة',
+    makeup: 'المكياج',
+    hairCare: 'الشعر',
+    nails: 'الأظافر',
+    fashion: 'الأزياء',
+    diet: 'التغذية والدايت',
+    perfumes: 'العطور',
+    accessories: 'الإكسسوارات',
+    faceAnalysis: 'تحليل الوجه',
+    skinAwareness: 'توعية البشرة والدلكة المغربية',
+    safeConsultant: 'المستشارة الآمنة',
+    teenZone: 'ركن الصبايا'
+  };
+  return contexts[id] || 'عام';
+}
+
+// =============================================
+// CALORIE DATABASE (سعرات الأكلات)
+// =============================================
+const FOOD_CALORIES = {
+  'خبز':80,'خبز ابيض':80,'خبز اسمر':90,'خبز بر':90,'خبز شعير':85,'خبز صامولي':150,'خبز توست':70,
+  'ارز':200,'رز':200,'ارز ابيض':200,'ارز بسمتي':210,'ارز مصري':190,'ارز مزة':200,
+  'معكرونة':180,'مكرونة':180,'باستا':180,'اسباغتي':180,'شعيرية':180,
+  'لحم':250,'لحم بقري':250,'لحم غنم':280,'لحم عجل':220,'ستيك':270,'كفتة':300,
+  'دجاج':220,'صدر دجاج':165,'فخد دجاج':250,'جناح دجاج':200,'دجاج مشوي':200,
+  'سمك':180,'سمك فيليه':150,'سمك مشوي':160,'تونة':180,'سلمون':220,'سردين':200,'جمبري':100,
+  'بيض':155,'بيضة':78,'بيض مسلوق':78,'بيض مقلي':110,'عجة':200,
+  'بطاطس':170,'بطاطا':170,'بطاطس مقلية':312,'بطاطس مشوية':160,'بطاطا حلوة':115,
+  'فول':330,'فول مدمس':330,'فول بالزيت':380,'فول بالزبدة':400,'فول بدون زيت':250,
+  'حمص':280,'حمص بطحينة':320,'حمص باللحم':400,
+  'عدس':230,'شوربة عدس':150,'عدس بجزر':200,
+  'فلافل':330,'طعمية':330,'فلافل مقلية':330,
+  'شاورما':350,'شاورما دجاج':320,'شاورما لحم':400,
+  'كبة':350,'كبة مقلية':380,'كبة نيئة':200,'كبة لبنية':300,
+  'مقلوبة':550,'منسف':700,'مندي':600,'كبسة':580,'برياني':580,'زربيان':550,
+  'معصوب':400,'فطير':450,'فطير مشلتت':500,
+  'كنافة':400,'كنافة نابلسية':450,'كنافة بالقشطة':380,
+  'قطايف':350,'قطايف مقلية':400,'قطايف مشوية':200,'قطايف بالقشطة':280,
+  'بسبوسة':420,'لقيمات':500,'لقمة القاضي':80,'زلابية':350,
+  'آيس كريم':200,'بوظة':200,'مثلجات':180,
+  'شوكولاتة':250,'شكولاته':250,'نوتيلا':180,
+  'تمر':25,'تمرة واحدة':25,'رطب':20,
+  'عسل':60,'عسل ابيض':60,'عسل اسود':70,
+  'زيت':120,'زيت زيتون':120,'زيت نباتي':120,'زيت جوز الهند':130,
+  'زبدة':100,'سمن':115,'مارجرين':100,
+  'حليب':120,'حليب كامل الدسم':150,'حليب قليل الدسم':100,'حليب خالي الدسم':80,'حليب مكثف':320,
+  'لبن':60,'زبادي':60,'روب':60,'رايب':50,
+  'جبنة':350,'جبن':350,'جبنة بيضاء':280,'جبنة صفراء':380,'جبنة شيدر':400,'جبنة موزاريلا':280,'جبنة فيتا':250,'جبنة حلوم':290,'جبنة كيري':80,
+  'تفاح':52,'برتقال':47,'موز':89,'عنب':69,'بطيخ':30,'شمام':34,'فراولة':32,'توت':57,'اناناس':50,'مانجو':60,'كيوي':61,'افوكادو':160,'افوكادو':160,'رمان':83,'مشمش':48,'خوخ':39,'كمثرى':57,
+  'خس':15,'خيار':16,'طماطم':18,'بندورة':18,'بصل':40,'جزر':41,'فلفل':20,'كوسا':17,'باذنجان':25,'ملفوف':25,'قرنبيط':25,'بروكلي':34,'سبانخ':23,'فاصوليا':31,'بازيلا':81,
+  'ماء':0,'شاي':1,'قهوة':2,'قهوة سادة':2,'نسكافيه':5,'عصير برتقال':45,'عصير ليمون':30,'بيبسي':140,'كولا':140,'سفن اب':140,'ميرندا':140,'شاي مثلج':90,
+  'سكر':16,'سكر ملعقة':16,'عسل':60,
+};
+
+function findCalorie(query) {
+  const q = query.replace(/[^\w\s]/g,'').trim().toLowerCase();
+  // Direct match
+  if (FOOD_CALORIES[q]) return { name:query, cal:FOOD_CALORIES[q] };
+  // Partial match
+  for (const [key, val] of Object.entries(FOOD_CALORIES)) {
+    if (key.includes(q) || q.includes(key)) return { name:key, cal:val };
+  }
+  return null;
+}
+
+function calculateMeal(text) {
+  const items = text.split(/[،,\n]+/).map(s=>s.trim()).filter(s=>s);
+  let total = 0, found = [];
+  for (const item of items) {
+    const parts = item.match(/^(\d+)\s*(.+)/);
+    let qty = 1, name = item;
+    if (parts) { qty = parseInt(parts[1]); name = parts[2]; }
+    const result = findCalorie(name);
+    if (result) {
+      const c = Math.round(result.cal * (qty/100));
+      total += c;
+      found.push({ name:result.name, qty, cal:c });
+    }
+  }
+  return { total, items:found, unmatched: items.filter(i => {
+    const parts = i.match(/^(\d+)\s*(.+)/);
+    return !findCalorie(parts ? parts[2] : i);
+  })};
+}
+
 document.addEventListener('DOMContentLoaded', function() {
 
   // =============================================
@@ -23,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   const SUBSCRIPTION_PLANS = {
-    free: { name: 'مجاني', price: 0, sections: ['home','teenZone','community','pricing','myAccount','privacy','shopping','safeConsultant'] },
+    free: { name: 'مجاني', price: 0, sections: ['home','teenZone','community','pricing','myAccount','privacy','shopping','safeConsultant','skinAwareness'] },
     care: { name: 'العناية', price: PRICES.care, sections: ['skinCare','hairCare','nails','makeup','faceYoga','faceAnalysis'] },
     style: { name: 'الأناقة', price: PRICES.style, sections: ['fashion','accessories','perfumes','colorPsychology','opticalIllusions','giftGuide','fabricGuide','seasonalColor','vanity'] },
     health: { name: 'الصحة', price: PRICES.health, sections: ['beautyProblems','menopauseCare','sportsBeauty','waterQuality','foodBeauty','supplements'] },
@@ -1619,12 +1854,47 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function generateAIResponse(msg) {
     const q = msg.toLowerCase();
+    const ctx = getAIContext();
+
+    // === FOOD / CALORIE DETECTION ===
+    if (q.includes('سعر') || q.includes('سعرة') || q.includes('سعرات') || q.includes('اكل') || q.includes('أكل') || q.includes('طعام') || q.includes('دايت') || q.includes('رجيم') || q.includes('كم سعرة') || q.includes('calorie') || q.includes('كيتو')) {
+      const mealResult = calculateMeal(msg);
+      if (mealResult && mealResult.items.length > 0) {
+        let reply = '<p><strong>🍽️ تحليل السعرات الحرارية:</strong></p>';
+        for (const item of mealResult.items) {
+          reply += `<p style="margin:0.2rem 0;font-size:0.9rem">• ${item.name}: <strong>${item.cal}</strong> سعرة</p>`;
+        }
+        reply += `<p style="margin-top:0.5rem;font-size:1rem"><strong>🔥 المجموع: ${mealResult.total} سعرة حرارية</strong></p>`;
+        if (mealResult.unmatched.length > 0) {
+          reply += `<p style="color:var(--muted);font-size:0.8rem;margin-top:0.3rem">💡 ما عرفت أحسب: ${mealResult.unmatched.join('، ')}</p>`;
+        }
+        reply += '<p style="margin-top:0.5rem;font-size:0.8rem;color:var(--muted)">💡 أكتبي الأكلة وكميتها بالجرام، مثلاً: "200 جرام رز + 150 جرام دجاج"</p>';
+        // Save query for user profile if logged in
+        const u = getCurrentUser();
+        if (u) {
+          try {
+            const users = getUsers();
+            if (users[u.email]) {
+              if (!users[u.email].foodLog) users[u.email].foodLog = [];
+              users[u.email].foodLog.push({ date: Date.now(), items: mealResult.items, total: mealResult.total });
+              saveUsers(users);
+            }
+          } catch(e) {}
+        }
+        return reply;
+      }
+      return '<p>🍽️ <strong>حاسبة السعرات:</strong></p><p>اكتبي الأكل اللي تبين تحسبين سعراته، مثلاً:<br>• "200 جرام رز"<br>• "150 جرام دجاج + 100 جرام سلطة"<br>• "رز ودجاج"</p><p>عندي قاعدة بيانات لأكثر من 200 صنف من الأكلات العربية والعالمية 🌍</p>';
+    }
+
     if (q.includes('السلام') || q.includes('مرحبا') || q.includes('hi') || q.includes('hello')) {
-      return '<p>وعليكم السلام 💗 أهلاً بكِ في مُستشارتك الآمنة! 🌸</p><p style="margin-top:0.5rem">تقدرين تسأليني عن:<br>🔍 تحليل مكونات منتج<br>⚠️ مواد ضارة<br>🌿 بدائل طبيعية<br>❌ أخطاء خلطات</p><p style="margin-top:0.5rem">تحطي اسم المنتج أو المكونات 🧴</p>';
+      if (ctx !== 'عام') {
+        return `<p>وعليكم السلام 💗 أهلاً بكِ في <strong>قسم ${ctx}</strong>! 🌸</p><p style="margin-top:0.5rem">تقدرين تسأليني عن أي شي متعلق بهالقسم:<br>🔍 تحليل منتجات<br>⚠️ مواد ضارة<br>🌿 بدائل طبيعية<br>❌ تصحيح أخطاء</p><p>أو اسأليني سؤالك العام 🧴</p>`;
+      }
+      return '<p>وعليكم السلام 💗 أهلاً بكِ في مُستشارتك الآمنة! 🌸</p><p style="margin-top:0.5rem">تقدرين تسأليني عن:<br>🔍 تحليل مكونات منتج<br>⚠️ مواد ضارة<br>🌿 بدائل طبيعية<br>❌ أخطاء خلطات<br>🍽️ حساب سعرات الأكل</p><p>تحطي اسم المنتج أو المكونات 🧴</p>';
     }
     if (q.includes('شكرا') || q.includes('thank')) { return 'العفو 💗 دائماً هنا لمساعدتك! 🌸'; }
     if (q.includes('منت') || q.includes('مين') || q.includes('انت')) {
-      return '<p>أنا <strong>مُستشارتك الآمنة</strong> 🧴💗</p><p>خبيرة في تحليل مكونات المكياج والعطور والخلطات. أساعدك تعرفين وش المواد الضارة في منتجاتك قبل ما تشترينها! 🔍</p>';
+      return '<p>أنا <strong>مُستشارتك الآمنة</strong> 🧴💗</p><p>خبيرة في تحليل مكونات المكياج والعطور والخلطات، وأيضاً:<br>🍽️ أحسب سعرات الأكل<br>🔬 أشرح أضرار الدلكة المغربية<br>🌿 بدائل طبيعية آمنة</p>';
     }
 
     let results = null;
@@ -1660,7 +1930,24 @@ document.addEventListener('DOMContentLoaded', function() {
       return reply;
     }
 
-    // Default responses based on keywords
+    // === SECTION-AWARE CONTEXTS ===
+    if (ctx === 'توعية البشرة والدلكة المغربية' || q.includes('دلكة') || q.includes('الدلكة') || q.includes('مغربية') || q.includes('صابون بلدي') || q.includes('ليفة') || q.includes('جلد ميت')) {
+      return '<p>🔬 <strong>الدلكة المغربية</strong> خطيرة على البشرة!</p><p>🚫 الصابون البلدي قلوي (pH 9-10) يدمر حاجز البشرة الحمضي (pH 4.5-5.5)</p><p>🚫 الليفة الخشنة تسبب جروح مجهرية</p><p>🚫 الفرك العنيف يزيل الطبقة الحامية للبشرة مو بس "الجلد الميت"</p><p>✅ البديل: تقشير كيميائي لطيف مرة بالأسبوع + ليفة سيليكون ناعمة</p><p>💡 البشرة تنظف نفسها بنفسها كل 28 يوم!</p>';
+    }
+    if (ctx === 'التغذية والدايت' || q.includes('رجيم') || q.includes('دايت') || q.includes('وزن') || q.includes('تنحيف') || q.includes('تسمين')) {
+      return '<p>🍽️ <strong>نظام التغذية الصحي:</strong></p><p>✅ لإنقاص الوزن: قللي 300-500 سعرة يومياً</p><p>✅ لثبات الوزن: احسبي سعراتك اليومية وحافظي عليها</p><p>✅ لزيادة الوزن: زيدي 300-500 سعرة يومياً مع بروتين</p><p>💡 <strong>جربي:</strong> اكتبي "200 جرام رز + 150 جرام دجاج" عشان أحسب السعرات!</p><p>🔢 معدل السعرات اليومي للنساء: 1800-2200 سعرة (حسب النشاط)</p>';
+    }
+    if (ctx === 'المكياج' || q.includes('مكياج') || q.includes('روج') || q.includes('احمر') || q.includes('بودرة') || q.includes('كونسيلر') || q.includes('فاونديشن') || q.includes('ايشادو')) {
+      return '<p>💄 <strong>المكياج:</strong></p><p>✅ <strong>نوع بشرتك</strong> يحدد نوع المكياج المناسب:</p><p>🔹 للبشرة الدهنية: فاونديشن مات<br>🔹 للبشرة الجافة: فاونديشن سائل بترطيب<br>🔹 للبشرة الحساسة: مكياج معدني خالٍ من العطور</p><p>⚠️ احذري من المكياج التاريخ (منتهي الصلاحية):<br>🕐 الماسكارا: 3 أشهر<br>🕐 كريم الأساس: 6-12 شهر<br>🕐 أحمر الشفاه: 12-18 شهر</p><p>💡 تذكري: <strong>النوم بالمكياج</strong> يسبب شيخوخة مبكرة!</p>';
+    }
+    if (ctx === 'الشعر' || q.includes('شعر') || q.includes('تساقط') || q.includes('قشرة') || q.includes('زيوت') || q.includes('شامبو') || q.includes('بلسم')) {
+      return '<p>💇‍♀️ <strong>العناية بالشعر:</strong></p><p>✅ <strong>شعرك يحدد روتينه:</strong></p><p>🔹 شعر جاف: زيت جوز الهند + بلسم عميق<br>🔹 شعر دهني: شامبو خفيف + غسيل 2-3 مرات بالأسبوع<br>🔹 شعر تالف: بروتين + ترطيب + قص الأطراف</p><p>⚠️ <strong>أخطاء شائعة:</strong><br>🚫 غسل الشعر يومياً يزيل الزيوت الطبيعية<br>🚫 فرك الشعر بالمنشفة يسبب تقصف<br>✅ استخدمي منشفة ميكرويفابر وربتي بلطف</p>';
+    }
+    if (ctx === 'الأظافر' || q.includes('اظافر') || q.includes('أظافر') || q.includes('منكير') || q.includes('جل') || q.includes('اكريليك')) {
+      return '<p>💅 <strong>العناية بالأظافر:</strong></p><p>✅ قص الأظافر باتجاه واحد<br>✅ ترطيب الجليدة يومياً (لا تقصيها!)<br>✅ خذي بريك من الجل كل 3 شهور</p><p>⚠️ <strong>علامات الخطر:</strong><br>• البقع البيضاء: صدمة أو نقص زنك (مو نقص كالسيوم!)<br>• الأظافر الصفراء: استخدام مناكير بدون طبقة أساسية<br>• تشقق الأظافر: جفاف أو نقص حديد</p>';
+    }
+
+    // Default ingredient responses
     if (q.includes('بارابين') || q.includes('paraben')) {
       return '<p>🔴 <strong>البارابين</strong>: مواد حافظة تستخدم في مستحضرات التجميل.</p><p>⚠️ الدراسات ربطتها باضطراب الهرمونات وزيادة خطر سرطان الثدي.</p><p>✅ البديل: ابحثي عن منتجات مكتوب عليها "Paraben-Free".</p>';
     }
@@ -1682,7 +1969,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (q.includes('سلامة') || q.includes('آمن') || q.includes('ضار') || q.includes('خطير')) {
       return '<p>🧴 <strong>دليل الأمان السريع:</strong></p><p>✅ <strong>آمن:</strong> مكونات طبيعية واضحة، خالية من العطور والبارابين</p><p>⚠️ <strong>حذر:</strong> يحتوي كحول أو عطور صناعية - مناسب للبشرة العادية</p><p>⛔ <strong>ضار:</strong> يحتوي بارابين، فثالات، فورمالدهيد - الأفضل تتجنبينه</p><p>💡 <strong>نصيحة:</strong> اختبر أي منتج على معصمك قبل استخدامه</p>';
     }
-    return '<p>🤔 ما فهمت سؤالك بالضبط. أسأليني عن:</p><p>🔍 <strong>تحليل منتج:</strong> اكتبي اسمه أو مكوناته<br>⚠️ <strong>مادة معينة:</strong> مثل "بارابين" أو "ريتينول"<br>🌿 <strong>بدائل طبيعية</strong><br>❌ <strong>خلطات وأخطاء</strong></p><p><span class="quick-reply" onclick="quickAIQ(this)">🔍 حللي مكونات</span> <span class="quick-reply" onclick="quickAIQ(this)">⚠️ وش هي المواد الضارة؟</span> <span class="quick-reply" onclick="quickAIQ(this)">🌿 بدائل طبيعية</span></p>';
+    return `<p>🤔 ما فهمت سؤالك بالضبط. القسم الحالي: <strong>${ctx}</strong></p><p>جربي:<br>🔍 تحليل مكونات: اكتبي اسم المنتج<br>🍽️ حساب سعرات: اكتبي الأكلة<br>⚠️ استفسار عن مادة: مثل "بارابين"<br>🌿 بدائل طبيعية<br>❌ خلطات وأخطاء</p><p><span class="quick-reply" onclick="quickAIQ(this)">🔍 حللي مكونات</span> <span class="quick-reply" onclick="quickAIQ(this)">🍽️ احسبي سعرات</span> <span class="quick-reply" onclick="quickAIQ(this)">⚠️ وش هي المواد الضارة؟</span></p>`;
   }
 
   window.quickAIQ = function(el) {
