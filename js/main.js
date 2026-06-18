@@ -892,6 +892,22 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
+  document.querySelectorAll('.subtab-nav').forEach(nav => {
+    const parent = nav.parentElement;
+    const contents = parent.querySelectorAll('.subtab-content');
+    nav.querySelectorAll('.subtab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-subtab');
+        nav.querySelectorAll('.subtab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        contents.forEach(c => {
+          c.classList.remove('active');
+          if (c.id === target) c.classList.add('active');
+        });
+      });
+    });
+  });
+
   // =============================================
   // MYTH BUSTER ROTATION
   // =============================================

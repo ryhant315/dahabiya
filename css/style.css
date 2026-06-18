@@ -2064,10 +2064,36 @@ button:focus-visible {
   background: linear-gradient(135deg, rgba(253, 246, 240, 0.5), rgba(252, 228, 236, 0.3));
 }
 
+/* === Sub-tabs for guides === */
+.subtab-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+.subtab-btn {
+  padding: 0.5rem 1rem;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: var(--font-main);
+  color: var(--muted);
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+.subtab-btn:hover { border-color: var(--primary-light); color: var(--primary); background: var(--rose-100); }
+.subtab-btn.active { background: var(--gradient-burgundy); color: var(--gold); border-color: var(--primary); }
+.subtab-content { display: none; }
+.subtab-content.active { display: block; animation: fadeSlideUp 0.5s ease; }
+
 @media (max-width: 768px) {
   .ad-leaderboard { min-height: 70px; }
   .ad-sidebar { min-height: 200px; }
   .ad-incontent { min-height: 100px; }
   .ad-shop .ad-product { width: 120px; }
   .ad-shop .ad-product img { width: 60px; height: 60px; }
+  .subtab-btn { font-size: 0.75rem; padding: 0.35rem 0.7rem; }
 }
