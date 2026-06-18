@@ -1616,6 +1616,8 @@ body {
 .myth-true .myth-label { color: #27AE60; }
 .myth-text { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
 
+.form-control { font-family: var(--font-main); }
+
 /* === Responsive === */
 @media (max-width: 1024px) {
   .hero-container { grid-template-columns: 1fr; text-align: center; gap: 2rem; }

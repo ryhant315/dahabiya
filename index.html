@@ -508,14 +508,14 @@
         <div class="section-divider"></div>
       </div>
       <div id="dailyMythContainer">
-        <div class="myth-card">
+        <div class="myth-card" id="dailyMythCard" style="transition:border-color 0.5s;border:2px solid transparent">
           <div class="myth-side myth-false">
             <div class="myth-label">❌ خرافة اليوم</div>
-            <div class="myth-text" id="dailyMyth">"غسل الوجه كثير ينظف البشرة أحسن"</div>
+            <div class="myth-text" id="dailyMyth" style="transition:opacity 0.3s">"غسل الوجه كثير ينظف البشرة أحسن"</div>
           </div>
           <div class="myth-side myth-true">
             <div class="myth-label">✅ الحقيقة العلمية</div>
-            <div class="myth-text" id="dailyTruth">مرتين يومياً كافي - الزيادة تزيل الزيوت الطبيعية وتخلي البشرة تنتج زيوت أكثر!</div>
+            <div class="myth-text" id="dailyTruth" style="transition:opacity 0.3s">مرتين يومياً كافي - الزيادة تزيل الزيوت الطبيعية وتخلي البشرة تنتج زيوت أكثر!</div>
           </div>
         </div>
       </div>
@@ -528,7 +528,7 @@
     <div class="section" id="mythsSection">
       <div class="section-header">
         <div class="section-badge">📚 موسوعة الخرافات</div>
-        <h2 class="section-title">خرافات <span class="gold">الجمال</span></h2>
+        <h2 class="section-title">خرافات <span class="gold">الجمال</span> <small style="font-size:0.5em;color:var(--muted);font-weight:400">(<span id="mythCount">0</span>+ خرافة)</small></h2>
         <div class="section-divider"></div>
       </div>
       <div id="mythContainer"></div>
