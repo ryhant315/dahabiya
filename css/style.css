@@ -2201,6 +2201,34 @@ button:focus-visible {
   .ai-chat-panel { max-height:80vh; }
 }
 
+/* === Diet Chat (حاسبة السعرات الذكية) === */
+.diet-chat-box {
+  background:white; border-radius:16px; padding:1rem; min-height:180px;
+  max-height:350px; overflow-y:auto; border:1px solid var(--gold);
+  box-shadow:inset 0 2px 8px rgba(0,0,0,0.03);
+}
+.diet-chat-msg {
+  padding:0.7rem 1rem; border-radius:12px; margin-bottom:0.5rem;
+  font-size:0.88rem; line-height:1.7; animation:fadeSlideUp 0.3s ease;
+}
+.diet-chat-bot {
+  background:linear-gradient(135deg,#fef9f0,#fff8f0);
+  border:1px solid rgba(212,175,55,0.15);
+  color:var(--muted);
+}
+.diet-chat-user {
+  background:linear-gradient(135deg,var(--primary),#a82840);
+  color:var(--gold); margin-right:2rem; text-align:right;
+}
+.diet-chat-quick {
+  display:inline-block; padding:0.4rem 0.9rem; border-radius:50px;
+  background:linear-gradient(135deg,var(--rose-50),#fff);
+  border:1px solid var(--rose-100); font-size:0.78rem; cursor:pointer;
+  color:var(--primary); transition:all 0.3s; font-weight:500;
+}
+.diet-chat-quick:hover { background:var(--primary); color:var(--gold); border-color:var(--primary); }
+.diet-chat-loading { text-align:center; padding:0.5rem; color:var(--muted); font-size:0.85rem; }
+
 /* === Auth Modal === */
 .auth-overlay {
   position: fixed; inset:0; background:rgba(0,0,0,0.5);

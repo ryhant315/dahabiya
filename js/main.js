@@ -2049,6 +2049,44 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   // =============================================
+  // DIET CHAT (حاسبة السعرات في قسم الدايت)
+  // =============================================
+  window.dietSendMsg = async function() {
+    const input = document.getElementById('dietChatInput');
+    const msg = input.value.trim();
+    if (!msg) return;
+    input.value = '';
+    const box = document.getElementById('dietChatBox');
+
+    // User message
+    const userDiv = document.createElement('div');
+    userDiv.className = 'diet-chat-msg diet-chat-user';
+    userDiv.textContent = msg;
+    box.appendChild(userDiv);
+
+    // Loading
+    const loadDiv = document.createElement('div');
+    loadDiv.className = 'diet-chat-msg diet-chat-loading';
+    loadDiv.textContent = '🔍 جاري البحث عن السعرات...';
+    box.appendChild(loadDiv);
+    box.scrollTop = box.scrollHeight;
+
+    // Get reply
+    const reply = await handleFoodQuery(msg);
+    loadDiv.remove();
+
+    const botDiv = document.createElement('div');
+    botDiv.className = 'diet-chat-msg diet-chat-bot';
+    if (reply) {
+      botDiv.innerHTML = reply;
+    } else {
+      botDiv.innerHTML = '<p>🍽️ <strong>حاسبة السعرات الذكية</strong></p><p>اكتبي الأكلة وكميتها، مثلاً:<br>• "200 جرام رز"<br>• "150 دجاج + 100 سلطة"<br>• "موز تفاح برتقال"<br>• "شاورما دجاج"</p><p>متصلة بقاعدة بيانات عالمية تغطي ملايين المنتجات! 🌐</p>';
+    }
+    box.appendChild(botDiv);
+    box.scrollTop = box.scrollHeight;
+  };
+
+  // =============================================
   // MYTH BUSTER - 1000+ خرافة (بعد HAZARDOUS_INGREDIENTS)
   // =============================================
   let allMyths = myths.concat(ingMyths);

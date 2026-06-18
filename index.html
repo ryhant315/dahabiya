@@ -3858,6 +3858,38 @@
           </blockquote>
         </div>
       </div>
+
+      <!-- ===== حاسبة السعرات الذكية (شات مخصص للدايت) ===== -->
+      <div style="margin-top:2.5rem;background:linear-gradient(135deg,#fef9f0,#fff);border-radius:var(--radius-lg);padding:2rem;border:2px solid var(--gold);box-shadow:0 8px 32px rgba(212,175,55,0.12)">
+        <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.5rem">
+          <span style="font-size:2rem">🤖</span>
+          <div>
+            <h3 style="margin:0;color:var(--primary-dark);font-size:1.2rem">🍽️ حاسبة السعرات الذكية</h3>
+            <p style="margin:0.2rem 0 0;font-size:0.82rem;color:var(--muted)">اسأليني عن أي أكلة واحسب سعراتها 🌐 متصلة بقاعدة بيانات عالمية</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.8rem 0">
+          <span class="diet-chat-quick" onclick="document.getElementById('dietChatInput').value='200 جرام رز';dietSendMsg()">🍚 200 جرام رز</span>
+          <span class="diet-chat-quick" onclick="document.getElementById('dietChatInput').value='150 دجاج 100 سلطة';dietSendMsg()">🍗 دجاج + سلطة</span>
+          <span class="diet-chat-quick" onclick="document.getElementById('dietChatInput').value='موز تفاح برتقال';dietSendMsg()">🍌 فواكه</span>
+          <span class="diet-chat-quick" onclick="document.getElementById('dietChatInput').value='شاورما دجاج';dietSendMsg()">🌯 شاورما</span>
+          <span class="diet-chat-quick" onclick="document.getElementById('dietChatInput').value='فول وتمس وبيض وزبادي';dietSendMsg()">🥣 فطور</span>
+        </div>
+        <div class="diet-chat-box" id="dietChatBox">
+          <div class="diet-chat-msg diet-chat-bot">
+            <strong>🤖 مرحباً! 🌸</strong><br>
+            أكتبي الأكلة وكميتها بالجرام عشان أحسب سعراتها.<br><br>
+            📝 <strong>مثال:</strong> "200 رز 150 دجاج"<br>
+            📝 أو: "موز تفاح"<br>
+            📝 أو: "شاورما دجاج"<br><br>
+            أقدر أحسب سعرات <strong>أي أكلة</strong> في العالم! 🔥
+          </div>
+        </div>
+        <div style="display:flex;gap:0.5rem;margin-top:0.8rem">
+          <input type="text" id="dietChatInput" placeholder="اكتبي الأكلة وكميتها... مثلاً: 200 رز 150 دجاج" style="flex:1;padding:0.8rem 1rem;border:2px solid var(--gold);border-radius:12px;font-family:inherit;font-size:0.9rem" onkeydown="if(event.key==='Enter')dietSendMsg()">
+          <button onclick="dietSendMsg()" style="padding:0.8rem 1.5rem;background:linear-gradient(135deg,var(--primary),#c9a030);color:white;border:none;border-radius:12px;cursor:pointer;font-size:1rem;font-weight:700;white-space:nowrap;box-shadow:0 4px 15px rgba(212,175,55,0.3)">🔍 احسبي</button>
+        </div>
+      </div>
     </div>
   </section>
   
