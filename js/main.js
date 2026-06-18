@@ -1251,5 +1251,288 @@ document.addEventListener('DOMContentLoaded', function() {
     showSection('home');
   };
 
+  // =============================================
+  // INGREDIENT ANALYZER
+  // =============================================
+  const HAZARDOUS_INGREDIENTS = {
+    'paraben': { level: 'danger', name: 'بارابين', desc: 'مادة حافظة مرتبطة باضطراب الهرمونات' },
+    'methylparaben': { level: 'danger', name: 'ميثيل بارابين', desc: 'مادة حافظة ضارة' },
+    'propylparaben': { level: 'danger', name: 'بروبيل بارابين', desc: 'مادة حافظة ضارة' },
+    'butylparaben': { level: 'danger', name: 'بيوتيل بارابين', desc: 'مادة حافظة ضارة' },
+    'ethylparaben': { level: 'danger', name: 'إيثيل بارابين', desc: 'مادة حافظة ضارة' },
+    'phthalate': { level: 'danger', name: 'فثالات', desc: 'مثبت روائح، يضر الهرمونات' },
+    'dep': { level: 'danger', name: 'DEP', desc: 'فثالات - مادة ضارة بالهرمونات' },
+    'formaldehyde': { level: 'danger', name: 'فورمالدهيد', desc: 'مادة مسرطنة' },
+    'formalin': { level: 'danger', name: 'فورمالين', desc: 'مادة مسرطنة' },
+    'quaternium-15': { level: 'danger', name: 'Quaternium-15', desc: 'ينتج فورمالدهيد - مسرطن' },
+    'dmdm hydantoin': { level: 'danger', name: 'DMDM Hydantoin', desc: 'ينتج فورمالدهيد' },
+    'imidazolidinyl urea': { level: 'danger', name: 'إيميدازولدينيل يوريا', desc: 'ينتج فورمالدهيد' },
+    'diazolidinyl urea': { level: 'danger', name: 'ديازولدينيل يوريا', desc: 'ينتج فورمالدهيد' },
+    'hydroquinone': { level: 'danger', name: 'هيدروكينون', desc: 'مبيض خطير، ممنوع في أوروبا' },
+    'toluene': { level: 'danger', name: 'تولوين', desc: 'مذيب سام، يضر الجهاز العصبي' },
+    'triclosan': { level: 'danger', name: 'تريكلوسان', desc: 'مضاد بكتيريا ضار، يضر الهرمونات' },
+    'oxybenzone': { level: 'danger', name: 'أوكسيبنزون', desc: 'يضر الهرمونات والبيئة البحرية' },
+    'benzophenone': { level: 'danger', name: 'بنزوفينون', desc: 'يضر الهرمونات' },
+    'sodium lauryl sulfate': { level: 'warn', name: 'SLS', desc: 'منظف قاسي، يهيج البشرة' },
+    'sodium laureth sulfate': { level: 'warn', name: 'SLES', desc: 'منظف قاسي، قد يسبب تهيج' },
+    'parfum': { level: 'warn', name: 'عطر صناعي', desc: 'قد يحتوي مواد مثيرة للحساسية' },
+    'fragrance': { level: 'warn', name: 'عطر صناعي', desc: 'قد يحتوي مواد مثيرة للحساسية' },
+    'alcohol denat': { level: 'warn', name: 'كحول', desc: 'يجفف البشرة ويهيجها' },
+    'talc': { level: 'warn', name: 'تلك', desc: 'قد يكون ملوثاً بالأسبستوس' },
+    'mineral oil': { level: 'warn', name: 'زيت معدني', desc: 'يسد المسام وقد يسبب حساسية' },
+    'petrolatum': { level: 'warn', name: 'بترولاتوم', desc: 'قد يحتوي شوائب ضارة' },
+    'linalool': { level: 'warn', name: 'لينالول', desc: 'مسبب حساسية شائع في العطور' },
+    'limonene': { level: 'warn', name: 'ليمونين', desc: 'مسبب حساسية شائع' },
+    'citronellol': { level: 'warn', name: 'سيترونيلول', desc: 'مسبب حساسية' },
+    'geraniol': { level: 'warn', name: 'جيرانيول', desc: 'مسبب حساسية' },
+    'eugenol': { level: 'warn', name: 'أوجينول', desc: 'مسبب حساسية' },
+    'coumarin': { level: 'warn', name: 'كومارين', desc: 'مسبب حساسية' },
+    'methylisothiazolinone': { level: 'danger', name: 'MIT', desc: 'مادة حافظة تسبب حساسية شديدة' },
+    'methylchloroisothiazolinone': { level: 'danger', name: 'MCIT', desc: 'مادة حافظة تسبب حساسية' },
+    'retinol': { level: 'warn', name: 'ريتينول', desc: 'آمن ليلاً مع ترطيب - ممنوع للحامل' },
+    'lead': { level: 'danger', name: 'رصاص', desc: 'معدن ثقيل سام' },
+    'mercury': { level: 'danger', name: 'زئبق', desc: 'معدن ثقيل سام جداً' },
+    'bha': { level: 'warn', name: 'BHA', desc: 'مادة حافظة مثيرة للجدل' },
+    'bht': { level: 'warn', name: 'BHT', desc: 'مادة حافظة مثيرة للجدل' },
+  };
+
+  window.analyzeIngredients = function(text) {
+    const ingredients = text.split(/[,;\n]+/).map(s => s.trim().toLowerCase()).filter(s => s.length > 0);
+    if (ingredients.length === 0) return [];
+
+    const results = [];
+    for (const ing of ingredients) {
+      let found = null;
+      for (const [key, val] of Object.entries(HAZARDOUS_INGREDIENTS)) {
+        if (ing.includes(key)) { found = val; break; }
+      }
+      if (found) {
+        results.push({ ingredient: ing, ...found });
+      } else {
+        results.push({ ingredient: ing, level: 'safe', name: ing, desc: 'لم نجد تحذير لهذا المكون' });
+      }
+    }
+    return results;
+  };
+
+  const analyzeBtn = document.getElementById('analyzeIngredientsBtn');
+  const ingredientInput = document.getElementById('ingredientInput');
+  const analyzerResults = document.getElementById('analyzerResults');
+  const analyzerSummary = document.getElementById('analyzerSummary');
+  const analyzerDetails = document.getElementById('analyzerDetails');
+  const analyzerError = document.getElementById('analyzerError');
+
+  if (analyzeBtn && ingredientInput) {
+    analyzeBtn.addEventListener('click', () => {
+      const text = ingredientInput.value.trim();
+      if (!text) {
+        analyzerError.textContent = '❌ اكتبي أو الصقي المكونات أولاً';
+        analyzerError.style.display = 'block';
+        analyzerResults.style.display = 'none';
+        return;
+      }
+      analyzerError.style.display = 'none';
+      const results = window.analyzeIngredients(text);
+      if (results.length === 0) {
+        analyzerError.textContent = '❌ ما لقينا مكونات للتحليل. تأكدي إنك كتبتي المكونات صح';
+        analyzerError.style.display = 'block';
+        analyzerResults.style.display = 'none';
+        return;
+      }
+      const danger = results.filter(r => r.level === 'danger').length;
+      const warn = results.filter(r => r.level === 'warn').length;
+      const safe = results.filter(r => r.level === 'safe').length;
+      const total = results.length;
+
+      let summaryHTML = `
+        <div class="analyzer-badge safe">✅ آمن: ${safe}</div>
+        <div class="analyzer-badge warn">⚠️ حذر: ${warn}</div>
+        <div class="analyzer-badge danger">⛔ ضار: ${danger}</div>
+        <div class="analyzer-badge" style="background:var(--rose-50);color:var(--primary);border:1px solid var(--border)">📊 المجموع: ${total}</div>
+      `;
+      analyzerSummary.innerHTML = summaryHTML;
+
+      let detailsHTML = '';
+      for (const r of results) {
+        let cls = 'analyzer-safe';
+        let icon = '✅';
+        if (r.level === 'danger') { cls = 'analyzer-danger'; icon = '⛔'; }
+        else if (r.level === 'warn') { cls = 'analyzer-warn'; icon = '⚠️'; }
+        detailsHTML += `<div class="${cls}"><span>${icon}</span><span><strong>${r.ingredient}</strong><br><small>${r.desc}</small></span></div>`;
+      }
+      analyzerDetails.innerHTML = detailsHTML;
+      analyzerResults.style.display = 'block';
+    });
+  }
+
+  // Analyzer mode toggle
+  const textModeBtn = document.getElementById('analyzerTextMode');
+  const imageModeBtn = document.getElementById('analyzerImageMode');
+  const textInput = document.getElementById('analyzerTextInput');
+  const imageInput = document.getElementById('analyzerImageInput');
+  const imageUploadArea = document.getElementById('imageUploadArea');
+  const imageUploadInput = document.getElementById('imageUploadInput');
+  const ocrProgress = document.getElementById('ocrProgress');
+
+  if (textModeBtn && imageModeBtn) {
+    textModeBtn.addEventListener('click', () => {
+      textModeBtn.className = 'btn btn-primary';
+      imageModeBtn.className = 'btn btn-secondary';
+      textInput.style.display = 'block';
+      imageInput.style.display = 'none';
+    });
+    imageModeBtn.addEventListener('click', () => {
+      imageModeBtn.className = 'btn btn-primary';
+      textModeBtn.className = 'btn btn-secondary';
+      imageInput.style.display = 'block';
+      textInput.style.display = 'none';
+    });
+  }
+
+  if (imageUploadArea && imageUploadInput) {
+    imageUploadArea.addEventListener('click', () => imageUploadInput.click());
+    imageUploadInput.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      ocrProgress.style.display = 'block';
+      analyzerResults.style.display = 'none';
+      analyzerError.style.display = 'none';
+      try {
+        const { data: { text } } = await Tesseract.recognize(file, 'ara+eng', { logger: () => {} });
+        ocrProgress.style.display = 'none';
+        if (text.trim()) {
+          ingredientInput.value = text.trim();
+          textModeBtn.click();
+          analyzeBtn.click();
+        } else {
+          analyzerError.textContent = '❌ ما قدرت أقرأ المكونات من الصورة. جربي تصوير أقرب أو استخدمي الكتابة اليدوية';
+          analyzerError.style.display = 'block';
+        }
+      } catch (err) {
+        ocrProgress.style.display = 'none';
+        analyzerError.textContent = '❌ صار خطأ في قراءة الصورة. جربي تكتبي المكونات يدوياً';
+        analyzerError.style.display = 'block';
+      }
+    });
+  }
+
+  // =============================================
+  // AI ASSISTANT CHAT
+  // =============================================
+  let aiChatOpen = false;
+
+  window.toggleAIChat = function() {
+    aiChatOpen = !aiChatOpen;
+    document.getElementById('aiChatPanel').classList.toggle('open', aiChatOpen);
+    document.getElementById('aiChatOverlay').classList.toggle('open', aiChatOpen);
+    if (aiChatOpen) {
+      document.getElementById('aiChatInput').focus();
+      document.getElementById('aiBubbleIcon').textContent = '✕';
+    } else {
+      document.getElementById('aiBubbleIcon').textContent = '🧴';
+    }
+  };
+
+  window.sendAIMessage = function() {
+    const input = document.getElementById('aiChatInput');
+    const msg = input.value.trim();
+    if (!msg) return;
+    input.value = '';
+    const messages = document.getElementById('aiChatMessages');
+    const userDiv = document.createElement('div');
+    userDiv.className = 'ai-message ai-message-user';
+    userDiv.innerHTML = `<div class="ai-message-content">${msg.replace(/</g,'&lt;')}</div>`;
+    messages.appendChild(userDiv);
+
+    const loadingDiv = document.createElement('div');
+    loadingDiv.className = 'ai-message ai-message-bot';
+    loadingDiv.innerHTML = '<div class="ai-message-content"><span style="opacity:0.6">🔍 جاري تحليل سؤالك...</span></div>';
+    messages.appendChild(loadingDiv);
+    messages.scrollTop = messages.scrollHeight;
+
+    setTimeout(() => {
+      loadingDiv.remove();
+      const reply = generateAIResponse(msg);
+      const botDiv = document.createElement('div');
+      botDiv.className = 'ai-message ai-message-bot';
+      botDiv.innerHTML = `<div class="ai-message-content">${reply}</div>`;
+      messages.appendChild(botDiv);
+      messages.scrollTop = messages.scrollHeight;
+    }, 800);
+  };
+
+  function generateAIResponse(msg) {
+    const q = msg.toLowerCase();
+    if (q.includes('السلام') || q.includes('مرحبا') || q.includes('hi') || q.includes('hello')) {
+      return '<p>وعليكم السلام 💗 أهلاً بكِ في مُستشارتك الآمنة! 🌸</p><p style="margin-top:0.5rem">تقدرين تسأليني عن:<br>🔍 تحليل مكونات منتج<br>⚠️ مواد ضارة<br>🌿 بدائل طبيعية<br>❌ أخطاء خلطات</p><p style="margin-top:0.5rem">تحطي اسم المنتج أو المكونات 🧴</p>';
+    }
+    if (q.includes('شكرا') || q.includes('thank')) { return 'العفو 💗 دائماً هنا لمساعدتك! 🌸'; }
+    if (q.includes('منت') || q.includes('مين') || q.includes('انت')) {
+      return '<p>أنا <strong>مُستشارتك الآمنة</strong> 🧴💗</p><p>خبيرة في تحليل مكونات المكياج والعطور والخلطات. أساعدك تعرفين وش المواد الضارة في منتجاتك قبل ما تشترينها! 🔍</p>';
+    }
+
+    let results = null;
+    if (q.includes('مكونات') || q.includes('تحليل') || q.includes('منتج') || q.includes('حلل')) {
+      const cleanName = msg.replace(/تحليل|مكونات|منتج|حلل|حللي|analyze|product/g,'').trim();
+      if (cleanName.length > 0) {
+        results = window.analyzeIngredients(cleanName);
+      }
+    }
+    // Check ingredient names in message
+    for (const [key] of Object.entries(HAZARDOUS_INGREDIENTS)) {
+      if (q.includes(key)) {
+        const single = {};
+        single[key] = HAZARDOUS_INGREDIENTS[key];
+        results = [{ ingredient: key, ...HAZARDOUS_INGREDIENTS[key] }];
+        break;
+      }
+    }
+    if (results && results.length > 0) {
+      let reply = '<p><strong>🔍 نتيجة تحليل المكونات:</strong></p>';
+      for (const r of results) {
+        let icon = '✅';
+        if (r.level === 'danger') icon = '⛔';
+        else if (r.level === 'warn') icon = '⚠️';
+        reply += `<p style="margin:0.3rem 0">${icon} <strong>${r.name}:</strong> ${r.desc}</p>`;
+      }
+      const danger = results.filter(r => r.level === 'danger').length;
+      const warn = results.filter(r => r.level === 'warn').length;
+      if (danger > 0) reply += '<p style="margin-top:0.5rem;color:#c62828">⚠️ يحتوي مواد ضارة - الأفضل تتجنبينه</p>';
+      else if (warn > 0) reply += '<p style="margin-top:0.5rem;color:#f57f17">⚠️ مواد تستدعي الحذر - للبشرة الحساسة تجنبي</p>';
+      else reply += '<p style="margin-top:0.5rem;color:#2e7d32">✅ المكونات آمنة - مناسبة للاستخدام</p>';
+      reply += '<p style="margin-top:0.5rem">💡 تحبين أساعدك في منتج ثاني؟</p>';
+      return reply;
+    }
+
+    // Default responses based on keywords
+    if (q.includes('بارابين') || q.includes('paraben')) {
+      return '<p>🔴 <strong>البارابين</strong>: مواد حافظة تستخدم في مستحضرات التجميل.</p><p>⚠️ الدراسات ربطتها باضطراب الهرمونات وزيادة خطر سرطان الثدي.</p><p>✅ البديل: ابحثي عن منتجات مكتوب عليها "Paraben-Free".</p>';
+    }
+    if (q.includes('فثالات') || q.includes('phthalate')) {
+      return '<p>🔴 <strong>الفثالات</strong>: مواد تثبت الرائحة في العطور ومستحضرات التجميل.</p><p>⚠️ تسبب اضطراب هرموني ومشاكل في الإنجاب.</p><p>✅ اختاري عطور طبيعية أو مكتوب عليها "Phthalate-Free".</p>';
+    }
+    if (q.includes('ريتينول') || q.includes('retinol')) {
+      return '<p>⚠️ <strong>الريتينول</strong>: مشتق من فيتامين A، فعال لمكافحة التجاعيد.</p><p>✅ آمن للاستخدام الليلي مع ترطيب.</p><p>🚫 <strong>ممنوع للحامل والمرضع</strong>.</p><p>💡 لا تخلطيه مع الأحماض أو فيتامين C بنفس الوقت.</p>';
+    }
+    if (q.includes('كحول') || q.includes('alcohol')) {
+      return '<p>⚠️ <strong>الكحول</strong>: بعض أنواعه تجفف البشرة وتهيجها.</p><p>✅ ابحثي عن Cetyl Alcohol أو Stearyl Alcohol - هذي كحولات دهنية مفيدة للبشرة.</p><p>🚫 تجنبي Alcohol Denat أو SD Alcohol إذا بشرتك جافة أو حساسة.</p>';
+    }
+    if (q.includes('طبيعي') || q.includes('بديل') || q.includes('بدائل')) {
+      return '<p>🌿 <strong>بدائل طبيعية آمنة:</strong></p><p>🧴 للترطيب: زيت جوجوبا، زيت أرغان، زبدة شيا</p><p>🧼 للتنظيف: زيت جوز الهند، عسل، شوفان</p><p>🎨 للمكياج: بودرة أرز، زبدة كاكاو</p><p>💡 تذكري: <strong>طبيعي</strong> لا يعني دايمًا <strong>آمن</strong> - اختبريه على بشرة صغيرة أولاً</p>';
+    }
+    if (q.includes('خلطة') || q.includes('ليمون') || q.includes('بيكربونات')) {
+      return '<p>⚠️ <strong>تحذير خطير!</strong></p><p>🚫 <strong>الليمون + الشمس:</strong> يسبب حروق ضوئية وتصبغات</p><p>🚫 <strong>بيكربونات الصوديوم:</strong> تخرب طبقة الحماية</p><p>🚫 <strong>معجون الأسنان:</strong> يحرق البشرة</p><p>✅ الأفضل: استخدمي مكونات آمنة مثل العسل، الزبادي، الشوفان، الألوفيرا</p>';
+    }
+    if (q.includes('سلامة') || q.includes('آمن') || q.includes('ضار') || q.includes('خطير')) {
+      return '<p>🧴 <strong>دليل الأمان السريع:</strong></p><p>✅ <strong>آمن:</strong> مكونات طبيعية واضحة، خالية من العطور والبارابين</p><p>⚠️ <strong>حذر:</strong> يحتوي كحول أو عطور صناعية - مناسب للبشرة العادية</p><p>⛔ <strong>ضار:</strong> يحتوي بارابين، فثالات، فورمالدهيد - الأفضل تتجنبينه</p><p>💡 <strong>نصيحة:</strong> اختبر أي منتج على معصمك قبل استخدامه</p>';
+    }
+    return '<p>🤔 ما فهمت سؤالك بالضبط. أسأليني عن:</p><p>🔍 <strong>تحليل منتج:</strong> اكتبي اسمه أو مكوناته<br>⚠️ <strong>مادة معينة:</strong> مثل "بارابين" أو "ريتينول"<br>🌿 <strong>بدائل طبيعية</strong><br>❌ <strong>خلطات وأخطاء</strong></p><p><span class="quick-reply" onclick="quickAIQ(this)">🔍 حللي مكونات</span> <span class="quick-reply" onclick="quickAIQ(this)">⚠️ وش هي المواد الضارة؟</span> <span class="quick-reply" onclick="quickAIQ(this)">🌿 بدائل طبيعية</span></p>';
+  }
+
+  window.quickAIQ = function(el) {
+    document.getElementById('aiChatInput').value = el.textContent.trim();
+    sendAIMessage();
+  };
+
   console.log('🌸 ذهبية Golden Ratio Beauty - خبيرتك في الجمال');
 });
