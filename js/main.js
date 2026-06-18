@@ -1824,7 +1824,97 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   };
 
-  window.sendAIMessage = function() {
+  // =============================================
+  // FOOD API - Open Food Facts (ملايين الأصناف)
+  // =============================================
+  async function searchFoodAPI(query) {
+    try {
+      const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&json=true&page_size=5&fields=product_name,nutriments,categories`;
+      const res = await fetch(url);
+      const data = await res.json();
+      if (!data.products || data.products.length === 0) return null;
+      const products = data.products.filter(p => p.nutriments && p.nutriments['energy-kcal_100g']);
+      if (products.length === 0) return null;
+      return products.map(p => ({
+        name: p.product_name || query,
+        calPer100g: Math.round(p.nutriments['energy-kcal_100g']),
+        category: p.categories ? p.categories.split(',')[0] : ''
+      }));
+    } catch(e) { return null; }
+  }
+
+  async function handleFoodQuery(msg) {
+    const items = msg.split(/[،,+،\n]+/).map(s => s.trim()).filter(s => s);
+    let apiResults = [];
+    let localResults = [];
+
+    for (const item of items) {
+      const parts = item.match(/^(\d+)\s*(.+)/);
+      let qty = 100, name = item;
+      if (parts) { qty = parseInt(parts[1]); name = parts[2]; }
+
+      // Try local DB first (instant)
+      const local = findCalorie(name);
+      if (local) {
+        localResults.push({ name: local.name, qty, cal: Math.round(local.cal * qty / 100), source: '📚' });
+        continue;
+      }
+
+      // Try API
+      const apiData = await searchFoodAPI(name);
+      if (apiData && apiData.length > 0) {
+        const best = apiData[0];
+        apiResults.push({ name: best.name, qty, cal: Math.round(best.calPer100g * qty / 100), source: '🌐' });
+      } else {
+        apiResults.push({ name, qty, cal: 0, source: '❌' });
+      }
+    }
+
+    const allResults = [...localResults, ...apiResults];
+    if (allResults.length === 0) return null;
+
+    const total = allResults.reduce((s, r) => s + r.cal, 0);
+    let reply = '<p><strong>🍽️ تحليل السعرات الحرارية:</strong></p>';
+    for (const r of allResults) {
+      if (r.cal > 0) {
+        reply += `<p style="margin:0.2rem 0;font-size:0.9rem">${r.source} ${r.name} (${r.qty}g): <strong>${r.cal}</strong> سعرة</p>`;
+      } else {
+        reply += `<p style="margin:0.2rem 0;font-size:0.85rem;color:#c62828">❌ ما لقيت معلومات لـ "${r.name}"</p>`;
+      }
+    }
+    reply += `<p style="margin-top:0.5rem;font-size:1.1rem"><strong>🔥 المجموع: ${total} سعرة حرارية</strong></p>`;
+
+    // اقتراحات غذائية ذكية
+    if (total > 0) {
+      const avgWomanMeal = 500;
+      if (total > avgWomanMeal * 1.5) reply += '<p style="font-size:0.82rem;color:var(--muted)">💡 هالوجبة عالية السعرات — مناسبة للنشاط البدني العالي 🏃</p>';
+      else if (total < avgWomanMeal * 0.5) reply += '<p style="font-size:0.82rem;color:var(--muted)">💡 هالوجبة خفيفة — مناسبة كسناك 🥗</p>';
+      else reply += '<p style="font-size:0.82rem;color:var(--muted)">💡 هالوجبة متوازنة 🌿</p>';
+
+      // بروتين عالي؟
+      const hasProtein = allResults.some(r => r.name.includes('دجاج') || r.name.includes('لحم') || r.name.includes('سمك') || r.name.includes('بيض') || r.name.includes('فول') || r.name.includes('عدس'));
+      if (hasProtein) reply += '<p style="font-size:0.82rem;color:var(--muted)">💪 تحتوي على بروتين — ممتاز لبناء العضلات والشبع</p>';
+    }
+
+    reply += '<p style="margin-top:0.5rem;font-size:0.8rem;color:var(--muted)">💡 اكتبي الأكلة وكميتها، مثلاً: "200 رز 150 دجاج" أو "موز تفاح"</p>';
+
+    // Save to profile
+    const u = getCurrentUser();
+    if (u) {
+      try {
+        const users = getUsers();
+        if (users[u.email]) {
+          if (!users[u.email].foodLog) users[u.email].foodLog = [];
+          users[u.email].foodLog.push({ date: Date.now(), items: allResults, total });
+          saveUsers(users);
+        }
+      } catch(e) {}
+    }
+
+    return reply;
+  }
+
+  window.sendAIMessage = async function() {
     const input = document.getElementById('aiChatInput');
     const msg = input.value.trim();
     if (!msg) return;
@@ -1837,54 +1927,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const loadingDiv = document.createElement('div');
     loadingDiv.className = 'ai-message ai-message-bot';
-    loadingDiv.innerHTML = '<div class="ai-message-content"><span style="opacity:0.6">🔍 جاري تحليل سؤالك...</span></div>';
+    loadingDiv.innerHTML = '<div class="ai-message-content"><span style="opacity:0.6">🔍 جاري البحث عن السعرات...</span></div>';
     messages.appendChild(loadingDiv);
     messages.scrollTop = messages.scrollHeight;
 
-    setTimeout(() => {
-      loadingDiv.remove();
-      const reply = generateAIResponse(msg);
-      const botDiv = document.createElement('div');
-      botDiv.className = 'ai-message ai-message-bot';
-      botDiv.innerHTML = `<div class="ai-message-content">${reply}</div>`;
-      messages.appendChild(botDiv);
-      messages.scrollTop = messages.scrollHeight;
-    }, 800);
+    // Check if food query
+    const q = msg.toLowerCase();
+    let reply;
+    if (q.includes('سعر') || q.includes('سعرة') || q.includes('سعرات') || q.includes('اكل') || q.includes('أكل') || q.includes('طعام') || q.includes('دايت') || q.includes('رجيم') || q.includes('كم') || q.includes('calorie') || q.includes('كيتو') || q.includes('جرام') || q.includes('غم') || /\d+\s*[a-zA-Z]/.test(q)) {
+      const foodReply = await handleFoodQuery(msg);
+      if (foodReply) {
+        reply = foodReply;
+      } else {
+        reply = '<p>🍽️ <strong>حاسبة السعرات الذكية 🌐</strong></p><p>أقدر أحسب سعرات <strong>أي أكلة</strong> في العالم!</p><p>اكتبي الأكلة وكميتها:<br>• "200 جرام رز"<br>• "150 دجاج + 100 سلطة"<br>• "موز تفاح برتقال"<br>• "شاورما دجاج"</p><p>🔗 متصلة بقاعدة بيانات Open Food Facts (ملايين المنتجات)</p>';
+      }
+    } else {
+      reply = generateAIResponse(msg);
+    }
+
+    loadingDiv.remove();
+    const botDiv = document.createElement('div');
+    botDiv.className = 'ai-message ai-message-bot';
+    botDiv.innerHTML = `<div class="ai-message-content">${reply}</div>`;
+    messages.appendChild(botDiv);
+    messages.scrollTop = messages.scrollHeight;
   };
 
   function generateAIResponse(msg) {
     const q = msg.toLowerCase();
     const ctx = getAIContext();
-
-    // === FOOD / CALORIE DETECTION ===
-    if (q.includes('سعر') || q.includes('سعرة') || q.includes('سعرات') || q.includes('اكل') || q.includes('أكل') || q.includes('طعام') || q.includes('دايت') || q.includes('رجيم') || q.includes('كم سعرة') || q.includes('calorie') || q.includes('كيتو')) {
-      const mealResult = calculateMeal(msg);
-      if (mealResult && mealResult.items.length > 0) {
-        let reply = '<p><strong>🍽️ تحليل السعرات الحرارية:</strong></p>';
-        for (const item of mealResult.items) {
-          reply += `<p style="margin:0.2rem 0;font-size:0.9rem">• ${item.name}: <strong>${item.cal}</strong> سعرة</p>`;
-        }
-        reply += `<p style="margin-top:0.5rem;font-size:1rem"><strong>🔥 المجموع: ${mealResult.total} سعرة حرارية</strong></p>`;
-        if (mealResult.unmatched.length > 0) {
-          reply += `<p style="color:var(--muted);font-size:0.8rem;margin-top:0.3rem">💡 ما عرفت أحسب: ${mealResult.unmatched.join('، ')}</p>`;
-        }
-        reply += '<p style="margin-top:0.5rem;font-size:0.8rem;color:var(--muted)">💡 أكتبي الأكلة وكميتها بالجرام، مثلاً: "200 جرام رز + 150 جرام دجاج"</p>';
-        // Save query for user profile if logged in
-        const u = getCurrentUser();
-        if (u) {
-          try {
-            const users = getUsers();
-            if (users[u.email]) {
-              if (!users[u.email].foodLog) users[u.email].foodLog = [];
-              users[u.email].foodLog.push({ date: Date.now(), items: mealResult.items, total: mealResult.total });
-              saveUsers(users);
-            }
-          } catch(e) {}
-        }
-        return reply;
-      }
-      return '<p>🍽️ <strong>حاسبة السعرات:</strong></p><p>اكتبي الأكل اللي تبين تحسبين سعراته، مثلاً:<br>• "200 جرام رز"<br>• "150 جرام دجاج + 100 جرام سلطة"<br>• "رز ودجاج"</p><p>عندي قاعدة بيانات لأكثر من 200 صنف من الأكلات العربية والعالمية 🌍</p>';
-    }
 
     if (q.includes('السلام') || q.includes('مرحبا') || q.includes('hi') || q.includes('hello')) {
       if (ctx !== 'عام') {
