@@ -2209,6 +2209,82 @@ button:focus-visible {
   box-shadow:0 8px 40px rgba(212,175,55,0.1);
   position:relative; overflow:hidden;
 }
+
+/* ===== MAKEUP EXPERT CHAT ===== */
+.makeup-expert-section {
+  margin-top:3rem; background:linear-gradient(135deg,#fdf0f3,#fff);
+  border-radius:24px; padding:1.8rem; border:2px solid #f0c0c8;
+  box-shadow:0 8px 40px rgba(128,0,32,0.08);
+  position:relative; overflow:hidden;
+}
+.makeup-expert-header {
+  display:flex; align-items:center; gap:0.8rem; margin-bottom:0.5rem;
+}
+.makeup-expert-avatar {
+  width:52px; height:52px; border-radius:50%;
+  background:linear-gradient(135deg,#fce4ec,#f8bbd0);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.6rem; box-shadow:0 4px 12px rgba(128,0,32,0.15);
+}
+.makeup-expert-title { margin:0; color:var(--primary-dark); font-size:1.2rem; }
+.makeup-expert-sub { margin:0.15rem 0 0; font-size:0.82rem; color:var(--text-light); }
+.makeup-expert-consult { margin:0.8rem 0; }
+.consult-pills { display:flex; gap:0.4rem; flex-wrap:wrap; }
+.consult-pill {
+  padding:0.4rem 0.9rem; border-radius:50px;
+  background:linear-gradient(135deg,#fce4ec,#fff);
+  border:1.5px solid #f0b8c4; font-size:0.75rem; cursor:pointer;
+  color:var(--primary); transition:all 0.25s; font-weight:500;
+}
+.consult-pill:hover {
+  background:var(--primary); color:var(--gold); border-color:var(--primary);
+  transform:translateY(-1px);
+}
+.makeup-expert-chat-box {
+  background:white; border-radius:16px; padding:1rem; min-height:200px;
+  max-height:400px; overflow-y:auto; border:1.5px solid #f0c0c8;
+  box-shadow:inset 0 2px 8px rgba(0,0,0,0.03);
+}
+.makeup-msg {
+  padding:0.7rem 1rem; border-radius:14px; margin-bottom:0.6rem;
+  font-size:0.88rem; line-height:1.7; animation:fadeSlideUp 0.3s ease;
+}
+.makeup-msg-header { font-size:0.75rem; font-weight:700; margin-bottom:0.2rem; opacity:0.7; }
+.makeup-msg-bot {
+  background:linear-gradient(135deg,#fdf0f3,#fef5f7);
+  border:1px solid rgba(128,0,32,0.1);
+  color:var(--muted);
+}
+.makeup-msg-user {
+  background:linear-gradient(135deg,var(--primary),#a82840);
+  color:var(--gold); margin-right:2rem; text-align:right;
+}
+.makeup-msg-loading {
+  text-align:center; padding:0.5rem; color:var(--muted); font-size:0.85rem;
+  background:#fafafa; border:1px dashed #f0b8c4;
+}
+.makeup-badge {
+  display:inline-block; padding:0.2rem 0.7rem; border-radius:50px;
+  background:rgba(128,0,32,0.08); color:var(--primary); font-size:0.75rem;
+}
+.makeup-expert-input-row {
+  display:flex; gap:0.5rem; margin-top:0.8rem;
+}
+.makeup-input {
+  flex:1; padding:0.8rem 1rem; border:2px solid #f0c0c8;
+  border-radius:14px; font-family:inherit; font-size:0.9rem;
+  transition:border 0.2s;
+}
+.makeup-input:focus { outline:none; border-color:var(--primary); box-shadow:0 0 0 3px rgba(128,0,32,0.1); }
+.makeup-send-btn {
+  padding:0.8rem 1.5rem; background:linear-gradient(135deg,var(--primary),#b84a5a);
+  color:white; border:none; border-radius:14px; cursor:pointer;
+  font-size:1rem; font-weight:700; white-space:nowrap;
+  box-shadow:0 4px 15px rgba(128,0,32,0.25);
+  transition:transform 0.2s;
+}
+.makeup-send-btn:hover { transform:scale(1.03); }
+
 .calorie-chat-header {
   display:flex; align-items:center; gap:0.8rem; margin-bottom:1rem;
 }

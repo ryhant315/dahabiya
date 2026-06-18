@@ -2447,13 +2447,50 @@
           </div>
         </div>
       </div>
+
+      <!-- ===== خبيرة المكياج التفاعلية (شات ذكي) ===== -->
+      <div class="makeup-expert-section">
+        <div class="makeup-expert-header">
+          <span class="makeup-expert-avatar">💄</span>
+          <div>
+            <h3 class="makeup-expert-title">خبيرة المكياج 💄</h3>
+            <p class="makeup-expert-sub">اسأليني عن أي شيء — أنا خبيرتك الشخصية في المكياج، من التحضير للتثبيت</p>
+          </div>
+        </div>
+
+        <div class="makeup-expert-consult">
+          <div class="consult-pills">
+            <span class="consult-pill" onclick="makeupQuick('عندي بشرة دهنية — أي فاونديشن يناسبني؟')">🧴 بشرة دهنية</span>
+            <span class="consult-pill" onclick="makeupQuick('كيف أختار ألون ظلال العيون المناسبة لعيوني؟')">👁️ ظلال عيون</span>
+            <span class="consult-pill" onclick="makeupQuick('وش أفضل طريقة لتثبيت المكياج طول اليوم؟')">🔒 تثبيت المكياج</span>
+            <span class="consult-pill" onclick="makeupQuick('كيف أحدد شكل وجهي وأوزع الكونتور؟')">🎭 كونتور</span>
+            <span class="consult-pill" onclick="makeupQuick('وش نوع الآيلاينر المناسب لشكل عيني؟')">✏️ آيلاينر</span>
+            <span class="consult-pill" onclick="makeupQuick('كيف أختار روج يناسب بشرتي؟')">💋 روج</span>
+            <span class="consult-pill" onclick="makeupQuick('مكياج ناعم للدوام — وش الخطوات؟')">🏢 مكياج دوام</span>
+            <span class="consult-pill" onclick="makeupQuick('أخطاء مكياج شائعة كيف أتجنبها؟')">⚠️ أخطاء</span>
+          </div>
+        </div>
+
+        <div class="makeup-expert-chat-box" id="makeupChatBox">
+          <div class="makeup-msg makeup-msg-bot">
+            <div class="makeup-msg-header">💄 خبيرة المكياج</div>
+            <strong>هلا فيكِ بقسم المكياج! 💄</strong><br><br>
+            أنا خبيرتك الخاصة، أساعدك تطلعين بأجمل لوك يناسب ملامحك.<br><br>
+            عشان أصمّم لك إجابة مخصصة، قوليلي:<br>
+            • شنو مناسبتك؟<br>
+            • شنو نوع بشرتك؟<br>
+            • تحبين الستايل الناعم ولا الجريء؟<br><br>
+            <span class="makeup-badge">🎯 ١٠+ سنوات خبرة — نصائح عملية بدون حشو</span>
+          </div>
+        </div>
+
+        <div class="makeup-expert-input-row">
+          <input type="text" id="makeupInput" class="makeup-input" placeholder="اسألي خبيرة المكياج... مثلاً: وش يناسب بشرتي الدهنية؟" onkeydown="if(event.key==='Enter')makeupSend()">
+          <button class="makeup-send-btn" onclick="makeupSend()">💬 اسألي</button>
+        </div>
+      </div>
     </div>
   </section>
-
-  <!-- ============================================= -->
-  <!-- SECTION: FASHION -->
-  <!-- ============================================= -->
-  <section id="fashion" class="page-section">
     <div class="section">
       <div class="section-header">
         <div class="section-badge">👗 Fashion</div>
