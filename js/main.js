@@ -1931,19 +1931,7 @@ document.addEventListener('DOMContentLoaded', function() {
     messages.appendChild(loadingDiv);
     messages.scrollTop = messages.scrollHeight;
 
-    // Check if food query
-    const q = msg.toLowerCase();
-    let reply;
-    if (q.includes('سعر') || q.includes('سعرة') || q.includes('سعرات') || q.includes('اكل') || q.includes('أكل') || q.includes('طعام') || q.includes('دايت') || q.includes('رجيم') || q.includes('كم') || q.includes('calorie') || q.includes('كيتو') || q.includes('جرام') || q.includes('غم') || /\d+\s*[a-zA-Z]/.test(q)) {
-      const foodReply = await handleFoodQuery(msg);
-      if (foodReply) {
-        reply = foodReply;
-      } else {
-        reply = '<p>🍽️ <strong>حاسبة السعرات الذكية 🌐</strong></p><p>أقدر أحسب سعرات <strong>أي أكلة</strong> في العالم!</p><p>اكتبي الأكلة وكميتها:<br>• "200 جرام رز"<br>• "150 دجاج + 100 سلطة"<br>• "موز تفاح برتقال"<br>• "شاورما دجاج"</p><p>🔗 متصلة بقاعدة بيانات Open Food Facts (ملايين المنتجات)</p>';
-      }
-    } else {
-      reply = generateAIResponse(msg);
-    }
+    let reply = generateAIResponse(msg);
 
     loadingDiv.remove();
     const botDiv = document.createElement('div');
@@ -1961,7 +1949,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (ctx !== 'عام') {
         return `<p>وعليكم السلام 💗 أهلاً بكِ في <strong>قسم ${ctx}</strong>! 🌸</p><p style="margin-top:0.5rem">تقدرين تسأليني عن أي شي متعلق بهالقسم:<br>🔍 تحليل منتجات<br>⚠️ مواد ضارة<br>🌿 بدائل طبيعية<br>❌ تصحيح أخطاء</p><p>أو اسأليني سؤالك العام 🧴</p>`;
       }
-      return '<p>وعليكم السلام 💗 أهلاً بكِ في مُستشارتك الآمنة! 🌸</p><p style="margin-top:0.5rem">تقدرين تسأليني عن:<br>🔍 تحليل مكونات منتج<br>⚠️ مواد ضارة<br>🌿 بدائل طبيعية<br>❌ أخطاء خلطات<br>🍽️ حساب سعرات الأكل</p><p>تحطي اسم المنتج أو المكونات 🧴</p>';
+      return '<p>وعليكم السلام 💗 أهلاً بكِ في مُستشارتك الآمنة! 🌸</p><p style="margin-top:0.5rem">تقدرين تسأليني عن:<br>🔍 تحليل مكونات منتج<br>⚠️ مواد ضارة<br>🌿 بدائل طبيعية<br>❌ أخطاء خلطات</p><p>تحطي اسم المنتج أو المكونات 🧴</p>';
     }
     if (q.includes('شكرا') || q.includes('thank')) { return 'العفو 💗 دائماً هنا لمساعدتك! 🌸'; }
     if (q.includes('منت') || q.includes('مين') || q.includes('انت')) {
@@ -2006,10 +1994,10 @@ document.addEventListener('DOMContentLoaded', function() {
       return '<p>🔬 <strong>الدلكة المغربية</strong> خطيرة على البشرة!</p><p>🚫 الصابون البلدي قلوي (pH 9-10) يدمر حاجز البشرة الحمضي (pH 4.5-5.5)</p><p>🚫 الليفة الخشنة تسبب جروح مجهرية</p><p>🚫 الفرك العنيف يزيل الطبقة الحامية للبشرة مو بس "الجلد الميت"</p><p>✅ البديل: تقشير كيميائي لطيف مرة بالأسبوع + ليفة سيليكون ناعمة</p><p>💡 البشرة تنظف نفسها بنفسها كل 28 يوم!</p>';
     }
     if (ctx === 'التغذية والدايت' || q.includes('رجيم') || q.includes('دايت') || q.includes('وزن') || q.includes('تنحيف') || q.includes('تسمين')) {
-      return '<p>🍽️ <strong>نظام التغذية الصحي:</strong></p><p>✅ لإنقاص الوزن: قللي 300-500 سعرة يومياً</p><p>✅ لثبات الوزن: احسبي سعراتك اليومية وحافظي عليها</p><p>✅ لزيادة الوزن: زيدي 300-500 سعرة يومياً مع بروتين</p><p>💡 <strong>جربي:</strong> اكتبي "200 جرام رز + 150 جرام دجاج" عشان أحسب السعرات!</p><p>🔢 معدل السعرات اليومي للنساء: 1800-2200 سعرة (حسب النشاط)</p>';
+      return '<p>🥗 <strong>التغذية الصحية:</strong></p><p>✅ قلّي السكر والمقليات<br>✅ زيدي الخضار والبروتين<br>✅ اشربي 8 أكواب ماء يومياً<br>✅ نامي 8 ساعات</p><p>💡 <strong>حساب السعرات:</strong> استخدمي <strong>خبيرة السعرات 🥗</strong> في قسم التغذية — هي المختصة بهالشي!</p>';
     }
     if (ctx === 'المكياج' || q.includes('مكياج') || q.includes('روج') || q.includes('احمر') || q.includes('بودرة') || q.includes('كونسيلر') || q.includes('فاونديشن') || q.includes('ايشادو')) {
-      return '<p>💄 <strong>المكياج:</strong></p><p>✅ <strong>نوع بشرتك</strong> يحدد نوع المكياج المناسب:</p><p>🔹 للبشرة الدهنية: فاونديشن مات<br>🔹 للبشرة الجافة: فاونديشن سائل بترطيب<br>🔹 للبشرة الحساسة: مكياج معدني خالٍ من العطور</p><p>⚠️ احذري من المكياج التاريخ (منتهي الصلاحية):<br>🕐 الماسكارا: 3 أشهر<br>🕐 كريم الأساس: 6-12 شهر<br>🕐 أحمر الشفاه: 12-18 شهر</p><p>💡 تذكري: <strong>النوم بالمكياج</strong> يسبب شيخوخة مبكرة!</p>';
+      return '<p>💄 <strong>المكياج:</strong></p><p>✅ <strong>نوع بشرتك</strong> يحدد نوع المكياج المناسب:</p><p>🔹 للبشرة الدهنية: فاونديشن مات<br>🔹 للبشرة الجافة: فاونديشن سائل بترطيب<br>🔹 للبشرة الحساسة: مكياج معدني خالٍ من العطور</p><p>⚠️ احذري من المكياج التاريخ (منتهي الصلاحية):<br>🕐 الماسكارا: 3 أشهر<br>🕐 كريم الأساس: 6-12 شهر<br>🕐 أحمر الشفاه: 12-18 شهر</p><p>💡 تذكري: <strong>النوم بالمكياج</strong> يسبب شيخوخة مبكرة!</p><p>⚠️ <strong>حساب السعرات</strong> مو من اختصاصي — روحي لقسم <strong>التغذية والدايت</strong> 🥗 فيه خبيرة مخصصة للسعرات!</p>';
     }
     if (ctx === 'الشعر' || q.includes('شعر') || q.includes('تساقط') || q.includes('قشرة') || q.includes('زيوت') || q.includes('شامبو') || q.includes('بلسم')) {
       return '<p>💇‍♀️ <strong>العناية بالشعر:</strong></p><p>✅ <strong>شعرك يحدد روتينه:</strong></p><p>🔹 شعر جاف: زيت جوز الهند + بلسم عميق<br>🔹 شعر دهني: شامبو خفيف + غسيل 2-3 مرات بالأسبوع<br>🔹 شعر تالف: بروتين + ترطيب + قص الأطراف</p><p>⚠️ <strong>أخطاء شائعة:</strong><br>🚫 غسل الشعر يومياً يزيل الزيوت الطبيعية<br>🚫 فرك الشعر بالمنشفة يسبب تقصف<br>✅ استخدمي منشفة ميكرويفابر وربتي بلطف</p>';
@@ -2040,7 +2028,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (q.includes('سلامة') || q.includes('آمن') || q.includes('ضار') || q.includes('خطير')) {
       return '<p>🧴 <strong>دليل الأمان السريع:</strong></p><p>✅ <strong>آمن:</strong> مكونات طبيعية واضحة، خالية من العطور والبارابين</p><p>⚠️ <strong>حذر:</strong> يحتوي كحول أو عطور صناعية - مناسب للبشرة العادية</p><p>⛔ <strong>ضار:</strong> يحتوي بارابين، فثالات، فورمالدهيد - الأفضل تتجنبينه</p><p>💡 <strong>نصيحة:</strong> اختبر أي منتج على معصمك قبل استخدامه</p>';
     }
-    return `<p>🤔 ما فهمت سؤالك بالضبط. القسم الحالي: <strong>${ctx}</strong></p><p>جربي:<br>🔍 تحليل مكونات: اكتبي اسم المنتج<br>🍽️ حساب سعرات: اكتبي الأكلة<br>⚠️ استفسار عن مادة: مثل "بارابين"<br>🌿 بدائل طبيعية<br>❌ خلطات وأخطاء</p><p><span class="quick-reply" onclick="quickAIQ(this)">🔍 حللي مكونات</span> <span class="quick-reply" onclick="quickAIQ(this)">🍽️ احسبي سعرات</span> <span class="quick-reply" onclick="quickAIQ(this)">⚠️ وش هي المواد الضارة؟</span></p>`;
+    return `<p>🤔 ما فهمت سؤالك بالضبط. القسم الحالي: <strong>${ctx}</strong></p><p>جربي:<br>🔍 تحليل مكونات: اكتبي اسم المنتج<br>⚠️ استفسار عن مادة: مثل "بارابين"<br>🌿 بدائل طبيعية<br>❌ خلطات وأخطاء</p><p><span class="quick-reply" onclick="quickAIQ(this)">🔍 حللي مكونات</span> <span class="quick-reply" onclick="quickAIQ(this)">⚠️ وش هي المواد الضارة؟</span></p>`;
   }
 
   window.quickAIQ = function(el) {
@@ -2049,41 +2037,63 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   // =============================================
-  // DIET CHAT (حاسبة السعرات في قسم الدايت)
+  // CALORIE EXPERT CHAT (خاصة في قسم الدايت - منفصلة)
   // =============================================
-  window.dietSendMsg = async function() {
-    const input = document.getElementById('dietChatInput');
+  window.calorieSend = async function() {
+    const input = document.getElementById('calorieInput');
     const msg = input.value.trim();
     if (!msg) return;
     input.value = '';
-    const box = document.getElementById('dietChatBox');
+    const box = document.getElementById('calorieChatBox');
 
-    // User message
     const userDiv = document.createElement('div');
-    userDiv.className = 'diet-chat-msg diet-chat-user';
-    userDiv.textContent = msg;
+    userDiv.className = 'calorie-msg calorie-msg-user';
+    userDiv.innerHTML = '<div class="calorie-msg-header">👩 أنتِ</div>' + msg.replace(/</g,'&lt;');
     box.appendChild(userDiv);
 
-    // Loading
     const loadDiv = document.createElement('div');
-    loadDiv.className = 'diet-chat-msg diet-chat-loading';
-    loadDiv.textContent = '🔍 جاري البحث عن السعرات...';
+    loadDiv.className = 'calorie-msg calorie-msg-loading';
+    loadDiv.innerHTML = '<div class="calorie-msg-header">🥗 خبيرة السعرات</div>🔍 جاري البحث عن السعرات...';
     box.appendChild(loadDiv);
     box.scrollTop = box.scrollHeight;
 
-    // Get reply
     const reply = await handleFoodQuery(msg);
     loadDiv.remove();
 
     const botDiv = document.createElement('div');
-    botDiv.className = 'diet-chat-msg diet-chat-bot';
-    if (reply) {
-      botDiv.innerHTML = reply;
-    } else {
-      botDiv.innerHTML = '<p>🍽️ <strong>حاسبة السعرات الذكية</strong></p><p>اكتبي الأكلة وكميتها، مثلاً:<br>• "200 جرام رز"<br>• "150 دجاج + 100 سلطة"<br>• "موز تفاح برتقال"<br>• "شاورما دجاج"</p><p>متصلة بقاعدة بيانات عالمية تغطي ملايين المنتجات! 🌐</p>';
-    }
+    botDiv.className = 'calorie-msg calorie-msg-bot';
+    botDiv.innerHTML = '<div class="calorie-msg-header">🥗 خبيرة السعرات</div>' + (reply || '<p>ما لقيت معلومات كافية 🤷‍♀️ جربي تكتبين الأكلة بشكل أوضح</p>');
     box.appendChild(botDiv);
     box.scrollTop = box.scrollHeight;
+  };
+
+  window.toggleCalorieHistory = function() {
+    const panel = document.getElementById('calorieHistoryPanel');
+    const list = document.getElementById('calorieHistoryList');
+    if (panel.style.display !== 'none') { panel.style.display = 'none'; return; }
+
+    const u = typeof getCurrentUser === 'function' ? getCurrentUser() : null;
+    let html = '';
+    if (u) {
+      try {
+        const users = typeof getUsers === 'function' ? getUsers() : {};
+        const userData = users[u.email];
+        if (userData && userData.foodLog && userData.foodLog.length > 0) {
+          const logs = userData.foodLog.slice(-10).reverse();
+          for (const log of logs) {
+            const d = new Date(log.date);
+            const dateStr = d.toLocaleDateString('ar-SA', { weekday:'short', day:'numeric', month:'short' });
+            html += `<div style="padding:0.5rem;border-bottom:1px solid #eee;font-size:0.85rem">
+              <span style="color:var(--text-light);font-size:0.75rem">${dateStr}</span>
+              <div>🔥 <strong>${log.total}</strong> سعرة</div>
+              <div style="font-size:0.8rem;color:var(--text-light)">${log.items.map(i => i.name + ' (' + i.cal + ')').join(' - ')}</div>
+            </div>`;
+          }
+        } else { html = '<p style="color:var(--text-light)">ما في وجبات مسجلة بعد 🤷‍♀️</p>'; }
+      } catch(e) { html = '<p style="color:var(--text-light)">ما في وجبات مسجلة بعد 🤷‍♀️</p>'; }
+    } else { html = '<p style="color:var(--text-light)">سجّلي دخولك عشان نشوف تاريخ وجباتك 🔐</p>'; }
+    list.innerHTML = html;
+    panel.style.display = 'block';
   };
 
   // =============================================
