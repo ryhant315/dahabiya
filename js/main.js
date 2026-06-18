@@ -1097,20 +1097,7 @@ document.addEventListener('DOMContentLoaded', function() {
     { myth: '"الماكا يجدد خلايا البشرة"', truth: 'الماكا (خميرة الأرز) مقشر طبيعي لكنه ما يجدد الخلايا وصفاته محدودة.' },
   ];
 
-  // Combine and shuffle for variety
-  let allMyths = myths.concat(ingMyths);
-
-  // Auto-generate from ingredient DB for more variety
-  if (typeof HAZARDOUS_INGREDIENTS !== 'undefined') {
-    for (const [k, v] of Object.entries(HAZARDOUS_INGREDIENTS)) {
-      allMyths.push({
-        myth: `"${v.name} آمن وموجود في كل المنتجات"`,
-        truth: `${v.desc}. اقرأي المكونات قبل الشراء.`
-      });
-    }
-  }
-
-  // Shuffle function
+  // Shuffle function (defined here, used later after data is ready)
   function shuffleArray(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -1118,90 +1105,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     return arr;
   }
-
-  const shuffledMyths = shuffleArray([...allMyths]);
-
-  // Auto-rotating ticker - كل دقيقة خرافة جديدة
-  let mythIndex = 0;
-  let mythTimer = null;
-
-  function showNextMyth() {
-    const m = shuffledMyths[mythIndex % shuffledMyths.length];
-    mythIndex++;
-
-    const mEl = document.getElementById('dailyMyth');
-    const tEl = document.getElementById('dailyTruth');
-    const card = document.getElementById('dailyMythCard');
-    if (mEl && tEl) {
-      mEl.style.opacity = '0';
-      tEl.style.opacity = '0';
-      setTimeout(() => {
-        mEl.textContent = `"${m.myth}"`;
-        tEl.textContent = m.truth;
-        mEl.style.opacity = '1';
-        tEl.style.opacity = '1';
-      }, 300);
-    }
-    if (card) {
-      card.style.borderColor = '#e8c84a';
-      setTimeout(() => { if(card) card.style.borderColor = ''; }, 500);
-    }
-  }
-
-  const dailyMyth = document.getElementById('dailyMyth');
-  const dailyTruth = document.getElementById('dailyTruth');
-  if (dailyMyth && dailyTruth) {
-    showNextMyth();
-    mythTimer = setInterval(showNextMyth, 60000);
-  }
-
-  // ALL MYTHS section
-  const mythContainer = document.getElementById('mythContainer');
-  if (mythContainer) {
-    function renderAllMyths() {
-      const frag = document.createDocumentFragment();
-      const searchBox = document.createElement('div');
-      searchBox.style.cssText = 'text-align:center;margin-bottom:2rem';
-      searchBox.innerHTML = '<input type="text" id="mythSearch" class="form-control" placeholder="🔍 ابحثي عن خرافة..." style="max-width:400px;margin:0 auto;padding:0.7rem 1rem;border:2px solid var(--border);border-radius:50px;font-family:var(--font-main);font-size:0.9rem">';
-      frag.appendChild(searchBox);
-
-      const grid = document.createElement('div');
-      grid.id = 'mythGrid';
-      grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem';
-
-      function renderFilteredMyths(filter) {
-        const q = (filter || '').toLowerCase();
-        grid.innerHTML = allMyths.filter(m =>
-          !q || m.myth.includes(q) || m.truth.includes(q)
-        ).map(m => `
-          <div class="myth-card" style="margin:0">
-            <div class="myth-side myth-false">
-              <div class="myth-label">❌ خرافة</div>
-              <div class="myth-text">"${m.myth}"</div>
-            </div>
-            <div class="myth-side myth-true">
-              <div class="myth-label">✅ الحقيقة</div>
-              <div class="myth-text">${m.truth}</div>
-            </div>
-          </div>
-        `).join('') || '<p style="text-align:center;color:var(--muted);padding:2rem">ما لقينا خرافة بهالاسم 🌸</p>';
-      }
-
-      renderFilteredMyths('');
-      frag.appendChild(grid);
-      mythContainer.appendChild(frag);
-
-      const searchInput = document.getElementById('mythSearch');
-      if (searchInput) {
-        searchInput.addEventListener('input', (e) => renderFilteredMyths(e.target.value));
-      }
-    }
-    renderAllMyths();
-  }
-
-  // Show myth count
-  const mythCountEl = document.getElementById('mythCount');
-  if (mythCountEl) mythCountEl.textContent = allMyths.length.toLocaleString();
 
   // =============================================
   // SMOOTH SCROLL FOR HERO BUTTONS
@@ -1786,6 +1689,103 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('aiChatInput').value = el.textContent.trim();
     sendAIMessage();
   };
+
+  // =============================================
+  // MYTH BUSTER - 1000+ خرافة (بعد HAZARDOUS_INGREDIENTS)
+  // =============================================
+  let allMyths = myths.concat(ingMyths);
+
+  // Auto-generate from ingredient DB for more variety
+  for (const [k, v] of Object.entries(HAZARDOUS_INGREDIENTS)) {
+    allMyths.push({
+      myth: `"${v.name} آمن وموجود في كل المنتجات"`,
+      truth: `${v.desc}. اقرأي المكونات قبل الشراء.`
+    });
+  }
+
+  const shuffledMyths = shuffleArray([...allMyths]);
+
+  // Auto-rotating ticker - كل دقيقة خرافة جديدة
+  let mythIndex = 0;
+  let mythTimer = null;
+
+  function showNextMyth() {
+    const m = shuffledMyths[mythIndex % shuffledMyths.length];
+    mythIndex++;
+
+    const mEl = document.getElementById('dailyMyth');
+    const tEl = document.getElementById('dailyTruth');
+    const card = document.getElementById('dailyMythCard');
+    if (mEl && tEl) {
+      mEl.style.opacity = '0';
+      tEl.style.opacity = '0';
+      setTimeout(() => {
+        mEl.textContent = `"${m.myth}"`;
+        tEl.textContent = m.truth;
+        mEl.style.opacity = '1';
+        tEl.style.opacity = '1';
+      }, 300);
+    }
+    if (card) {
+      card.style.borderColor = '#e8c84a';
+      setTimeout(() => { if(card) card.style.borderColor = ''; }, 500);
+    }
+  }
+
+  const dailyMyth = document.getElementById('dailyMyth');
+  const dailyTruth = document.getElementById('dailyTruth');
+  if (dailyMyth && dailyTruth) {
+    showNextMyth();
+    mythTimer = setInterval(showNextMyth, 60000);
+  }
+
+  // ALL MYTHS section
+  const mythContainer = document.getElementById('mythContainer');
+  if (mythContainer) {
+    function renderAllMyths() {
+      const frag = document.createDocumentFragment();
+      const searchBox = document.createElement('div');
+      searchBox.style.cssText = 'text-align:center;margin-bottom:2rem';
+      searchBox.innerHTML = '<input type="text" id="mythSearch" class="form-control" placeholder="🔍 ابحثي عن خرافة..." style="max-width:400px;margin:0 auto;padding:0.7rem 1rem;border:2px solid var(--border);border-radius:50px;font-family:var(--font-main);font-size:0.9rem">';
+      frag.appendChild(searchBox);
+
+      const grid = document.createElement('div');
+      grid.id = 'mythGrid';
+      grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem';
+
+      function renderFilteredMyths(filter) {
+        const q = (filter || '').toLowerCase();
+        grid.innerHTML = allMyths.filter(m =>
+          !q || m.myth.includes(q) || m.truth.includes(q)
+        ).map(m => `
+          <div class="myth-card" style="margin:0">
+            <div class="myth-side myth-false">
+              <div class="myth-label">❌ خرافة</div>
+              <div class="myth-text">"${m.myth}"</div>
+            </div>
+            <div class="myth-side myth-true">
+              <div class="myth-label">✅ الحقيقة</div>
+              <div class="myth-text">${m.truth}</div>
+            </div>
+          </div>
+        `).join('') || '<p style="text-align:center;color:var(--muted);padding:2rem">ما لقينا خرافة بهالاسم 🌸</p>';
+      }
+
+      renderFilteredMyths('');
+      frag.appendChild(grid);
+      mythContainer.appendChild(frag);
+
+      const searchInput = document.getElementById('mythSearch');
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => renderFilteredMyths(e.target.value));
+      }
+    }
+    renderAllMyths();
+  }
+
+  // Show myth count
+  const mythCountEl = document.getElementById('mythCount');
+  if (mythCountEl) mythCountEl.textContent = allMyths.length.toLocaleString();
 
   console.log('🌸 ذهبية Golden Ratio Beauty - خبيرتك في الجمال');
 });
