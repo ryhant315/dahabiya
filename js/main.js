@@ -1471,15 +1471,15 @@ document.addEventListener('DOMContentLoaded', function() {
     return results;
   };
 
-  const analyzeBtn = document.getElementById('analyzeIngredientsBtn');
+  const analyzeIngredientsBtn = document.getElementById('analyzeIngredientsBtn');
   const ingredientInput = document.getElementById('ingredientInput');
   const analyzerResults = document.getElementById('analyzerResults');
   const analyzerSummary = document.getElementById('analyzerSummary');
   const analyzerDetails = document.getElementById('analyzerDetails');
   const analyzerError = document.getElementById('analyzerError');
 
-  if (analyzeBtn && ingredientInput) {
-    analyzeBtn.addEventListener('click', () => {
+  if (analyzeIngredientsBtn && ingredientInput) {
+    analyzeIngredientsBtn.addEventListener('click', () => {
       const text = ingredientInput.value.trim();
       if (!text) {
         analyzerError.textContent = '❌ اكتبي أو الصقي المكونات أولاً';
@@ -1559,7 +1559,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (text.trim()) {
           ingredientInput.value = text.trim();
           textModeBtn.click();
-          analyzeBtn.click();
+          analyzeIngredientsBtn.click();
         } else {
           analyzerError.textContent = '❌ ما قدرت أقرأ المكونات من الصورة. جربي تصوير أقرب أو استخدمي الكتابة اليدوية';
           analyzerError.style.display = 'block';
