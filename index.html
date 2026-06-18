@@ -5757,6 +5757,50 @@
         <div id="teenQuizResult" style="display:none;margin-top:2rem;"></div>
       </div>
 
+      <!-- ===== أختي الكبرى (شات للمبتدئات - عمر 11 سنة) ===== -->
+      <div class="bigsis-section">
+        <div class="bigsis-header">
+          <span class="bigsis-avatar">🌸</span>
+          <div>
+            <h3 class="bigsis-title">أختي الكبرى 🌸</h3>
+            <p class="bigsis-sub">أختك الكبرى اللي تعلّمك كل شيء خطوة بخطوة من البداية — مافي سؤال غلط 🤍</p>
+          </div>
+        </div>
+
+        <div class="bigsis-pills">
+          <span class="bigsis-pill" onclick="bigSisQuick('كيف أستحم صح؟')">🚿 استحمام</span>
+          <span class="bigsis-pill" onclick="bigSisQuick('كم مرة أنظف أسناني؟')">🦷 أسنان</span>
+          <span class="bigsis-pill" onclick="bigSisQuick('وش تسوي أول مرة تجيك الدورة؟')">🌹 دورة</span>
+          <span class="bigsis-pill" onclick="bigSisQuick('وش أحط مزيل عرق؟')">🧴 مزيل عرق</span>
+          <span class="bigsis-pill" onclick="bigSisQuick('كيف أمشط شعري بدون ما يتقطع؟')">💇‍♀️ شعر</span>
+          <span class="bigsis-pill" onclick="bigSisQuick('كيف أرتّب غرفتي؟')">🏠 ترتيب</span>
+          <span class="bigsis-pill" onclick="bigSisQuick('أول طبخة تتعلمينها')">🍳 طبخ</span>
+          <span class="bigsis-pill" onclick="bigSisQuick('كيف أختار صديقاتي؟')">👯 صديقات</span>
+          <span class="bigsis-pill" onclick="bigSisQuick('وش أسوي إذا زعلت؟')">💖 مشاعري</span>
+          <span class="bigsis-pill" onclick="bigSisQuick('كيف أحمي نفسي؟')">🛡️ سلامة</span>
+        </div>
+
+        <div class="bigsis-chat-box" id="bigsisChatBox">
+          <div class="bigsis-msg bigsis-msg-bot">
+            <div class="bigsis-msg-header">🌸 أختك الكبرى</div>
+            <strong>أهلين يا بطلة! 🌸</strong><br><br>
+            أنا أختك الكبرى، راح أكون معك خطوة بخطوة نتعلم كل شيء من البداية 🤍<br><br>
+            تحبين نبدأ بشنو؟ اسأليني عن أي شيء:<br>
+            🌷 النظافة والاستحمام<br>
+            🌹 الدورة الشهرية<br>
+            💇‍♀️ العناية بالشعر<br>
+            🍳 الطبخ<br>
+            🏠 ترتيب الغرفة<br>
+            💖 المشاعر والصداقات<br><br>
+            <span class="bigsis-badge">🌟 مافي سؤال غلط — أنا هنا عشان أساعدك 🤍</span>
+          </div>
+        </div>
+
+        <div class="bigsis-input-row">
+          <input type="text" id="bigsisInput" class="bigsis-input" placeholder="اكتبي سؤالك... مثلاً: كيف أستحم صح؟" onkeydown="if(event.key==='Enter')bigSisSend()">
+          <button class="bigsis-send-btn" onclick="bigSisSend()">🌸 اسألي</button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -6204,53 +6248,13 @@
           </blockquote>
         </div>
       </div>
-
-      <!-- ===== أختي الكبرى (شات للمبتدئات - عمر 11 سنة) ===== -->
-      <div class="bigsis-section">
-        <div class="bigsis-header">
-          <span class="bigsis-avatar">🌸</span>
-          <div>
-            <h3 class="bigsis-title">أختي الكبرى 🌸</h3>
-            <p class="bigsis-sub">أختك الكبرى اللي تعلّمك كل شيء خطوة بخطوة من البداية — مافي سؤال غلط 🤍</p>
-          </div>
-        </div>
-
-        <div class="bigsis-pills">
-          <span class="bigsis-pill" onclick="bigSisQuick('كيف أستحم صح؟')">🚿 استحمام</span>
-          <span class="bigsis-pill" onclick="bigSisQuick('كم مرة أنظف أسناني؟')">🦷 أسنان</span>
-          <span class="bigsis-pill" onclick="bigSisQuick('وش تسوي أول مرة تجيك الدورة؟')">🌹 دورة</span>
-          <span class="bigsis-pill" onclick="bigSisQuick('وش أحط مزيل عرق؟')">🧴 مزيل عرق</span>
-          <span class="bigsis-pill" onclick="bigSisQuick('كيف أمشط شعري بدون ما يتقطع؟')">💇‍♀️ شعر</span>
-          <span class="bigsis-pill" onclick="bigSisQuick('كيف أرتّب غرفتي؟')">🏠 ترتيب</span>
-          <span class="bigsis-pill" onclick="bigSisQuick('أول طبخة تتعلمينها')">🍳 طبخ</span>
-          <span class="bigsis-pill" onclick="bigSisQuick('كيف أختار صديقاتي؟')">👯 صديقات</span>
-          <span class="bigsis-pill" onclick="bigSisQuick('وش أسوي إذا زعلت؟')">💖 مشاعري</span>
-          <span class="bigsis-pill" onclick="bigSisQuick('كيف أحمي نفسي؟')">🛡️ سلامة</span>
-        </div>
-
-        <div class="bigsis-chat-box" id="bigsisChatBox">
-          <div class="bigsis-msg bigsis-msg-bot">
-            <div class="bigsis-msg-header">🌸 أختك الكبرى</div>
-            <strong>أهلين يا بطلة! 🌸</strong><br><br>
-            أنا أختك الكبرى، راح أكون معك خطوة بخطوة نتعلم كل شيء من البداية 🤍<br><br>
-            تحبين نبدأ بشنو؟ اسأليني عن أي شيء:<br>
-            🌷 النظافة والاستحمام<br>
-            🌹 الدورة الشهرية<br>
-            💇‍♀️ العناية بالشعر<br>
-            🍳 الطبخ<br>
-            🏠 ترتيب الغرفة<br>
-            💖 المشاعر والصداقات<br><br>
-            <span class="bigsis-badge">🌟 مافي سؤال غلط — أنا هنا عشان أساعدك 🤍</span>
-          </div>
-        </div>
-
-        <div class="bigsis-input-row">
-          <input type="text" id="bigsisInput" class="bigsis-input" placeholder="اكتبي سؤالك... مثلاً: كيف أستحم صح؟" onkeydown="if(event.key==='Enter')bigSisSend()">
-          <button class="bigsis-send-btn" onclick="bigSisSend()">🌸 اسألي</button>
-        </div>
-      </div>
     </div>
   </section>
+
+  <!-- ============================================= -->
+  <!-- SECTION: ETIQUETTE -->
+  <!-- ============================================= -->
+  <section id="etiquette" class="page-section">
     <div class="section">
       <div class="section-header">
         <div class="section-badge">👑 Etiquette</div>
