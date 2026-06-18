@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   const SUBSCRIPTION_PLANS = {
-    free: { name: 'مجاني', price: 0, sections: ['home','teenZone','community','pricing','myAccount','privacy','shopping'] },
+    free: { name: 'مجاني', price: 0, sections: ['home','teenZone','community','pricing','myAccount','privacy','shopping','safeConsultant'] },
     care: { name: 'العناية', price: PRICES.care, sections: ['skinCare','hairCare','nails','makeup','faceYoga','faceAnalysis'] },
     style: { name: 'الأناقة', price: PRICES.style, sections: ['fashion','accessories','perfumes','colorPsychology','opticalIllusions','giftGuide','fabricGuide','seasonalColor','vanity'] },
     health: { name: 'الصحة', price: PRICES.health, sections: ['beautyProblems','menopauseCare','sportsBeauty','waterQuality','foodBeauty','supplements'] },
